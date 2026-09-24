@@ -1,0 +1,48 @@
+Trabalho de Planejamento de Programação Web
+Nome/Propósito: AutoCUIDA – Gerenciar a manutenção preventiva e corretiva de veículos, prevendo custos e emitindo alertas de revisão com base no tempo e na quilometragem rodada.
+
+Business Case (Contexto onde o sistema está envolvido e como ele gera valor):
+Proprietários de veículos e gestores de pequenas frotas frequentemente enfrentam altos custos com reparos corretivos não planejados decorrentes do esquecimento de revisões periódicas (como troca de óleo, substituição de pastilhas de freio e correias). No processo típico, o motorista depende da memória, de anotações manuais em cadernos ou de adesivos colados no pára-brisa para saber o momento de realizar a manutenção. Com a rotina corrida, essas datas e quilometragens limite costumam passar despercebidas, gerando quebras inesperadas, sinistros de trânsito e custos de reparo que chegam a ser até três vezes superiores aos custos de uma manutenção preventiva. O sistema AutoCUIDA tem como objetivo automatizar o acompanhamento da saúde do veículo e o controle de despesas operacionais, monitorando a evolução do odômetro e o tempo decorrido para disparar alertas preventivos antes que as falhas ocorram, gerando economia financeira e segurança para o condutor.
+
+Processo de Negócio Principal (aquele onde o valor é gerado para o cliente):
+Primeiro, o usuário cadastra o veículo informando dados básicos como placa, modelo e a quilometragem atual do odômetro (Cadastro de Veículo). Em seguida, o usuário vincula os itens de manutenção periódica (como óleo do motor ou filtro de ar) definindo as regras de intervalo para troca por quilometragem e/ou por tempo (Vinculação de Plano de Manutenção). À medida que o veículo roda, o usuário atualiza periodicamente a leitura do odômetro ou realiza o lançamento de um serviço efetuado (Apontamento de Manutenção). Com base nas atualizações, o sistema calcula o desgaste, gera alertas visuais de revisão pendente ou próxima do vencimento e exibe o histórico de despesas no relatório consolidado (Painel de Saúde e Relatório de Custos). Por fim, ao visualizar o alerta e efetuar a manutenção na oficina, o usuário registra o serviço concluído, o que limpa o alerta atual e agenda automaticamente o próximo ciclo de prevenção.
+
+Entidades:
+
+Veículo
+
+ItemManutencao
+
+RegistroManutencao
+
+Alerta
+
+Casos de Uso:
+
+Manutenção de Veículos: 4 casos de uso (CRUD – Criar, Consultar, Atualizar, Inativar Veículo)
+
+Manutenção de Itens de Manutenção: 4 casos de uso (CRUD – Criar Item/Regra de Troca, Consultar Itens, Atualizar Parâmetros de Troca, Remover Item)
+
+Manutenção de Registros de Manutenção: 4 casos de uso (CRUD – Registrar Serviço Realizado, Consultar Histórico de Serviços, Editar Registro, Excluir Registro)
+
+Gestão de Alertas e Relatórios:
+
+Visualizar Painel de Alertas Pendentes (1 caso de uso)
+
+Confirmar/Dar Baixa em Alerta de Revisão (1 caso de uso)
+
+Atualizar Odômetro/Quilometragem do Veículo (1 caso de uso)
+
+Gerar Relatório de Custo Operacional e Preventivo (1 caso de uso)
+
+Total: 16 casos de uso.
+
+Telas a projetar em protótipo (Mobile-First):
+
+Cadastro/Atualização de Veículo e Odômetro: Tela para inserção dos dados do veículo e leitura rápida da quilometragem atual.
+
+Registro de Manutenção Realizada: Tela onde o usuário lança o serviço efetuado, inserindo a quilometragem do dia, o valor gasto, a oficina e o item substituído.
+
+Painel/Dashboard de Alertas de Revisão: Tela mobile principal listando os itens monitorados com seus respectivos status (Em dia, Próximo do vencimento ou Vencido) e ações rápidas.
+
+Relatório de Custos e Saúde do Veículo: Tela exibindo o demonstrativo financeiro dos gastos com manutenção preventiva/corretiva e o histórico de intervenções do veículo.

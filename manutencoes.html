@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AutoCare | Custos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app pb-20 md:pb-0">
+        <header class="screen-header">
+            <p class="mb-1 text-xs font-bold uppercase tracking-[.14em] text-[#1689ff]">
+                Custos
+            </p>
+            <h1 class="text-2xl font-bold">Relatório de Custos</h1>
+            <p class="muted mt-2 max-w-xl">
+                Auditoria financeira e volumetria de serviços.
+            </p>
+        </header>
+
+        <main class="space-y-5 px-5">
+            <section class="grid gap-3 sm:grid-cols-2">
+                <div class="surface p-5">
+                    <p class="muted text-xs uppercase">Gasto total</p>
+                    <strong class="mt-2 block text-2xl">R$ 2.847,50</strong>
+                </div>
+
+                <div class="surface p-5">
+                    <p class="muted text-xs uppercase">Média mensal</p>
+                    <strong class="mt-2 block text-2xl text-[#1689ff]">
+                        R$ 237,29
+                    </strong>
+                </div>
+            </section>
+
+            <section class="surface p-5">
+                <h2 class="text-lg font-bold uppercase">
+                    Histórico de Gastos
+                    <span class="muted text-sm normal-case">(últimos 6 meses)</span>
+                </h2>
+
+                <div class="placeholder mt-4 min-h-52">
+                    Área reservada para gráfico mensal<br>
+                    Mai · Jun · Jul · Ago · Set · Out
+                </div>
+
+                <div class="mt-4 grid grid-cols-3 gap-2 text-xs">
+                    <span class="text-[#1689ff]">● Óleo (50%)</span>
+                    <span class="text-[#ffa510]">● Freios (33%)</span>
+                    <span class="text-[#ff4b49]">● Filtros (17%)</span>
+                </div>
+            </section>
+
+            <section>
+                <div class="mb-3 flex items-center justify-between">
+                    <h2 class="text-lg font-bold uppercase">Histórico de Serviços</h2>
+                    <span class="muted text-sm">12 executados</span>
+                </div>
+
+                <div class="surface divide-y divide-[#2a3443]">
+                    <article class="flex items-center justify-between gap-3 p-4">
+                        <div>
+                            <h3 class="font-bold">Óleo do Motor &amp; Filtro</h3>
+                            <p class="muted mt-1 text-sm">
+                                15/10/2026 • Auto Tech Car SP
+                            </p>
+                        </div>
+                        <strong>R$ 350,00</strong>
+                    </article>
+
+                    <article class="flex items-center justify-between gap-3 p-4">
+                        <div>
+                            <h3 class="font-bold">Pastilhas de Freio</h3>
+                            <p class="muted mt-1 text-sm">
+                                02/09/2025 • Pitstop Fast SP
+                            </p>
+                        </div>
+                        <strong>R$ 480,00</strong>
+                    </article>
+
+                    <article class="flex items-center justify-between gap-3 p-4">
+                        <div>
+                            <h3 class="font-bold">Filtro de Ar Motor</h3>
+                            <p class="muted mt-1 text-sm">
+                                12/08/2025 • Auto Tech Car SP
+                            </p>
+                        </div>
+                        <strong>R$ 120,00</strong>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="mx-auto flex max-w-2xl justify-around">
+                <a href="index.html">
+                    <span>◔</span>
+                    Painel
+                </a>
+                <a href="veiculo.html">
+                    <span>▱</span>
+                    Garagem
+                </a>
+                <a href="registro.html">
+                    <span>⚒</span>
+                    Serviço
+                </a>
+                <a class="active" href="manutencoes.html">
+                    <span>▥</span>
+                    Custos
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+
+</html>

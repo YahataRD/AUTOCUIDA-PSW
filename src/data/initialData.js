@@ -1,0 +1,85 @@
+export const initialVehicle = {
+  id: 1,
+  plate: "BRA-2E24",
+  model: "Golf TSI 1.4",
+  year: 2021,
+  currentKm: 48250,
+};
+
+export const initialMaintenanceItems = [
+  {
+    id: 1,
+    name: "Óleo do Motor",
+    lastServiceDate: "2026-02-10",
+    lastServiceKm: 30000,
+    intervalKm: 15000,
+    intervalMonths: 12,
+  },
+  {
+    id: 2,
+    name: "Filtro de Ar",
+    lastServiceDate: "2026-06-12",
+    lastServiceKm: 40000,
+    intervalKm: 10000,
+    intervalMonths: 12,
+  },
+  {
+    id: 3,
+    name: "Pastilhas de Freio",
+    lastServiceDate: "2026-04-20",
+    lastServiceKm: 35000,
+    intervalKm: 30000,
+    intervalMonths: 24,
+  },
+  {
+    id: 4,
+    name: "Correia Dentada",
+    lastServiceDate: "2024-01-01",
+    lastServiceKm: 10000,
+    intervalKm: 60000,
+    intervalMonths: 60,
+  },
+];
+
+export const initialServiceRecords = [
+  {
+    id: 4,
+    maintenanceItemId: 2,
+    itemName: "Filtro de Ar",
+    maintenanceType: "preventive",
+    serviceKm: 40000,
+    serviceDate: "2026-06-12",
+    amount: 120,
+    shop: "Auto Tech Car SP",
+  },
+  {
+    id: 3,
+    maintenanceItemId: 3,
+    itemName: "Pastilhas de Freio",
+    maintenanceType: "preventive",
+    serviceKm: 35000,
+    serviceDate: "2026-04-20",
+    amount: 480,
+    shop: "Pitstop Fast SP",
+  },
+  {
+    id: 2,
+    maintenanceItemId: 1,
+    itemName: "Óleo do Motor",
+    maintenanceType: "preventive",
+    serviceKm: 30000,
+    serviceDate: "2026-02-10",
+    amount: 350,
+    shop: "Auto Tech Car SP",
+  },
+  {
+    id: 1,
+    maintenanceItemId: 4,
+    itemName: "Correia Dentada",
+    maintenanceType: "corrective",
+    serviceKm: 10000,
+    serviceDate: "2024-01-01",
+    amount: 1250,
+    shop: "Oficina Central",
+  },
+];

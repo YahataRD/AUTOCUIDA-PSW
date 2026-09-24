@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AutoCare | Serviço</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app pb-20 md:pb-0">
+        <header class="screen-header">
+            <p class="mb-1 text-xs font-bold uppercase tracking-[.14em] text-[#1689ff]">
+                Serviço
+            </p>
+            <h1 class="text-2xl font-bold">Registrar Serviço</h1>
+            <p class="muted mt-2 max-w-xl">
+                Log de manutenção executada para controle de rodagem e desgaste.
+            </p>
+        </header>
+
+        <main class="px-5">
+            <section class="surface p-5">
+                <div class="mb-6 grid grid-cols-2 rounded-full bg-[#0e1218] p-1">
+                    <button
+                        class="rounded-full bg-[#1689ff] px-3 py-2 text-sm font-bold text-white"
+                        type="button"
+                    >
+                        Manutenção Preventiva
+                    </button>
+                    <button
+                        class="rounded-full px-3 py-2 text-sm font-bold text-[#8d9aaf]"
+                        type="button"
+                    >
+                        Manutenção Corretiva
+                    </button>
+                </div>
+
+                <form class="space-y-4">
+                    <div>
+                        <label class="mb-2 block text-sm font-bold" for="item">
+                            Item de Manutenção
+                        </label>
+                        <select class="form-control" id="item">
+                            <option>Óleo do Motor</option>
+                            <option>Filtro de Ar</option>
+                            <option>Pastilhas de Freio</option>
+                            <option>Correia Dentada</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="mb-2 block text-sm font-bold" for="service-km">
+                            Quilometragem no Serviço
+                        </label>
+                        <div class="relative">
+                            <input
+                                class="form-control pr-12"
+                                id="service-km"
+                                value="48250"
+                            >
+
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold" for="date">
+                                Data do Serviço
+                            </label>
+                            <input
+                                class="form-control"
+                                id="date"
+                                type="date"
+                                value="2026-10-15"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="mb-2 block text-sm font-bold" for="value">
+                                Valor Gasto
+                            </label>
+                            <div class="relative">
+                                <input
+                                
+                                    class="form-control"
+                                    id="value"
+                                    value="350,00"
+                                >
+                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="mb-2 block text-sm font-bold" >
+                            Oficina / Mecânico
+                        </label>
+                        <input
+                            class="form-control"
+                            id="shop"
+                            value="Auto Tech Car SP"
+                        >
+                    </div>
+
+                    <button class="primary-button mt-3 w-full" type="button">
+                        Registrar Serviço
+                    </button>
+                </form>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="mx-auto flex max-w-2xl justify-around">
+                <a href="index.html">
+                    <span>◔</span>
+                    Painel
+                </a>
+                <a href="veiculo.html">
+                    <span>▱</span>
+                    Garagem
+                </a>
+                <a class="active" href="registro.html">
+                    <span>⚒</span>
+                    Serviço
+                </a>
+                <a href="manutencoes.html">
+                    <span>▥</span>
+                    Custos
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+
+</html>

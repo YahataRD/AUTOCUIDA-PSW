@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AutoCare | Garagem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app pb-20 md:pb-0">
+        <header class="screen-header">
+            <p class="mb-1 text-xs font-bold uppercase tracking-[.14em] text-[#1689ff]">
+                Garagem AutoCare
+            </p>
+            <h1 class="text-2xl font-bold">Cadastre ou atualize</h1>
+            <p class="muted mt-2 max-w-xl">
+                Cadastre ou atualize as informações de rodagem do seu veículo.
+            </p>
+        </header>
+
+        <main class="space-y-5 px-5">
+            <div class="placeholder">
+                Área reservada para ilustração ou foto do veículo
+            </div>
+
+            <section class="surface p-5">
+                <form >
+                    <div>
+                        <label class="mb-2 block text-sm font-bold" for="placa">
+                            Placa
+                        </label>
+                        <input class="form-control" id="placa" value="BRA-2E24">
+                    </div>
+
+                    <div>
+                        <label class="mb-2 block text-sm font-bold" for="modelo">
+                            Modelo
+                        </label>
+                        <input class="form-control" id="modelo" value="Golf TSI 1.4">
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold" for="ano">
+                                Ano
+                            </label>
+                            <input class="form-control" id="ano" value="2021">
+                        </div>
+
+                        <div>
+                            <label class="mb-2 block text-sm font-bold" for="km">
+                                Km atual
+                            </label>
+                            <input
+                                class="form-control" id="km" value="48250">
+                        </div>
+                    </div>
+
+                    <button class="primary-button w-full " type="button">
+                        Salvar Veículo
+                    </button>
+                </form>
+            </section>
+
+            <section class="surface p-5">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold">Atualizar Odômetro Rápido</h2>
+                        <p class="muted mt-2 text-sm">
+                            Altere rapidamente a quilometragem atual sem precisar recadastrar
+                            o veículo completo.
+                        </p>
+                    </div>
+                    <span class="text-2xl text-[#1689ff]">◷</span>
+                </div>
+
+                <div class="mt-5 flex gap-2">
+                    <input
+                        class="form-control"
+                        value="48250"
+                        aria-label="Quilometragem rápida"
+                    >
+                    <button class="secondary-button" type="button">Atualizar</button>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="mx-auto flex max-w-2xl justify-around">
+                <a href="index.html">
+                    <span>◔</span>
+                    Painel
+                </a>
+                <a class="active" href="veiculo.html">
+                    <span>▱</span>
+                    Garagem
+                </a>
+                <a href="registro.html">
+                    <span>⚒</span>
+                    Serviço
+                </a>
+                <a href="manutencoes.html">
+                    <span>▥</span>
+                    Custos
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+
+</html>
