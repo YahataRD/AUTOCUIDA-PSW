@@ -254,5 +254,8 @@ demonstração do fluxo principal solicitado nesta etapa.
 
 ## Documentação de referência
 
-- [Descrição do Protótipo](./Descrição%20Protótipo.txt)
-- [Validação dos Requisitos](./AutoCUIDA-Validacao-Requisitos.docx)
+- [Descrição do protótipo](docs/prototipo.md)
+- [Validação dos requisitos](docs/validacao-requisitos.md)
+
+Os documentos de planejamento foram convertidos para Markdown em 25/09/2026.
+Os originais em TXT e DOCX permanecem recuperáveis no commit `b59f1ab`.
