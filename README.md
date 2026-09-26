@@ -26,6 +26,9 @@ restaura os dados de demonstração. Não há login, API de negócio ou persist�
 
 ## Documentação
 
+Comece pelo [índice da documentação](docs/README.md). Para trabalhar em grupo,
+leia o [guia de contribuição e commits](CONTRIBUTING.md).
+
 | Documento | Conteúdo |
 | --- | --- |
 | [Descrição do protótipo](docs/prototipo.md) | Propósito, processo de negócio, entidades e 16 casos de uso |
@@ -33,6 +36,8 @@ restaura os dados de demonstração. Não há login, API de negócio ou persist�
 | [Arquitetura e execução](docs/arquitetura.md) | Componentes, estado, regras atuais e limitações |
 | [Base das aulas](docs/referencias/aulas.md) | Síntese das cinco aulas e referências por página |
 | [Escopo do front-end](docs/planejamento/escopo-front-end.md) | Situação do código, decisões propostas e definição de pronto |
+| [Cronograma até 06/10](docs/planejamento/cronograma.md) | Etapas diárias, esforço, dependências e commits sugeridos |
+| [Roteiro de aceite](docs/testes/aceite-front-end.md) | Cenários para verificar a conclusão do front-end |
 
 Toda documentação ativa do projeto é mantida em Markdown. Os originais
 `Descrição Protótipo.txt` e `AutoCUIDA-Validacao-Requisitos.docx` foram substituídos
