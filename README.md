@@ -6,6 +6,15 @@ manutenção, considerando o tempo e a quilometragem percorrida.
 
 Projeto desenvolvido para a disciplina de Programação de Software Web.
 
+## Demonstração online
+
+[Abrir o AutoCUIDA](https://YahataRD.github.io/AUTOCUIDA-PSW/).
+
+A publicação no GitHub Pages é atualizada automaticamente após alterações na
+`main`, desde que os testes e o build passem. O andamento pode ser acompanhado
+na [aba Actions](https://github.com/YahataRD/AUTOCUIDA-PSW/actions/workflows/deploy-pages.yml).
+Cada visitante usa dados de demonstração independentes, restaurados ao recarregar.
+
 ## Funcionalidades atuais
 
 | Tela | Funcionalidades |
@@ -54,7 +63,7 @@ npm ci
 npm run dev
 ```
 
-Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/`.
+Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`.
 Se já tiver o projeto na máquina, execute os comandos npm dentro da pasta dele.
 O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
@@ -69,7 +78,18 @@ npm run preview
 ```
 
 O build é gerado em `dist/`. O comando de preview permite conferir essa versão
-localmente.
+localmente, normalmente em `http://localhost:4173/AUTOCUIDA-PSW/`.
+
+### Publicação
+
+O workflow `.github/workflows/deploy-pages.yml` instala as dependências, executa
+os testes, gera o build e publica somente o conteúdo de `dist/`. Também pode ser
+executado manualmente pela aba Actions na branch `main`.
+
+Em **Settings → Pages → Build and deployment**, a fonte deve ser **GitHub Actions**.
+O caminho `/AUTOCUIDA-PSW/` está definido em `vite.config.js` e é usado também pelo
+JSON local. Não é necessário versionar `dist/`, criar uma branch `gh-pages` ou
+publicar os documentos do repositório.
 
 ### Verificar a base compartilhada
 
