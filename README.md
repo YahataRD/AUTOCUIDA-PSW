@@ -20,7 +20,7 @@ Cada visitante usa dados de demonstração independentes, restaurados ao recarre
 | Tela | Funcionalidades |
 | --- | --- |
 | Painel | Situação dos itens de manutenção, percentuais de desgaste e alertas próximos ou vencidos |
-| Garagem | Seleção do veículo, consulta dos dados e atualização do odômetro |
+| Garagem | Cadastro, seleção do veículo, consulta dos dados e atualização do odômetro |
 | Registro de serviço | Lançamento de manutenção preventiva ou corretiva, com item, data, quilometragem, valor e oficina |
 | Custos | Total gasto, distribuição por tipo de manutenção, gráfico dos últimos seis meses e histórico de serviços |
 
@@ -40,7 +40,7 @@ funcionando com dados simulados, sem back-end ou banco de dados.
 
 Ainda estão previstos:
 
-- Cadastro, edição e inativação de veículos.
+- Edição e inativação de veículos.
 - Cadastro, edição e remoção de itens e suas regras de manutenção.
 - Edição e exclusão de serviços, com atualização dos alertas e custos.
 - Padronização visual e revisão da navegação, dos formulários e da responsividade.
@@ -135,7 +135,12 @@ mensal consideram o mês atual e os cinco anteriores, incluindo meses sem gastos
 
 Os dados ficam na memória do navegador e são restaurados ao recarregar a página.
 A URL preserva a tela e o veículo selecionado, mas não salva alterações nos dados.
-Ainda faltam as telas de gestão de veículos e itens e a edição/exclusão de serviços.
+Ainda faltam edição/inativação de veículos, gestão de itens e edição/exclusão de serviços.
+
+Na Garagem, **Cadastrar veículo** permite informar placa, modelo, ano e km inicial.
+Placas antigas e Mercosul são aceitas; placas repetidas são bloqueadas mesmo com
+diferenças de caixa, espaços ou hífen. Ao salvar, o novo veículo é selecionado e
+começa sem itens ou serviços. Cancelar descarta apenas o formulário.
 
 Serviços retroativos coerentes não substituem uma referência mais recente e não
 diminuem o odômetro. A confirmação informa o recálculo, sem prometer que o alerta

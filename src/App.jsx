@@ -1,3 +1,4 @@
+import { useState } from "react";
 import AppHeader from "./components/AppHeader";
 import BottomNavigation from "./components/BottomNavigation";
 import StateMessage from "./components/StateMessage";
@@ -12,6 +13,7 @@ import ServicePage from "./pages/ServicePage";
 
 export default function App() {
   const store = useAutoCuida();
+  const [createdVehicleId, setCreatedVehicleId] = useState(null);
   const route = useHashNavigation(store.data);
   const { vehicle, maintenanceItems, serviceRecords } = store.data
     ? selectVehicleData(store.data, route.vehicleId)
@@ -41,13 +43,13 @@ export default function App() {
         </main>
       );
     }
-    if (!vehicle) {
+    if (!vehicle && route.page !== "garage") {
       return (
         <main className="page-content">
           <StateMessage
             title="Nenhum veículo ativo"
-            onAction={store.retry}
-            actionLabel="Recarregar dados"
+            onAction={() => route.navigate("garage")}
+            actionLabel="Ir para cadastro"
           >
             Não há veículos ativos disponíveis para consultar.
           </StateMessage>
@@ -58,8 +60,14 @@ export default function App() {
       case "garage":
         return (
           <GaragePage
-            key={vehicle.id}
+            key={vehicle?.id ?? "empty"}
             vehicle={vehicle}
+            justRegistered={Boolean(vehicle && vehicle.id === createdVehicleId)}
+            onRegisterVehicle={(input) => {
+              const created = store.registerVehicle(input);
+              setCreatedVehicleId(created.id);
+              route.navigate("garage", { vehicleId: created.id });
+            }}
             onUpdateOdometer={(km) => store.updateOdometer(vehicle.id, km)}
             onBackToDashboard={() => route.navigate("dashboard")}
           />

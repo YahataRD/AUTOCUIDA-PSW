@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { loadData } from "../data/loadData.js";
 import { getToday } from "../data/validation.js";
+import { createVehicle } from "../state/vehicles.js";
 import {
   autoCuidaReducer,
   createServiceRecord,
@@ -51,6 +52,16 @@ export default function useAutoCuida() {
     dispatch({ type: "odometerUpdated", vehicleId, currentKm });
   }
 
+  function registerVehicle(input) {
+    const currentYear = new Date().getFullYear();
+    const vehicle = createVehicle(state.data, input, {
+      id: crypto.randomUUID(),
+      currentYear,
+    });
+    dispatch({ type: "vehicleRegistered", vehicle, currentYear });
+    return vehicle;
+  }
+
   function registerService(vehicleId, input) {
     const today = getToday();
     const record = createServiceRecord(state.data, vehicleId, input, {
@@ -66,5 +77,6 @@ export default function useAutoCuida() {
     retry: () => setAttempt((value) => value + 1),
     updateOdometer,
     registerService,
+    registerVehicle,
   };
 }

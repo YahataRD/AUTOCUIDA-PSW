@@ -77,6 +77,10 @@ As páginas recebem os dados e callbacks por props, como já acontecia no projet
 
 - `updateOdometer(vehicleId, currentKm)`: aceita somente incremento inteiro
   de um veículo ativo. Dispara `odometerUpdated` no reducer.
+- `registerVehicle(input)`: valida placa única (incluindo veículos inativos),
+  modelo obrigatório, ano entre 1886 e o próximo ano e km inteira não negativa.
+  Gera UUID e dispara `vehicleRegistered`; retorna o veículo para o App selecioná-lo
+  na URL. A validação fica em `src/state/vehicles.js`. Não cria itens ou serviços.
 - `registerService(vehicleId, input)`: recebe os campos do formulário, valida,
   gera UUID, vincula ao veículo/item correto e retorna o registro para confirmação.
   Dispara `serviceRegistered`. O reducer atualiza histórico e odômetro juntos.
@@ -129,7 +133,7 @@ Antes de encerrar uma etapa: `npm test`, `npm run build`, cenário da tela,
 diff revisado e commit. Enviar a branch e abrir PR para revisão de um colega;
 integrar antes de os demais iniciarem trabalho dependente.
 
-Continuam pendentes: gestão completa de veículos e itens, edição/exclusão de
+Continuam pendentes: edição/inativação de veículos, gestão de itens, edição/exclusão de
 serviços, kit visual, filtro por situação e revisão de arredondamento/calendário
 dos alertas. O suporte a intervalos desabilitados apenas evita valores inválidos;
 não representa homologação de todas as regras de desgaste.

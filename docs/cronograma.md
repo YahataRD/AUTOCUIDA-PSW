@@ -11,7 +11,7 @@ O [README](../README.md) descreve o que já está implementado.
 | 25/09 | Organizar a documentação e definir o cronograma | Concluída |
 | 26/09 | Escolher o kit visual, configurar o tema e adaptar cabeçalho, navegação e Painel | Planejada |
 | 27/09 | Organizar os dados por veículo; preparar carregamento local, estados de erro/vazio e navegação por URL | Implementada em 02/10; revisão do grupo pendente |
-| 28/09 | Completar cadastro, seleção, edição e inativação de veículos | Planejada |
+| 28/09 | Completar cadastro, seleção, edição e inativação de veículos | Cadastro e seleção implementados; edição/inativação pendentes |
 | 29/09 | Implementar cadastro, consulta, edição e remoção de itens de manutenção | Planejada |
 | 30/09 | Completar edição e exclusão de serviços, com confirmação e recálculo dos dados | Planejada |
 | 01/10 | Revisar alertas por tempo/km, serviços retroativos e mensagens de confirmação | Planejada |

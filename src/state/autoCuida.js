@@ -1,3 +1,4 @@
+import { createVehicle } from "./vehicles.js";
 import {
   isKm,
   isText,
@@ -99,6 +100,13 @@ export function createServiceRecord(data, vehicleId, input, { id, today }) {
 
 export function autoCuidaReducer(data, action) {
   switch (action.type) {
+    case "vehicleRegistered": {
+      const vehicle = createVehicle(data, action.vehicle, {
+        id: action.vehicle.id,
+        currentYear: action.currentYear,
+      });
+      return { ...data, vehicles: [...data.vehicles, vehicle] };
+    }
     case "odometerUpdated":
       validateOdometer(data, action.vehicleId, action.currentKm);
       return {

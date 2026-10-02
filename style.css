@@ -31,6 +31,14 @@
   padding: 1.5rem;
 }
 
+.vehicle-registration {
+  margin-bottom: 1rem;
+}
+
+.vehicle-registration form {
+  margin-top: 1rem;
+}
+
 * {
   box-sizing: border-box;
 }
