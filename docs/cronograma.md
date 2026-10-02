@@ -10,7 +10,7 @@ O [README](../README.md) descreve o que já está implementado.
 | --- | --- | --- |
 | 25/09 | Organizar a documentação e definir o cronograma | Concluída |
 | 26/09 | Escolher o kit visual, configurar o tema e adaptar cabeçalho, navegação e Painel | Planejada |
-| 27/09 | Organizar os dados por veículo; preparar carregamento local, estados de erro/vazio e navegação por URL | Planejada |
+| 27/09 | Organizar os dados por veículo; preparar carregamento local, estados de erro/vazio e navegação por URL | Implementada em 02/10; revisão do grupo pendente |
 | 28/09 | Completar cadastro, seleção, edição e inativação de veículos | Planejada |
 | 29/09 | Implementar cadastro, consulta, edição e remoção de itens de manutenção | Planejada |
 | 30/09 | Completar edição e exclusão de serviços, com confirmação e recálculo dos dados | Planejada |
@@ -24,6 +24,18 @@ O [README](../README.md) descreve o que já está implementado.
 Os responsáveis por cada etapa ainda serão definidos pelo grupo. O planejamento
 considera trabalho nos fins de semana de 26–27/09 e 03–04/10; as datas
 intermediárias devem ser ajustadas conforme a disponibilidade dos integrantes.
+
+### Atualização do desenvolvimento — 02/10
+
+A etapa de base compartilhada foi implementada com dois veículos de demonstração,
+ações centralizadas, vínculos por `vehicleId`, referências iniciais preservadas,
+carga de JSON validada, nova tentativa, estados vazios e URLs com seleção de veículo.
+O [contrato técnico](base-compartilhada.md) e a [validação executada](testes/base-compartilhada.md)
+orientam as próximas contribuições. A implementação aguarda revisão de um colega;
+isso não aprova os cadastros ou os demais fluxos ainda planejados.
+
+Esta atualização se limita ao desenvolvimento. Os documentos de `docs/GPTI/`
+pertencem ao grupo de gestão e não foram alterados.
 
 ## Pontos a resolver durante a implementação
 

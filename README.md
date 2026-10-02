@@ -11,12 +11,18 @@ Projeto desenvolvido para a disciplina de Programação de Software Web.
 | Tela | Funcionalidades |
 | --- | --- |
 | Painel | Situação dos itens de manutenção, percentuais de desgaste e alertas próximos ou vencidos |
-| Garagem | Consulta dos dados do veículo e atualização do odômetro |
+| Garagem | Seleção do veículo, consulta dos dados e atualização do odômetro |
 | Registro de serviço | Lançamento de manutenção preventiva ou corretiva, com item, data, quilometragem, valor e oficina |
 | Custos | Total gasto, distribuição por tipo de manutenção, gráfico dos últimos seis meses e histórico de serviços |
 
 Atualizar o odômetro recalcula os alertas. Registrar um serviço atualiza o
 histórico, os custos e a referência de manutenção do item escolhido.
+
+A base compartilhada carrega dois veículos de demonstração a partir de um JSON
+local. Cada veículo tem seus próprios itens, serviços e custos. A seleção está
+disponível em todas as telas e é preservada na URL, junto com a seção aberta.
+Voltar/Avançar funciona entre essas URLs. O carregamento trata falhas com nova
+tentativa e as telas orientam quando não há veículos, itens ou serviços.
 
 ## Primeira entrega
 
@@ -25,7 +31,7 @@ funcionando com dados simulados, sem back-end ou banco de dados.
 
 Ainda estão previstos:
 
-- Cadastro, seleção, edição e inativação de veículos.
+- Cadastro, edição e inativação de veículos.
 - Cadastro, edição e remoção de itens e suas regras de manutenção.
 - Edição e exclusão de serviços, com atualização dos alertas e custos.
 - Padronização visual e revisão da navegação, dos formulários e da responsividade.
@@ -50,7 +56,7 @@ npm run dev
 
 Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/`.
 Se já tiver o projeto na máquina, execute os comandos npm dentro da pasta dele.
-O repositório é privado e exige acesso autorizado para clonagem.
+O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
 No PowerShell, caso a execução de scripts esteja bloqueada, use `npm.cmd`
 no lugar de `npm`.
@@ -65,12 +71,28 @@ npm run preview
 O build é gerado em `dist/`. O comando de preview permite conferir essa versão
 localmente.
 
+### Verificar a base compartilhada
+
+```bash
+npm test
+npm run build
+```
+
+Os testes usam o executor nativo do Node.js, sem dependências adicionais.
+O [contrato da base](docs/base-compartilhada.md) explica como continuar o
+desenvolvimento. O [registro de validação](docs/testes/base-compartilhada.md)
+separa os testes executados das funcionalidades ainda pendentes.
+
 ## Organização do código
 
-- `src/App.jsx`: estado compartilhado e navegação entre as telas.
+- `src/App.jsx`: ligação da base compartilhada com as telas.
+- `src/hooks/`: carregamento, estado compartilhado e navegação por hash.
+- `src/state/autoCuida.js`: ações de odômetro/serviço e consultas por veículo.
+- `src/navigation/routes.js`: interpretação e construção das URLs.
 - `src/pages/`: Painel, Garagem, Registro de Serviço e Custos.
 - `src/components/`: componentes reutilizáveis da interface.
-- `src/data/initialData.js`: dados de demonstração.
+- `public/data/autocuida.json`: dados de demonstração, carregados por HTTP local.
+- `src/data/`: carregamento e validação do formato e dos vínculos dos dados.
 - `src/utils/`: cálculos de manutenção, custos e formatação.
 - `style.css`: estilos da aplicação.
 
@@ -92,9 +114,10 @@ mensal consideram o mês atual e os cinco anteriores, incluindo meses sem gastos
 ## Limitações atuais
 
 Os dados ficam na memória do navegador e são restaurados ao recarregar a página.
-A versão atual trabalha com um único veículo de demonstração e ainda não possui
-todos os cadastros e operações previstos para a entrega.
+A URL preserva a tela e o veículo selecionado, mas não salva alterações nos dados.
+Ainda faltam as telas de gestão de veículos e itens e a edição/exclusão de serviços.
 
-Serviços retroativos, limites de arredondamento e vencimentos por calendário
-precisam de revisão. Registrar um serviço antigo não garante desgaste de 0%;
-a mensagem de confirmação atual ainda precisa refletir corretamente esse caso.
+Serviços retroativos coerentes não substituem uma referência mais recente e não
+diminuem o odômetro. A confirmação informa o recálculo, sem prometer que o alerta
+foi encerrado. Os limites de arredondamento e vencimentos por calendário ainda
+precisam de revisão na etapa de alertas. O kit visual ainda não foi adotado.
