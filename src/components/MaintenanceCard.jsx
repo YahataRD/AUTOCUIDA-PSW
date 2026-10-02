@@ -4,7 +4,11 @@ import {
   formatKm,
 } from "../utils/maintenance";
 
-export default function MaintenanceCard({ item, currentKm, onRegisterService }) {
+export default function MaintenanceCard({
+  item,
+  currentKm,
+  onRegisterService,
+}) {
   const maintenance = calculateMaintenance(item, currentKm);
   const progressWidth = Math.min(maintenance.wear, 100);
 
@@ -25,10 +29,15 @@ export default function MaintenanceCard({ item, currentKm, onRegisterService }) 
       <div className="maintenance-metrics">
         <span>
           <span>Troca prevista</span>
-          <strong>{formatKm(maintenance.nextServiceKm)}</strong>
-          <small className="maintenance-deadline">
-            ou {formatDate(maintenance.nextServiceDate)}
-          </small>
+          {maintenance.nextServiceKm !== null && (
+            <strong>{formatKm(maintenance.nextServiceKm)}</strong>
+          )}
+          {maintenance.nextServiceDate !== null && (
+            <small className="maintenance-deadline">
+              {maintenance.nextServiceKm !== null ? "ou " : "Até "}
+              {formatDate(maintenance.nextServiceDate)}
+            </small>
+          )}
         </span>
         <strong className={`wear-percentage status-${maintenance.status}`}>
           {maintenance.wear}% de desgaste

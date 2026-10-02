@@ -1,0 +1,128 @@
+{
+  "vehicles": [
+    {
+      "id": "1",
+      "plate": "BRA-2E24",
+      "model": "Golf TSI 1.4",
+      "year": 2021,
+      "currentKm": 48250,
+      "active": true
+    },
+    {
+      "id": "2",
+      "plate": "ABC-1D23",
+      "model": "Onix 1.0",
+      "year": 2022,
+      "currentKm": 22000,
+      "active": true
+    }
+  ],
+  "maintenanceItems": [
+    {
+      "id": "1",
+      "name": "Óleo do Motor",
+      "intervalKm": 15000,
+      "intervalMonths": 12,
+      "vehicleId": "1",
+      "active": true,
+      "initialReference": {
+        "date": "2026-02-10",
+        "km": 30000
+      }
+    },
+    {
+      "id": "2",
+      "name": "Filtro de Ar",
+      "intervalKm": 10000,
+      "intervalMonths": 12,
+      "vehicleId": "1",
+      "active": true,
+      "initialReference": {
+        "date": "2026-06-12",
+        "km": 40000
+      }
+    },
+    {
+      "id": "3",
+      "name": "Pastilhas de Freio",
+      "intervalKm": 30000,
+      "intervalMonths": 24,
+      "vehicleId": "1",
+      "active": true,
+      "initialReference": {
+        "date": "2026-04-20",
+        "km": 35000
+      }
+    },
+    {
+      "id": "4",
+      "name": "Correia Dentada",
+      "intervalKm": 60000,
+      "intervalMonths": 60,
+      "vehicleId": "1",
+      "active": true,
+      "initialReference": {
+        "date": "2024-01-01",
+        "km": 10000
+      }
+    },
+    {
+      "id": "5",
+      "vehicleId": "2",
+      "active": true,
+      "name": "Óleo do Motor",
+      "initialReference": {
+        "date": "2026-07-01",
+        "km": 20000
+      },
+      "intervalKm": 10000,
+      "intervalMonths": 12
+    }
+  ],
+  "serviceRecords": [
+    {
+      "id": "4",
+      "maintenanceItemId": "2",
+      "itemName": "Filtro de Ar",
+      "maintenanceType": "preventive",
+      "serviceKm": 40000,
+      "serviceDate": "2026-06-12",
+      "amount": 120,
+      "shop": "Auto Tech Car SP",
+      "vehicleId": "1"
+    },
+    {
+      "id": "3",
+      "maintenanceItemId": "3",
+      "itemName": "Pastilhas de Freio",
+      "maintenanceType": "preventive",
+      "serviceKm": 35000,
+      "serviceDate": "2026-04-20",
+      "amount": 480,
+      "shop": "Pitstop Fast SP",
+      "vehicleId": "1"
+    },
+    {
+      "id": "2",
+      "maintenanceItemId": "1",
+      "itemName": "Óleo do Motor",
+      "maintenanceType": "preventive",
+      "serviceKm": 30000,
+      "serviceDate": "2026-02-10",
+      "amount": 350,
+      "shop": "Auto Tech Car SP",
+      "vehicleId": "1"
+    },
+    {
+      "id": "1",
+      "maintenanceItemId": "4",
+      "itemName": "Correia Dentada",
+      "maintenanceType": "corrective",
+      "serviceKm": 10000,
+      "serviceDate": "2024-01-01",
+      "amount": 1250,
+      "shop": "Oficina Central",
+      "vehicleId": "1"
+    }
+  ]
+}

@@ -1,4 +1,8 @@
-export default function VehicleSummary({ vehicle, criticalAlerts }) {
+export default function VehicleSummary({
+  vehicle,
+  criticalAlerts,
+  hasItems = true,
+}) {
   const hasCriticalAlerts = criticalAlerts > 0;
 
   return (
@@ -11,9 +15,11 @@ export default function VehicleSummary({ vehicle, criticalAlerts }) {
       <p className="vehicle-status">
         <span>Status</span>
         <strong className={hasCriticalAlerts ? "" : "status-ok"}>
-          {hasCriticalAlerts
-            ? `${criticalAlerts} ${criticalAlerts === 1 ? "alerta crítico" : "alertas críticos"}`
-            : "Tudo em dia"}
+          {!hasItems
+            ? "Sem itens no plano"
+            : hasCriticalAlerts
+              ? `${criticalAlerts} ${criticalAlerts === 1 ? "alerta crítico" : "alertas críticos"}`
+              : "Tudo em dia"}
         </strong>
       </p>
     </section>

@@ -1,14 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency } from "../utils/costs";
-import { formatKm } from "../utils/maintenance";
-
-function getToday() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
+import { getToday, isDate } from "../data/validation";
+import StateMessage from "../components/StateMessage";
 
 function parseCurrency(value) {
   const normalizedValue = value.includes(",")
@@ -37,7 +30,7 @@ export default function ServicePage({
   const [confirmation, setConfirmation] = useState(null);
 
   const selectedItem = useMemo(
-    () => maintenanceItems.find((item) => item.id === Number(itemId)),
+    () => maintenanceItems.find((item) => item.id === itemId),
     [itemId, maintenanceItems],
   );
 
@@ -52,7 +45,7 @@ export default function ServicePage({
   }, [vehicle.currentKm]);
 
   function clearFieldError(field) {
-    setErrors((currentErrors) => ({ ...currentErrors, [field]: "" }));
+    setErrors((currentErrors) => ({ ...currentErrors, [field]: "", form: "" }));
     setConfirmation(null);
   }
 
@@ -67,14 +60,16 @@ export default function ServicePage({
       newErrors.itemId = "Selecione um item de manutenção.";
     }
 
-    if (!Number.isSafeInteger(numericKm) || numericKm < 0) {
+    if (
+      !serviceKm.trim() ||
+      !Number.isSafeInteger(numericKm) ||
+      numericKm < 0
+    ) {
       newErrors.serviceKm = "Informe uma quilometragem válida.";
-    } else if (selectedItem && numericKm < selectedItem.lastServiceKm) {
-      newErrors.serviceKm = `A leitura não pode ser menor que ${formatKm(selectedItem.lastServiceKm)}.`;
     }
 
-    if (!serviceDate) {
-      newErrors.serviceDate = "Informe a data do serviço.";
+    if (!isDate(serviceDate)) {
+      newErrors.serviceDate = "Informe uma data de serviço válida.";
     } else if (serviceDate > getToday()) {
       newErrors.serviceDate = "A data do serviço não pode estar no futuro.";
     }
@@ -94,21 +89,38 @@ export default function ServicePage({
       return;
     }
 
-    const record = onRegisterService({
-      maintenanceItemId: selectedItem.id,
-      maintenanceType,
-      serviceKm: numericKm,
-      serviceDate,
-      amount: numericAmount,
-      shop: shop.trim(),
-    });
-
-    setConfirmation({
-      ...record,
-      nextServiceKm: numericKm + selectedItem.intervalKm,
-    });
+    try {
+      const record = onRegisterService({
+        maintenanceItemId: selectedItem.id,
+        maintenanceType,
+        serviceKm: numericKm,
+        serviceDate,
+        amount: numericAmount,
+        shop: shop.trim(),
+      });
+      setConfirmation(record);
+    } catch (error) {
+      setErrors({ form: error.message });
+      setConfirmation(null);
+      return;
+    }
     setAmount("");
     setShop("");
+  }
+
+  if (maintenanceItems.length === 0) {
+    return (
+      <main className="page-content">
+        <StateMessage
+          title="Nenhum item disponível"
+          onAction={() => onNavigate("dashboard")}
+          actionLabel="Ver painel"
+        >
+          Este veículo precisa de um item no plano de manutenção antes de
+          registrar serviços.
+        </StateMessage>
+      </main>
+    );
   }
 
   return (
@@ -121,8 +133,8 @@ export default function ServicePage({
           <div>
             <h2>Serviço registrado</h2>
             <p>
-              O alerta de <strong>{confirmation.itemName}</strong> foi encerrado.
-              Próxima troca prevista em {formatKm(confirmation.nextServiceKm)}.
+              O serviço de <strong>{confirmation.itemName}</strong> foi incluído
+              no histórico. Os alertas e os custos foram recalculados.
             </p>
             <p className="confirmation-amount">
               Lançamento: {formatCurrency(confirmation.amount)}
@@ -156,7 +168,10 @@ export default function ServicePage({
           <button
             className={`segment-button ${maintenanceType === "preventive" ? "active" : ""}`}
             type="button"
-            onClick={() => setMaintenanceType("preventive")}
+            onClick={() => {
+              setMaintenanceType("preventive");
+              clearFieldError("maintenanceType");
+            }}
             aria-pressed={maintenanceType === "preventive"}
           >
             Preventiva
@@ -164,7 +179,10 @@ export default function ServicePage({
           <button
             className={`segment-button ${maintenanceType === "corrective" ? "active" : ""}`}
             type="button"
-            onClick={() => setMaintenanceType("corrective")}
+            onClick={() => {
+              setMaintenanceType("corrective");
+              clearFieldError("maintenanceType");
+            }}
             aria-pressed={maintenanceType === "corrective"}
           >
             Corretiva
@@ -172,6 +190,11 @@ export default function ServicePage({
         </div>
 
         <form className="service-form" onSubmit={handleSubmit} noValidate>
+          {errors.form && (
+            <p className="field-error form-field-wide" role="alert">
+              {errors.form}
+            </p>
+          )}
           <div className="form-field form-field-wide">
             <label className="form-label" htmlFor="maintenance-item">
               Item de manutenção
@@ -186,6 +209,7 @@ export default function ServicePage({
                 clearFieldError("itemId");
               }}
               aria-invalid={Boolean(errors.itemId)}
+              aria-describedby={errors.itemId ? "error-itemId" : undefined}
             >
               {maintenanceItems.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -193,7 +217,11 @@ export default function ServicePage({
                 </option>
               ))}
             </select>
-            {errors.itemId && <p className="field-error">{errors.itemId}</p>}
+            {errors.itemId && (
+              <p className="field-error" id="error-itemId" role="alert">
+                {errors.itemId}
+              </p>
+            )}
           </div>
 
           <div className="form-field">
@@ -214,9 +242,14 @@ export default function ServicePage({
                 clearFieldError("serviceKm");
               }}
               aria-invalid={Boolean(errors.serviceKm)}
+              aria-describedby={
+                errors.serviceKm ? "error-serviceKm" : undefined
+              }
             />
             {errors.serviceKm && (
-              <p className="field-error">{errors.serviceKm}</p>
+              <p className="field-error" id="error-serviceKm" role="alert">
+                {errors.serviceKm}
+              </p>
             )}
           </div>
 
@@ -236,9 +269,14 @@ export default function ServicePage({
                 clearFieldError("serviceDate");
               }}
               aria-invalid={Boolean(errors.serviceDate)}
+              aria-describedby={
+                errors.serviceDate ? "error-serviceDate" : undefined
+              }
             />
             {errors.serviceDate && (
-              <p className="field-error">{errors.serviceDate}</p>
+              <p className="field-error" id="error-serviceDate" role="alert">
+                {errors.serviceDate}
+              </p>
             )}
           </div>
 
@@ -259,8 +297,13 @@ export default function ServicePage({
                 clearFieldError("amount");
               }}
               aria-invalid={Boolean(errors.amount)}
+              aria-describedby={errors.amount ? "error-amount" : undefined}
             />
-            {errors.amount && <p className="field-error">{errors.amount}</p>}
+            {errors.amount && (
+              <p className="field-error" id="error-amount" role="alert">
+                {errors.amount}
+              </p>
+            )}
           </div>
 
           <div className="form-field">
@@ -279,8 +322,13 @@ export default function ServicePage({
                 clearFieldError("shop");
               }}
               aria-invalid={Boolean(errors.shop)}
+              aria-describedby={errors.shop ? "error-shop" : undefined}
             />
-            {errors.shop && <p className="field-error">{errors.shop}</p>}
+            {errors.shop && (
+              <p className="field-error" id="error-shop" role="alert">
+                {errors.shop}
+              </p>
+            )}
           </div>
 
           <button className="primary-button form-field-wide" type="submit">

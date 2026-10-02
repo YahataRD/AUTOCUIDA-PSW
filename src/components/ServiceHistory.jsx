@@ -1,5 +1,6 @@
 import { formatCurrency } from "../utils/costs";
 import { formatDate, formatKm } from "../utils/maintenance";
+import StateMessage from "./StateMessage";
 
 export default function ServiceHistory({ records }) {
   const orderedRecords = [...records].sort((first, second) =>
@@ -16,6 +17,11 @@ export default function ServiceHistory({ records }) {
       </div>
 
       <div className="surface history-list">
+        {records.length === 0 && (
+          <StateMessage title="Nenhum serviço registrado">
+            Os serviços deste veículo aparecerão aqui após o primeiro registro.
+          </StateMessage>
+        )}
         {orderedRecords.map((record) => (
           <article className="history-item" key={record.id}>
             <div>

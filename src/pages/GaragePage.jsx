@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { formatKm } from "../utils/maintenance";
 
-export default function GaragePage({ vehicle, onUpdateOdometer, onBackToDashboard }) {
+export default function GaragePage({
+  vehicle,
+  onUpdateOdometer,
+  onBackToDashboard,
+}) {
   const [odometer, setOdometer] = useState(String(vehicle.currentKm));
   const [error, setError] = useState("");
   const [feedback, setFeedback] = useState("");
@@ -17,8 +21,14 @@ export default function GaragePage({ vehicle, onUpdateOdometer, onBackToDashboar
 
     const newOdometer = Number(odometer);
 
-    if (!Number.isInteger(newOdometer) || newOdometer < 0) {
-      setError("Informe uma quilometragem válida, usando apenas números inteiros.");
+    if (
+      !odometer.trim() ||
+      !Number.isSafeInteger(newOdometer) ||
+      newOdometer < 0
+    ) {
+      setError(
+        "Informe uma quilometragem válida, usando apenas números inteiros.",
+      );
       return;
     }
 
@@ -34,7 +44,12 @@ export default function GaragePage({ vehicle, onUpdateOdometer, onBackToDashboar
       return;
     }
 
-    onUpdateOdometer(newOdometer);
+    try {
+      onUpdateOdometer(newOdometer);
+    } catch (error) {
+      setError(error.message);
+      return;
+    }
     setFeedback(
       `Odômetro atualizado para ${formatKm(newOdometer)}. Os alertas foram recalculados.`,
     );
@@ -43,7 +58,10 @@ export default function GaragePage({ vehicle, onUpdateOdometer, onBackToDashboar
   return (
     <main className="page-content">
       <div className="garage-grid">
-        <section className="surface vehicle-identity" aria-labelledby="vehicle-data-title">
+        <section
+          className="surface vehicle-identity"
+          aria-labelledby="vehicle-data-title"
+        >
           <p className="identity-label" id="vehicle-data-title">
             Veículo cadastrado
           </p>

@@ -1,5 +1,6 @@
 import MaintenanceCard from "../components/MaintenanceCard";
 import VehicleSummary from "../components/VehicleSummary";
+import StateMessage from "../components/StateMessage";
 import { calculateMaintenance } from "../utils/maintenance";
 
 export default function DashboardPage({
@@ -20,7 +21,11 @@ export default function DashboardPage({
 
   return (
     <main className="page-content">
-      <VehicleSummary vehicle={vehicle} criticalAlerts={criticalAlerts} />
+      <VehicleSummary
+        vehicle={vehicle}
+        criticalAlerts={criticalAlerts}
+        hasItems={maintenanceItems.length > 0}
+      />
 
       <section aria-labelledby="maintenance-heading">
         <div className="section-heading">
@@ -33,6 +38,11 @@ export default function DashboardPage({
         </div>
 
         <div className="maintenance-list">
+          {maintenanceItems.length === 0 && (
+            <StateMessage title="Nenhum item de manutenção">
+              Este veículo ainda não possui itens no plano de manutenção.
+            </StateMessage>
+          )}
           {maintenanceItems.map((item) => (
             <MaintenanceCard
               key={item.id}

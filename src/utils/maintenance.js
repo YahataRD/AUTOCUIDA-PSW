@@ -8,10 +8,18 @@ export function formatDate(date) {
   );
 }
 
-export function calculateMaintenance(item, currentKm, referenceDate = new Date()) {
-  const nextServiceKm = item.lastServiceKm + item.intervalKm;
+export function calculateMaintenance(
+  item,
+  currentKm,
+  referenceDate = new Date(),
+) {
+  const nextServiceKm =
+    item.intervalKm > 0 ? item.lastServiceKm + item.intervalKm : null;
   const traveledSinceService = Math.max(0, currentKm - item.lastServiceKm);
-  const kmWear = Math.round((traveledSinceService / item.intervalKm) * 100);
+  const kmWear =
+    item.intervalKm > 0
+      ? Math.round((traveledSinceService / item.intervalKm) * 100)
+      : 0;
   const lastServiceDate = new Date(`${item.lastServiceDate}T00:00:00Z`);
   const nextServiceDate = new Date(lastServiceDate);
   nextServiceDate.setUTCMonth(
@@ -20,13 +28,20 @@ export function calculateMaintenance(item, currentKm, referenceDate = new Date()
   const millisecondsPerMonth = 1000 * 60 * 60 * 24 * 30.4375;
   const elapsedMonths = Math.max(
     0,
-    (referenceDate.getTime() - lastServiceDate.getTime()) / millisecondsPerMonth,
+    (referenceDate.getTime() - lastServiceDate.getTime()) /
+      millisecondsPerMonth,
   );
-  const timeWear = Math.round((elapsedMonths / item.intervalMonths) * 100);
+  const timeWear =
+    item.intervalMonths > 0
+      ? Math.round((elapsedMonths / item.intervalMonths) * 100)
+      : 0;
   const wear = Math.max(kmWear, timeWear);
   const calculation = {
     nextServiceKm,
-    nextServiceDate: nextServiceDate.toISOString().slice(0, 10),
+    nextServiceDate:
+      item.intervalMonths > 0
+        ? nextServiceDate.toISOString().slice(0, 10)
+        : null,
     kmWear,
     timeWear,
     wear,

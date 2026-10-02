@@ -1,91 +1,80 @@
-import { useState } from "react";
 import AppHeader from "./components/AppHeader";
 import BottomNavigation from "./components/BottomNavigation";
-import {
-  initialMaintenanceItems,
-  initialServiceRecords,
-  initialVehicle,
-} from "./data/initialData";
+import StateMessage from "./components/StateMessage";
+import VehicleSelector from "./components/VehicleSelector";
+import useAutoCuida from "./hooks/useAutoCuida";
+import useHashNavigation from "./hooks/useHashNavigation";
+import { selectVehicleData } from "./state/autoCuida";
 import CostsPage from "./pages/CostsPage";
 import DashboardPage from "./pages/DashboardPage";
 import GaragePage from "./pages/GaragePage";
 import ServicePage from "./pages/ServicePage";
 
 export default function App() {
-  const [activePage, setActivePage] = useState("dashboard");
-  const [vehicle, setVehicle] = useState(initialVehicle);
-  const [maintenanceItems, setMaintenanceItems] = useState(
-    initialMaintenanceItems,
-  );
-  const [serviceRecords, setServiceRecords] = useState(initialServiceRecords);
-  const [selectedMaintenanceItemId, setSelectedMaintenanceItemId] = useState(null);
-
-  function navigateTo(page) {
-    if (page !== "service") {
-      setSelectedMaintenanceItemId(null);
-    }
-    setActivePage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function openServiceRegistration(itemId) {
-    setSelectedMaintenanceItemId(itemId);
-    setActivePage("service");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function updateOdometer(currentKm) {
-    setVehicle((currentVehicle) => ({ ...currentVehicle, currentKm }));
-  }
-
-  function registerService(service) {
-    const servicedItem = maintenanceItems.find(
-      (item) => item.id === service.maintenanceItemId,
-    );
-    const newRecord = {
-      id: Date.now(),
-      ...service,
-      itemName: servicedItem.name,
-    };
-
-    setMaintenanceItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === service.maintenanceItemId
-          ? {
-              ...item,
-              lastServiceDate: service.serviceDate,
-              lastServiceKm: service.serviceKm,
-            }
-          : item,
-      ),
-    );
-    setServiceRecords((currentRecords) => [newRecord, ...currentRecords]);
-    setVehicle((currentVehicle) => ({
-      ...currentVehicle,
-      currentKm: Math.max(currentVehicle.currentKm, service.serviceKm),
-    }));
-
-    return newRecord;
-  }
+  const store = useAutoCuida();
+  const route = useHashNavigation(store.data);
+  const { vehicle, maintenanceItems, serviceRecords } = store.data
+    ? selectVehicleData(store.data, route.vehicleId)
+    : { vehicle: null, maintenanceItems: [], serviceRecords: [] };
 
   function renderActivePage() {
-    switch (activePage) {
+    if (store.status === "loading") {
+      return (
+        <main className="page-content" aria-busy="true">
+          <StateMessage title="Carregando veículos">
+            Aguarde enquanto os dados de demonstração são carregados.
+          </StateMessage>
+        </main>
+      );
+    }
+    if (store.status === "error") {
+      return (
+        <main className="page-content">
+          <StateMessage
+            title="Dados indisponíveis"
+            error
+            onAction={store.retry}
+            actionLabel="Tentar novamente"
+          >
+            {store.error}
+          </StateMessage>
+        </main>
+      );
+    }
+    if (!vehicle) {
+      return (
+        <main className="page-content">
+          <StateMessage
+            title="Nenhum veículo ativo"
+            onAction={store.retry}
+            actionLabel="Recarregar dados"
+          >
+            Não há veículos ativos disponíveis para consultar.
+          </StateMessage>
+        </main>
+      );
+    }
+    switch (route.page) {
       case "garage":
         return (
           <GaragePage
+            key={vehicle.id}
             vehicle={vehicle}
-            onUpdateOdometer={updateOdometer}
-            onBackToDashboard={() => navigateTo("dashboard")}
+            onUpdateOdometer={(km) => store.updateOdometer(vehicle.id, km)}
+            onBackToDashboard={() => route.navigate("dashboard")}
           />
         );
       case "service":
         return (
           <ServicePage
+            key={`${vehicle.id}:${route.itemId ?? ""}`}
             vehicle={vehicle}
             maintenanceItems={maintenanceItems}
-            selectedMaintenanceItemId={selectedMaintenanceItemId}
-            onRegisterService={registerService}
-            onNavigate={navigateTo}
+            selectedMaintenanceItemId={route.itemId}
+            onRegisterService={(service) =>
+              store.registerService(vehicle.id, service)
+            }
+            onNavigate={route.navigate}
           />
         );
       case "costs":
@@ -95,7 +84,9 @@ export default function App() {
           <DashboardPage
             vehicle={vehicle}
             maintenanceItems={maintenanceItems}
-            onRegisterService={openServiceRegistration}
+            onRegisterService={(itemId) =>
+              route.navigate("service", { itemId })
+            }
           />
         );
     }
@@ -103,9 +94,16 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <AppHeader page={activePage} currentKm={vehicle.currentKm} />
+      <AppHeader page={route.page} currentKm={vehicle?.currentKm} />
+      {vehicle && (
+        <VehicleSelector
+          vehicles={store.data.vehicles}
+          vehicleId={vehicle.id}
+          onSelect={(vehicleId) => route.navigate(route.page, { vehicleId })}
+        />
+      )}
       {renderActivePage()}
-      <BottomNavigation activePage={activePage} onNavigate={navigateTo} />
+      <BottomNavigation activePage={route.page} onNavigate={route.navigate} />
     </div>
   );
 }

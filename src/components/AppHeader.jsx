@@ -17,7 +17,7 @@ export default function AppHeader({ page, currentKm }) {
       eyebrow: "Serviço",
       title: "Registrar manutenção",
       description:
-        "Informe o serviço realizado para encerrar o alerta e iniciar um novo ciclo.",
+        "Informe o serviço realizado para atualizar o histórico e recalcular os alertas.",
     },
     costs: {
       eyebrow: "Custos",
@@ -38,7 +38,7 @@ export default function AppHeader({ page, currentKm }) {
         )}
       </div>
 
-      {isDashboard && (
+      {isDashboard && currentKm != null && (
         <p className="odometer-summary">
           <span>Odômetro atual</span>
           <strong>{formatKm(currentKm)}</strong>
