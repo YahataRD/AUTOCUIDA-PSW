@@ -180,7 +180,7 @@ Os pacotes 2.1 a 7.4 somam 45,0 h. Com a etapa F00 (2 a 3 h, já concluída), ch
 ## 11. Recursos
 | Sigla | Pessoa | Função | Commita nos artefatos |
 |---|---|---|---|
-| GP | Patrick Cruz Azevedo | Integração, patrocinador, decisões | 02-termo-de-abertura.md; Plano §1–3 e §13–15 |
+| GP | Patrick Cruz Azevedo | Gestão de Projeto, Integração e Interface com o Patrocinador | 02-termo-de-abertura.md; Plano §1–3 e §13–15 |
 | G2 | Hugo Lima de Almeida Antunes Aguiar | Escopo e qualidade | Plano §4–6; 04-dicionario-da-eap.md |
 | G3 | Ronald Teixeira de Assis | Cronograma e finanças | 01-business-case.md; Plano §7–8 |
 | G4 | Rodrigo Americo Nascimento D'Icarahy | Partes interessadas e comunicação | Plano §9–10 |
@@ -205,7 +205,7 @@ Os pacotes 2.1 a 7.4 somam 45,0 h. Com a etapa F00 (2 a 3 h, já concluída), ch
 | 7.1 | I | A | I | I | I | R | R | R | I |
 | 7.2 | I | A/R | I | I | I | R | R | R | I |
 | 7.3 | A | C | I | I | I | R | R | R | I |
-| 7.4 | A | C | I | I | I | R | I | I | C |
+| 7.4 | A | C | I | I | I | R | R | R | C |
 
 O aceite final da Entrega 1 é do patrocinador.
 *Fazer ou comprar:* fazer telas e regras com a equipe; reusar gratuitamente o kit visual e bibliotecas open source; sem hospedagem contratada.
