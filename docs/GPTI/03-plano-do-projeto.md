@@ -161,10 +161,10 @@ Os pacotes 2.1 a 7.4 somam 45,0 h. Com a etapa F00 (2 a 3 h, já concluída), ch
 ## 9. Partes interessadas e engajamento
 | Parte | Interesse | Poder | Impacto | Estratégia | Como engajar |
 |---|---|---|---|---|---|
-| Prof. Diogo Silveira Mendonça (patrocinador; professor de PSW e de GPTI) | Aceite da Entrega 1 e AV1 correta e no formato das aulas | Alto | Médio | Gerenciar de perto | Valida o critério de "front-end completo"; recebe status nos marcos; decide mudanças; recebe os artefatos da AV1 |
+| Prof. Diogo Silveira Mendonça (patrocinador; professor de PSW e de GPTI) | Aceite da Entrega 1 e AV1 correta e no formato das aulas | Alto | Alto | Gerenciar de perto | Valida o critério de "front-end completo"; recebe status nos marcos; decide mudanças; recebe os artefatos da AV1 |
 | Equipe de desenvolvimento (D1–D3) | Nota de PSW e portfólio | Alto | Alto | Gerenciar de perto | Decide dentro da sua fatia; status diário. PSW avalia o produto e GPTI avalia a gestão: alinhar prioridades no primeiro encontro |
 | Equipe de gerenciamento (GP, G2–G5) | Nota de GPTI | Alto | Médio | Gerenciar de perto | Encontro diário curto; cada um responde por seu domínio |
-| Proprietários de veículos | Controle de revisões e custos | Baixo | Alto | Manter informado | README e demonstração |
+| Proprietários de veículos | Controle de revisões e custos | Baixo | Alto | Manter informado | Persona/Usuário final principal do sistema. Validação da usabilidade por meio do README e da demonstração do produto. |
 | Gestores de frota e condutores | Acompanhar vários veículos | Baixo | Médio | Monitorar | Perfis pendentes de especificação |
 | Oficinas mecânicas | Aparecem no campo "oficina" | Baixo | Baixo | Monitorar | Sem contato ativo |
 
@@ -175,7 +175,7 @@ Os pacotes 2.1 a 7.4 somam 45,0 h. Com a etapa F00 (2 a 3 h, já concluída), ch
 | Equipe de gerenciamento | Caminho crítico, riscos, horas | Encontro curto | Diária, após o status | GP |
 | Prof. Diogo (patrocinador) | Status resumido, demonstração e pedidos de mudança | E-mail ou aula + link do repositório | Em M1, M4 e M6, e sempre que houver mudança | GP |
 | Prof. Diogo (avaliador da AV1) | Artefatos da AV1 | Teams (link da pasta docs/av1) | Uma vez, até 05/10 às 18:30 | GP |
-| Usuários-alvo | Como usar e limitações | README e demonstração | Na entrega | D1 |
+| Usuários-alvo | Como usar e limitações | README e demonstração | Na entrega | D1–D3 |
 
 ## 11. Recursos
 | Sigla | Pessoa | Função | Commita nos artefatos |
