@@ -1,72 +1,112 @@
 # Termo de Abertura do Projeto — AutoCUIDA
 
-| | |
+| Campo | Informação |
 |---|---|
-| Patrocinador | Prof. Diogo Silveira Mendonça |
-| Gerente do projeto (GP) | Patrick Cruz Azevedo |
-| Equipe de gerenciamento (GPTI Grupo H) | Ronald Teixeira de Assis, Hugo Lima de Almeida Antunes Aguiar, Rodrigo Americo Nascimento D'Icarahy, Thiago Souza da Silva |
-| Equipe de desenvolvimento (PSW Grupo 7) | Rafael Duarte Yahata, Gabriel Felipe Martins da Silva, Rafael Voigt Villas Boas |
-| Início | 25/09/2026 |
-| Versão | 1.1 — 30/09/2026 |
+| **Versão** | 1.2 — 03/10/2026 |
+| **Data** | 03/10/2026 |
+| **Patrocinador** | Prof. Diogo Silveira Mendonça |
+| **Gerente do projeto** | Patrick Cruz Azevedo, aluno da disciplina de GPTI. Presta contas do plano inteiro ao patrocinador. |
+| **Equipe de gestão** | GPTI Grupo H (Ronald Teixeira de Assis, Hugo Lima de Almeida Antunes Aguiar, Rodrigo Americo Nascimento D'Icarahy, Thiago Souza da Silva) |
+| **Equipe de desenvolvimento** | PSW Grupo 7 (Rafael Duarte Yahata, Gabriel Felipe Martins da Silva, Rafael Voigt Villas Boas) |
 
-## 1. Valor esperado (uma frase)
-Permitir que o proprietário de um veículo saiba, num só painel, quais manutenções estão próximas ou vencidas e quanto já gastou.
+## 1. Propósito e justificativa
 
-## 2. Caso de negócio resumido
-Controlar a manutenção de cabeça, em cadernos ou adesivos, gera revisões vencidas e custos invisíveis. O AutoCUIDA reúne alertas por km e tempo, registro de serviços e custos numa aplicação web. Recomendada a Opção C do Business Case (01-business-case.md).
+Este termo autoriza o início de um projeto de desenvolvimento do AutoCUIDA, um protótipo de sistema para gerenciar a manutenção preventiva e corretiva de veículos. Segundo o processo conhecido e pesquisado pelos alunos, os proprietários de veículos frequentemente enfrentam altos custos com reparos corretivos não planejados decorrentes do esquecimento de revisões periódicas. Hoje dependem da memória, de anotações em cadernos ou de adesivos no para-brisa para saber o momento de realizar a manutenção. A solução pretende automatizar o acompanhamento da saúde do veículo, reunindo alertas por km e tempo, além do registro de serviços e despesas, gerando economia e segurança para o condutor.
 
-## 3. Objetivos mensuráveis e critérios de sucesso
-| # | Objetivo | Medida | Quem valida |
-|---|---|---|---|
-| O1 | Front-end completo com dados locais até 06/10/2026 | UC01–UC16 demonstráveis; roteiro T01–T23 executado sem falha essencial | Patrocinador |
-| O2 | Alertas corretos | T15–T17 aprovados (79,9%, 80%, 99,9%, 100%; fim de mês; serviço retroativo) | GP |
-| O3 | Instalação reproduzível | T01 e T23: em clone limpo, seguindo só o README, npm ci e npm run build sem erro | GP |
-| O4 | Participação individual rastreável | Cada um dos 8 integrantes com ao menos um commit próprio até 05/10 (git shortlog -sne) | Patrocinador |
-| O5 | Artefatos da AV1 entregues | Business Case, Termo, Plano e Dicionário em docs/av1/, link postado no Teams até 05/10 às 18:30 | Prof. Diogo |
+O projeto será também uma experiência de aprendizagem prática: os três alunos de PSW definirão a arquitetura e desenvolverão e os cinco alunos de GPTI validarão o escopo e conduzirão a gestão do projeto. Desenvolverão conhecimentos em React e JavaScript no front-end. O back-end, banco de dados e autenticação real estão fora do escopo desta entrega (AV1). O produto entregável funcionará com base em dados locais.
 
-Sucesso = aceite formal da Entrega 1 pelo patrocinador com O1 a O4 atendidos.
+## 2. Objetivos do projeto
 
-## 4. Limites de escopo
-*Dentro:* gestão de veículos (cadastro, seleção, edição, inativação, odômetro); itens de manutenção com regras por km e/ou tempo; registro, edição e exclusão de serviços; alertas e painel; custos e histórico; dados isolados por veículo; um único kit visual; mobile-first; estados de carga, erro e vazio; acessibilidade básica; README e build. Perfil proprietário, sem login.
-*Fora:* API e back-end, banco de dados, autenticação real, autorização por perfil (gestor de frota e condutor não definidos), notificações por e-mail ou push, integração com oficinas, sincronização entre usuários.
-*Opcional (só após o aceite essencial):* persistência em localStorage, exportação de relatório, filtros financeiros avançados.
+Os objetivos abaixo são do protótipo. Quem mede é a equipe GPTI, com ciência do patrocinador, na avaliação da AV1. A economia financeira de reparos, citada no caso de negócio, é hipótese de implantação futura.
 
-## 5. Marcos de alto nível
-| Marco | Cronograma v1.0 (25/09) | Cronograma v1.1 (30/09) |
+- O usuário consegue cadastrar veículos, definir planos de manutenção com regras por quilometragem ou tempo, atualizar o odômetro e lançar serviços efetuados.
+- O sistema calcula e gera alertas visuais de manutenção (Em dia, Próximo do vencimento, Vencido) sem depender de servidor remoto.
+- O histórico de manutenções e o total de gastos do veículo são exibidos em um painel consolidado.
+- A AV1, composta pelo Business Case, Termo, Plano e Dicionário, é entregue e o front-end é demonstrado com dados em memória local, sem conexão externa.
+
+## 3. Escopo de alto nível
+
+### Incluído
+
+- Interface front-end mobile-first construída.
+- Gestão de veículos (cadastro, seleção, edição, inativação, odômetro).
+- Itens de manutenção com regras por km e/ou tempo.
+- Registro, edição e exclusão de serviços realizados.
+- Painel de alertas de status (Em dia, Próximo, Vencido).
+- Relatório de custos e histórico isolado por veículo.
+- Tratamento de estados (carregamento, erro, listas vazias) e acessibilidade básica.
+- Código no repositório, README documentado e scripts de build.
+
+### Fora do escopo inicial (AV1)
+
+- API e back-end.
+- Banco de dados (as informações residem temporariamente no estado do front-end).
+- Autenticação real, login ou autorização por perfil (gestor de frota/condutor não serão definidos).
+- Notificações por e-mail, push ou SMS.
+- Integração com sistemas de oficinas.
+- Sincronização em nuvem entre múltiplos usuários.
+- Opcionais (só após o aceite essencial): persistência em localStorage, exportação de relatório e filtros financeiros avançados.
+
+## 4. Marcos e entregas
+
+| Marco | Prazo previsto | Entregáveis e critérios de aceite preliminares |
+|---|---:|---|
+| **M1 — Base pronta** | 30/09/2026 | Kit visual, tema, painel, dados por veículo, carga local, URLs. |
+| **M2 — Cadastros essenciais** | 01/10/2026 | Veículos, itens e serviços (concluído). |
+| **M3 — Fluxo integrado** | 02/10/2026 | Fluxo integrado do veículo ao painel de custos (concluído). |
+| **M4 — Congelamento funcional** | 04/10/2026 | Execução do roteiro T01–T23 sem falha essencial. |
+| **M5 — AV1 entregue** | 05/10/2026 (18:30) | Correções, documentação. Link postado no Teams. Artefatos de GPTI (`docs/av1/`). |
+| **M6 — Entrega ao patrocinador** | 06/10/2026 | Demonstração final do protótipo com os critérios O1 a O4 atendidos. |
+
+## 5. Requisitos de alto nível e critérios gerais de sucesso
+
+- **O1:** Front-end completo com dados locais demonstrável (UC01–UC16) com o roteiro T01–T23 executado sem falha essencial. Validado pelo Patrocinador.
+- **O2:** Alertas gerados corretamente (Testes T15–T17: 79,9%, 80%, 99,9%, 100%, virada de mês e serviço retroativo). Validado pelo GP.
+- **O3:** O projeto deve poder ser clonado em um ambiente limpo e executado via `npm ci` e `npm run build` sem erros, utilizando apenas o README. Validado pelo GP.
+- **O4:** Os 8 integrantes devem possuir contribuições rastreáveis via commit no repositório (`git shortlog -sne`) até a data limite. Validado pelo Patrocinador.
+
+### Critérios de encerramento e cancelamento
+
+O projeto termina com o aceite formal da Entrega 2.
+
+O patrocinador cancela o projeto se ocorrer uma destas condições:
+- O patrocinador altera o escopo de modo incompatível com o prazo, sem ampliar prazo ou equipe.
+- Em 04/10 o roteiro T01–T23 não foi executado, a contingência não for suficiente e não houver viabilidade para o corte de funcionalidades opcionais.
+
+## 6. Premissas e restrições
+
+### Premissas
+
+- A entrega ocorrerá no dia 06/10, se baseia no critério de "front-end completo", não possuindo rubrica oficial de avaliação sobre a completude.
+- A equipe de desenvolvimento tem disponibilidade para atuar nos fins de semana (03–04/10).
+- A regra de alertas adota "o que gerar o maior desgaste entre km e tempo" como base.
+- O avaliador usará Node.js 22.12 ou superior.
+- A persistência apenas em memória satisfaz a necessidade de validação.
+
+### Restrições
+
+- Não existem conexões com servidores reais ou APIs.
+
+## 7. Governança e responsabilidades
+
+| Papel | Responsabilidades principais | Designação |
 |---|---|---|
-| M0 — Termo, escopo e cronograma definidos | 25/09 | 25/09 (concluído) |
-| M1 — Base pronta: kit, tema, painel, dados por veículo, carga local, URLs | 27/09 | 30/09 |
-| M2 — Cadastros essenciais (veículos, itens, serviços) | 30/09 | 01/10 |
-| M3 — Fluxo integrado do veículo aos custos | 02/10 | 02/10 |
-| M4 — Congelamento funcional e roteiro T01–T23 executado | 04/10 | 04/10 |
-| M5 — Correções, documentação e AV1 entregue | 05/10 | 05/10 (AV1 até 18:30) |
-| M6 — Entrega 1 ao patrocinador | 06/10 | 06/10 |
+| **Patrocinador** | Avaliar os artefatos da AV1, receber a demonstração e aprovar grandes desvios. | Prof. Diogo Mendonça |
+| **Gerente do projeto (GP)** | Coordenar os gerentes, priorizar os pacotes, aprovar uso da reserva de contingência e atrasos de até 1 dia. | Patrick Cruz Azevedo |
+| **Equipe de gestão (GPTI)** | Validar o escopo e fazer a gestão. | Ronald Teixeira de Assis, Hugo Lima de Almeida Antunes Aguiar, Rodrigo Americo Nascimento D'Icarahy, Thiago Souza da Silva |
+| **Equipe de desenvolvimento (PSW)** | Definir a arquitetura e desenvolver o front-end React. | Rafael Duarte Yahata, Gabriel Felipe Martins da Silva, Rafael Voigt Villas Boas |
 
-## 6. Premissas e riscos iniciais
-| Premissa | Risco se falhar |
-|---|---|
-| O grupo confirmou entrega em 06/10, com front-end sem back-end; não há rubrica formal ("front-end completo" foi definido pelo grupo) | R7: patrocinador espera outro critério |
-| Kit visual decidido em 30/09 (Material UI é só candidato) | R3: atraso do caminho crítico |
-| Os 3 desenvolvedores trabalham nos fins de semana de 03–04/10 e no ritmo do cronograma v1.1 | R1: retrabalho e atraso |
-| A regra "maior desgaste entre km e tempo" é a definitiva | R2: retrabalho em alertas e custos |
-| Quem avalia usa Node.js 22.12 ou superior | R5: build não roda |
-| Dados em memória bastam para o aceite | R7 |
+## 8. Estimativa econômica e financiamento
 
-## 7. Partes interessadas (registro inicial)
-Prof. Diogo Silveira Mendonça (patrocinador e avaliador da AV1); equipe de gerenciamento (5, GPTI); equipe de desenvolvimento (3, PSW); proprietários de veículos (usuário-alvo); gestores de frota e condutores; oficinas. Estratégias no Plano do Projeto.
+Este projeto tem orçamento de execução exclusivamente em horas. **Os alunos não serão remunerados, logo o desembolso será de R$ 0,00.**
 
-## 8. Recursos e autoridade
-- *Recursos:* nenhum desembolso. Orçamento em horas-pessoa: 83,8 h na linha de base e 7,0 h de reserva de gerenciamento, liberada só pelo patrocinador.
-- *Autoridade do GP:* coordena os outros quatro gerentes, prioriza pacotes e aprova atraso de até 1 dia e uso da contingência. Não tem autoridade hierárquica sobre os desenvolvedores (turmas diferentes), então as prioridades dos pacotes são acordadas com o patrocinador. Mudança de escopo, atraso maior que 1 dia, estouro acima de 8,4 h (10%) e reserva de gerenciamento vão ao patrocinador.
+O cronograma avaliado prevê um orçamento total de **83,8 horas por pessoa**. Adicionalmente, foi estipulada uma reserva de gerenciamento de **7,0 horas**, cuja liberação é exclusiva do patrocinador. Desvios que ultrapassem 8,4 horas (10%) ou que necessitem acessar a reserva de gerenciamento deverão ser escalados para o patrocinador. Não haverá custos adicionais com infraestrutura de nuvem, visto que a entrega M6 será unicamente local.
 
-## 9. Requisitos para aprovação
-Termo assinado e Plano do Projeto v1.1 entregue como AV1.
+## 9. Autoridade e aprovação
 
-## 10. Encerramento e cancelamento
-- *Encerramento:* aceite formal da Entrega 1, versão final no main com hash registrado, README atualizado e lições aprendidas registradas.
-- *Cancelamento ou encerramento antecipado:*
-  1. O patrocinador cancela ou altera o escopo de modo incompatível com o prazo, sem ampliar prazo ou equipe.
-  2. Em 04/10 o roteiro T01–T23 não foi executado e a reserva de 05/10 (pacote 7.3) não basta: o patrocinador decide entre cortar opcionais (e só depois revisar UCs essenciais) e renegociar a data.
+A aprovação deste termo autoriza a continuidade do projeto com a entrega da AV1 e a demonstração com base nos escopos limitados ao front-end local.
 
-## 11. Assinaturas (simbólicas)
-Patrocinador (Prof. Diogo): ________  GP (Patrick): ________  Data: _/_/2026
+| Aprovação | Nome | Assinatura | Data |
+|---|---|---|---|
+| Patrocinador | Prof. Diogo Mendonça | | 06/10/2026 |
+| GP | Patrick Cruz Azevedo | | 03/10/2026 |
