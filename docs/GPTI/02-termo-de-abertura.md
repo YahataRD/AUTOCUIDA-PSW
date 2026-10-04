@@ -55,8 +55,8 @@ Os objetivos abaixo são do protótipo. Quem mede é a equipe GPTI, com ciência
 | **M2 — Cadastros essenciais** | 01/10/2026 | Veículos, itens e serviços (concluído). |
 | **M3 — Fluxo integrado** | 02/10/2026 | Fluxo integrado do veículo ao painel de custos (concluído). |
 | **M4 — Congelamento funcional** | 04/10/2026 | Execução do roteiro T01–T23 sem falha essencial. |
-| **M5 — AV1 entregue** | 05/10/2026 (18:30) | Correções, documentação. Link postado no Teams. Artefatos de GPTI (`docs/av1/`). |
-| **M6 — Entrega ao patrocinador** | 06/10/2026 | Demonstração final do protótipo com os critérios O1 a O4 atendidos. |
+| **M5 — AV1 de GPTI** | 05/10/2026 | Correções, documentação. |
+| **M6 — AV1 de PSW** | 06/10/2026 | Demonstração final do protótipo com os critérios O1 a O4 atendidos. |
 
 ## 5. Requisitos de alto nível e critérios gerais de sucesso
 
