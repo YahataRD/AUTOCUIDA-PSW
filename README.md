@@ -38,8 +38,8 @@ tentativa e as telas orientam quando não há veículos, itens ou serviços.
 
 A primeira entrega está prevista para **6 de outubro de 2026**, com o front-end
 integrado ao backend mockado com json-server, sem backend real ou banco de dados.
-TanStack Query está integrado. React Hook Form, Zod e um framework responsivo,
-também exigidos pelo professor, continuam pendentes.
+TanStack Query, React Hook Form e Zod estão integrados. A adoção de um framework
+responsivo, também exigido pelo professor, continua pendente.
 
 Ainda estão previstos:
 
@@ -52,8 +52,9 @@ As etapas e datas estão no [cronograma](docs/cronograma.md).
 
 ## Tecnologias
 
-React 18, Vite 8, JavaScript ES6+, TanStack Query 5 e json-server 0.17.4.
-A interface ainda usa CSS próprio e validações manuais.
+React 18, Vite 8, JavaScript ES6+, TanStack Query 5, React Hook Form 7, Zod 4
+e json-server 0.17.4. Os formulários usam schemas Zod por meio de
+`@hookform/resolvers`. A interface ainda usa CSS próprio.
 
 ## Como executar
 
@@ -124,7 +125,8 @@ npm run build
 
 `npm test` na raiz executa as duas suítes, usando o executor nativo do Node.js.
 A integração HTTP usa uma base temporária e não altera `mock/db.json`.
-Veja o [registro desta etapa](docs/testes/integracao-mock.md).
+Veja os registros de [integração](docs/testes/integracao-mock.md) e
+[formulários](docs/testes/formularios.md).
 O [contrato da base](docs/base-compartilhada.md) explica como continuar o
 desenvolvimento. O [registro de validação](docs/testes/base-compartilhada.md)
 separa os testes executados das funcionalidades ainda pendentes.
@@ -142,6 +144,7 @@ em `docs/` e o workflow de publicação em `.github/workflows/` na raiz do repos
 - `src/pages/`: Painel, Garagem, Registro de Serviço e Custos.
 - `src/components/`: componentes reutilizáveis da interface.
 - `src/data/`: cliente HTTP, consultas/mutações, adaptador demo e validações.
+- `src/data/formSchemas.js`: schemas de cadastro, odômetro e serviço; conversão de campos.
 - `../mock/seed.json`: fonte única dos dados iniciais da API e do demo.
 - `src/utils/`: cálculos de manutenção, custos e formatação.
 - `style.css`: estilos da aplicação.

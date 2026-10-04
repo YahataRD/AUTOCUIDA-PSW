@@ -1,14 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatCurrency } from "../utils/costs";
-import { getToday, isDate } from "../data/validation";
+import { getToday } from "../data/validation";
 import StateMessage from "../components/StateMessage";
 
-function parseCurrency(value) {
-  const normalizedValue = value.includes(",")
-    ? value.replace(/\./g, "").replace(",", ".")
-    : value;
-  return Number(normalizedValue);
-}
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createServiceSchema } from "../data/formSchemas.js";
 
 export default function ServicePage({
   vehicle,
@@ -18,97 +15,56 @@ export default function ServicePage({
   onNavigate,
   isSaving,
 }) {
-  const firstItemId = maintenanceItems[0]?.id ?? "";
-  const [maintenanceType, setMaintenanceType] = useState("preventive");
-  const [itemId, setItemId] = useState(
-    String(selectedMaintenanceItemId ?? firstItemId),
-  );
-  const [serviceKm, setServiceKm] = useState(String(vehicle.currentKm));
-  const [serviceDate, setServiceDate] = useState(getToday());
-  const [amount, setAmount] = useState("");
-  const [shop, setShop] = useState("");
-  const [errors, setErrors] = useState({});
   const [confirmation, setConfirmation] = useState(null);
-
-  const selectedItem = useMemo(
-    () => maintenanceItems.find((item) => item.id === itemId),
-    [itemId, maintenanceItems],
-  );
-
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    getValues,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting, dirtyFields },
+  } = useForm({
+    resolver: zodResolver(createServiceSchema(maintenanceItems)),
+    defaultValues: {
+      maintenanceType: "preventive",
+      maintenanceItemId:
+        selectedMaintenanceItemId ?? maintenanceItems[0]?.id ?? "",
+      serviceKm: String(vehicle.currentKm),
+      serviceDate: getToday(),
+      amount: "",
+      shop: "",
+    },
+  });
+  const busy = isSaving || isSubmitting;
+  const maintenanceType = watch("maintenanceType");
   useEffect(() => {
-    if (selectedMaintenanceItemId) {
-      setItemId(String(selectedMaintenanceItemId));
-    }
-  }, [selectedMaintenanceItemId]);
+    // Uma reconsulta não deve sobrescrever a km retroativa digitada no formulário.
+    if (!dirtyFields.serviceKm)
+      setValue("serviceKm", String(vehicle.currentKm));
+  }, [vehicle.currentKm, dirtyFields.serviceKm, setValue]);
 
-  useEffect(() => {
-    setServiceKm(String(vehicle.currentKm));
-  }, [vehicle.currentKm]);
-
-  function clearFieldError(field) {
-    setErrors((currentErrors) => ({ ...currentErrors, [field]: "", form: "" }));
+  function selectType(type) {
+    setValue("maintenanceType", type, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    clearErrors("root");
     setConfirmation(null);
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function submit(values) {
     if (isSaving) return;
     setConfirmation(null);
-
-    const newErrors = {};
-    const numericKm = Number(serviceKm);
-    const numericAmount = parseCurrency(amount);
-
-    if (!selectedItem) {
-      newErrors.itemId = "Selecione um item de manutenção.";
-    }
-
-    if (
-      !serviceKm.trim() ||
-      !Number.isSafeInteger(numericKm) ||
-      numericKm < 0
-    ) {
-      newErrors.serviceKm = "Informe uma quilometragem válida.";
-    }
-
-    if (!isDate(serviceDate)) {
-      newErrors.serviceDate = "Informe uma data de serviço válida.";
-    } else if (serviceDate > getToday()) {
-      newErrors.serviceDate = "A data do serviço não pode estar no futuro.";
-    }
-
-    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
-      newErrors.amount = "Informe um valor maior que zero.";
-    }
-
-    if (!shop.trim()) {
-      newErrors.shop = "Informe a oficina ou o mecânico responsável.";
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length > 0) {
-      setConfirmation(null);
-      return;
-    }
-
     try {
-      const record = await onRegisterService({
-        maintenanceItemId: selectedItem.id,
-        maintenanceType,
-        serviceKm: numericKm,
-        serviceDate,
-        amount: numericAmount,
-        shop: shop.trim(),
-      });
+      const record = await onRegisterService(values);
+      reset({ ...getValues(), amount: "", shop: "" });
       setConfirmation(record);
     } catch (error) {
-      setErrors({ form: error.message });
-      setConfirmation(null);
-      return;
+      setError("root.server", { message: error.message });
     }
-    setAmount("");
-    setShop("");
   }
 
   if (maintenanceItems.length === 0) {
@@ -169,35 +125,38 @@ export default function ServicePage({
           aria-label="Tipo de manutenção"
         >
           <button
-            disabled={isSaving}
+            disabled={busy}
             className={`segment-button ${maintenanceType === "preventive" ? "active" : ""}`}
             type="button"
-            onClick={() => {
-              setMaintenanceType("preventive");
-              clearFieldError("maintenanceType");
-            }}
+            onClick={() => selectType("preventive")}
             aria-pressed={maintenanceType === "preventive"}
           >
             Preventiva
           </button>
           <button
-            disabled={isSaving}
+            disabled={busy}
             className={`segment-button ${maintenanceType === "corrective" ? "active" : ""}`}
             type="button"
-            onClick={() => {
-              setMaintenanceType("corrective");
-              clearFieldError("maintenanceType");
-            }}
+            onClick={() => selectType("corrective")}
             aria-pressed={maintenanceType === "corrective"}
           >
             Corretiva
           </button>
         </div>
 
-        <form className="service-form" onSubmit={handleSubmit} noValidate>
-          {errors.form && (
+        <form
+          className="service-form"
+          onSubmit={handleSubmit(submit, () => setConfirmation(null))}
+          aria-busy={busy}
+          onChange={() => {
+            clearErrors("root");
+            setConfirmation(null);
+          }}
+          noValidate
+        >
+          {errors.root?.server && (
             <p className="field-error form-field-wide" role="alert">
-              {errors.form}
+              {errors.root?.server.message}
             </p>
           )}
           <div className="form-field form-field-wide">
@@ -205,17 +164,14 @@ export default function ServicePage({
               Item de manutenção
             </label>
             <select
-              disabled={isSaving}
+              disabled={busy}
               className="form-control"
               id="maintenance-item"
-              name="maintenanceItem"
-              value={itemId}
-              onChange={(event) => {
-                setItemId(event.target.value);
-                clearFieldError("itemId");
-              }}
-              aria-invalid={Boolean(errors.itemId)}
-              aria-describedby={errors.itemId ? "error-itemId" : undefined}
+              {...register("maintenanceItemId")}
+              aria-invalid={Boolean(errors.maintenanceItemId)}
+              aria-describedby={
+                errors.maintenanceItemId ? "error-itemId" : undefined
+              }
             >
               {maintenanceItems.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -223,9 +179,9 @@ export default function ServicePage({
                 </option>
               ))}
             </select>
-            {errors.itemId && (
+            {errors.maintenanceItemId && (
               <p className="field-error" id="error-itemId" role="alert">
-                {errors.itemId}
+                {errors.maintenanceItemId.message}
               </p>
             )}
           </div>
@@ -235,19 +191,14 @@ export default function ServicePage({
               Quilometragem no serviço
             </label>
             <input
-              disabled={isSaving}
+              disabled={busy}
               className="form-control"
               id="service-km"
-              name="serviceKm"
+              {...register("serviceKm")}
               type="number"
               min="0"
               step="1"
               inputMode="numeric"
-              value={serviceKm}
-              onChange={(event) => {
-                setServiceKm(event.target.value);
-                clearFieldError("serviceKm");
-              }}
               aria-invalid={Boolean(errors.serviceKm)}
               aria-describedby={
                 errors.serviceKm ? "error-serviceKm" : undefined
@@ -255,7 +206,7 @@ export default function ServicePage({
             />
             {errors.serviceKm && (
               <p className="field-error" id="error-serviceKm" role="alert">
-                {errors.serviceKm}
+                {errors.serviceKm.message}
               </p>
             )}
           </div>
@@ -265,17 +216,12 @@ export default function ServicePage({
               Data do serviço
             </label>
             <input
-              disabled={isSaving}
+              disabled={busy}
               className="form-control"
               id="service-date"
-              name="serviceDate"
+              {...register("serviceDate")}
               type="date"
               max={getToday()}
-              value={serviceDate}
-              onChange={(event) => {
-                setServiceDate(event.target.value);
-                clearFieldError("serviceDate");
-              }}
               aria-invalid={Boolean(errors.serviceDate)}
               aria-describedby={
                 errors.serviceDate ? "error-serviceDate" : undefined
@@ -283,7 +229,7 @@ export default function ServicePage({
             />
             {errors.serviceDate && (
               <p className="field-error" id="error-serviceDate" role="alert">
-                {errors.serviceDate}
+                {errors.serviceDate.message}
               </p>
             )}
           </div>
@@ -293,24 +239,19 @@ export default function ServicePage({
               Valor gasto
             </label>
             <input
-              disabled={isSaving}
+              disabled={busy}
               className="form-control"
               id="service-amount"
-              name="amount"
+              {...register("amount")}
               type="text"
               inputMode="decimal"
               placeholder="Ex.: 350,00"
-              value={amount}
-              onChange={(event) => {
-                setAmount(event.target.value);
-                clearFieldError("amount");
-              }}
               aria-invalid={Boolean(errors.amount)}
               aria-describedby={errors.amount ? "error-amount" : undefined}
             />
             {errors.amount && (
               <p className="field-error" id="error-amount" role="alert">
-                {errors.amount}
+                {errors.amount.message}
               </p>
             )}
           </div>
@@ -320,23 +261,18 @@ export default function ServicePage({
               Oficina ou mecânico
             </label>
             <input
-              disabled={isSaving}
+              disabled={busy}
               className="form-control"
               id="service-shop"
-              name="shop"
+              {...register("shop")}
               type="text"
               placeholder="Ex.: Auto Tech Car SP"
-              value={shop}
-              onChange={(event) => {
-                setShop(event.target.value);
-                clearFieldError("shop");
-              }}
               aria-invalid={Boolean(errors.shop)}
               aria-describedby={errors.shop ? "error-shop" : undefined}
             />
             {errors.shop && (
               <p className="field-error" id="error-shop" role="alert">
-                {errors.shop}
+                {errors.shop.message}
               </p>
             )}
           </div>
@@ -344,9 +280,9 @@ export default function ServicePage({
           <button
             className="primary-button form-field-wide"
             type="submit"
-            disabled={isSaving}
+            disabled={busy}
           >
-            {isSaving ? "Salvando…" : "Registrar serviço"}
+            {busy ? "Salvando…" : "Registrar serviço"}
           </button>
         </form>
       </section>
