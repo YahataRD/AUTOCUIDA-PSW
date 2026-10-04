@@ -1,0 +1,14 @@
+{
+  "name": "autocuida-mock",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prestart": "node prepare-db.js",
+    "start": "json-server --watch db.json --host 127.0.0.1 --port 3001",
+    "reset": "node prepare-db.js --reset",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "json-server": "0.17.4"
+  }
+}

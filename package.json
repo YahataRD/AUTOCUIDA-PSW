@@ -1,0 +1,16 @@
+{
+  "name": "autocuida-projeto",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm ci --prefix frontend && npm ci --prefix mock",
+    "start": "concurrently --kill-others --names mock,frontend \"npm --prefix mock start\" \"npm --prefix frontend run dev\"",
+    "dev": "npm start",
+    "build": "npm --prefix frontend run build",
+    "preview": "concurrently --kill-others --names mock,frontend \"npm --prefix mock start\" \"npm --prefix frontend run preview\"",
+    "test": "npm --prefix frontend test && npm --prefix mock test",
+    "reset": "npm --prefix mock run reset"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

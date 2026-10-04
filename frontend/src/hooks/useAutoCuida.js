@@ -1,82 +1,40 @@
-import { useEffect, useReducer, useState } from "react";
-import { loadData } from "../data/loadData.js";
-import { getToday } from "../data/validation.js";
-import { createVehicle } from "../state/vehicles.js";
-import {
-  autoCuidaReducer,
-  createServiceRecord,
-  validateOdometer,
-} from "../state/autoCuida.js";
+import { useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createApi } from "../data/api.js";
+import { createDemoApi } from "../data/demo.js";
+import { dataQuery, commandMutation } from "../data/queries.js";
 
-function resourceReducer(state, action) {
-  if (action.type === "loading")
-    return { status: "loading", data: null, error: "" };
-  if (action.type === "loaded")
-    return { status: "ready", data: action.data, error: "" };
-  if (action.type === "failed")
-    return { status: "error", data: null, error: action.error };
-  return { ...state, data: autoCuidaReducer(state.data, action) };
-}
+const isDemo = import.meta.env.VITE_DATA_MODE === "demo";
+const api = isDemo
+  ? createDemoApi()
+  : createApi(import.meta.env.VITE_API_URL || "http://127.0.0.1:3001");
 
 export default function useAutoCuida() {
-  const [state, dispatch] = useReducer(resourceReducer, {
-    status: "loading",
-    data: null,
-    error: "",
-  });
-  const [attempt, setAttempt] = useState(0);
+  const client = useQueryClient();
+  const query = useQuery(dataQuery(api));
+  const mutation = useMutation(commandMutation(client, api));
+  const pending = useRef(false);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    dispatch({ type: "loading" });
-    loadData(`${import.meta.env.BASE_URL}data/autocuida.json`, {
-      signal: controller.signal,
-    })
-      .then((data) => {
-        if (!controller.signal.aborted) dispatch({ type: "loaded", data });
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) {
-          dispatch({
-            type: "failed",
-            error:
-              "Não foi possível carregar os dados de demonstração. Verifique a conexão ou o arquivo de dados e tente novamente.",
-          });
-        }
-      });
-    return () => controller.abort();
-  }, [attempt]);
-
-  function updateOdometer(vehicleId, currentKm) {
-    validateOdometer(state.data, vehicleId, currentKm);
-    dispatch({ type: "odometerUpdated", vehicleId, currentKm });
-  }
-
-  function registerVehicle(input) {
-    const currentYear = new Date().getFullYear();
-    const vehicle = createVehicle(state.data, input, {
-      id: crypto.randomUUID(),
-      currentYear,
-    });
-    dispatch({ type: "vehicleRegistered", vehicle, currentYear });
-    return vehicle;
-  }
-
-  function registerService(vehicleId, input) {
-    const today = getToday();
-    const record = createServiceRecord(state.data, vehicleId, input, {
-      id: crypto.randomUUID(),
-      today,
-    });
-    dispatch({ type: "serviceRegistered", record, today });
-    return record;
+  async function execute(command, ...args) {
+    if (pending.current) throw new Error("Aguarde a operação em andamento.");
+    pending.current = true;
+    try {
+      return await mutation.mutateAsync({ command, args });
+    } finally {
+      pending.current = false;
+    }
   }
 
   return {
-    ...state,
-    retry: () => setAttempt((value) => value + 1),
-    updateOdometer,
-    registerService,
-    registerVehicle,
+    data: query.data,
+    status: query.isPending ? "loading" : query.data ? "ready" : "error",
+    error: query.error?.message ?? "",
+    refreshError: Boolean(query.data && query.isError),
+    isSaving: mutation.isPending,
+    isDemo,
+    retry: query.refetch,
+    updateOdometer: (...args) => execute("updateOdometer", ...args),
+    registerVehicle: (...args) => execute("registerVehicle", ...args),
+    registerService: (...args) => execute("registerService", ...args),
   };
 }

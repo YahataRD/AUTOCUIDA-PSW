@@ -8,6 +8,7 @@ export default function GaragePage({
   onBackToDashboard,
   onRegisterVehicle,
   justRegistered,
+  isSaving,
 }) {
   const [odometer, setOdometer] = useState(String(vehicle?.currentKm ?? ""));
   const [error, setError] = useState("");
@@ -17,8 +18,9 @@ export default function GaragePage({
     setOdometer(String(vehicle?.currentKm ?? ""));
   }, [vehicle?.currentKm]);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    if (isSaving) return;
     setError("");
     setFeedback("");
 
@@ -48,7 +50,7 @@ export default function GaragePage({
     }
 
     try {
-      onUpdateOdometer(newOdometer);
+      await onUpdateOdometer(newOdometer);
     } catch (error) {
       setError(error.message);
       return;
@@ -65,7 +67,7 @@ export default function GaragePage({
           Veículo cadastrado e selecionado.
         </p>
       )}
-      <VehicleRegistration onRegister={onRegisterVehicle} />
+      <VehicleRegistration onRegister={onRegisterVehicle} isSaving={isSaving} />
       {vehicle && (
         <div className="garage-grid">
           <section
@@ -109,6 +111,7 @@ export default function GaragePage({
                 Nova quilometragem
               </label>
               <input
+                disabled={isSaving}
                 className="form-control"
                 id="odometer"
                 name="odometer"
@@ -138,8 +141,12 @@ export default function GaragePage({
                 </p>
               )}
 
-              <button className="primary-button" type="submit">
-                Atualizar quilometragem
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isSaving}
+              >
+                {isSaving ? "Salvando…" : "Atualizar quilometragem"}
               </button>
               {feedback && (
                 <button

@@ -4,6 +4,9 @@ node_modules/
 # Build de produção do Vite
 dist/
 
+# Base editável do json-server (dados iniciais em mock/seed.json)
+mock/db.json
+
 # Arquivos locais e variáveis de ambiente
 .env
 .env.*

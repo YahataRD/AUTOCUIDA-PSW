@@ -16,6 +16,7 @@ export default function ServicePage({
   selectedMaintenanceItemId,
   onRegisterService,
   onNavigate,
+  isSaving,
 }) {
   const firstItemId = maintenanceItems[0]?.id ?? "";
   const [maintenanceType, setMaintenanceType] = useState("preventive");
@@ -49,8 +50,10 @@ export default function ServicePage({
     setConfirmation(null);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    if (isSaving) return;
+    setConfirmation(null);
 
     const newErrors = {};
     const numericKm = Number(serviceKm);
@@ -90,7 +93,7 @@ export default function ServicePage({
     }
 
     try {
-      const record = onRegisterService({
+      const record = await onRegisterService({
         maintenanceItemId: selectedItem.id,
         maintenanceType,
         serviceKm: numericKm,
@@ -166,6 +169,7 @@ export default function ServicePage({
           aria-label="Tipo de manutenção"
         >
           <button
+            disabled={isSaving}
             className={`segment-button ${maintenanceType === "preventive" ? "active" : ""}`}
             type="button"
             onClick={() => {
@@ -177,6 +181,7 @@ export default function ServicePage({
             Preventiva
           </button>
           <button
+            disabled={isSaving}
             className={`segment-button ${maintenanceType === "corrective" ? "active" : ""}`}
             type="button"
             onClick={() => {
@@ -200,6 +205,7 @@ export default function ServicePage({
               Item de manutenção
             </label>
             <select
+              disabled={isSaving}
               className="form-control"
               id="maintenance-item"
               name="maintenanceItem"
@@ -229,6 +235,7 @@ export default function ServicePage({
               Quilometragem no serviço
             </label>
             <input
+              disabled={isSaving}
               className="form-control"
               id="service-km"
               name="serviceKm"
@@ -258,6 +265,7 @@ export default function ServicePage({
               Data do serviço
             </label>
             <input
+              disabled={isSaving}
               className="form-control"
               id="service-date"
               name="serviceDate"
@@ -285,6 +293,7 @@ export default function ServicePage({
               Valor gasto
             </label>
             <input
+              disabled={isSaving}
               className="form-control"
               id="service-amount"
               name="amount"
@@ -311,6 +320,7 @@ export default function ServicePage({
               Oficina ou mecânico
             </label>
             <input
+              disabled={isSaving}
               className="form-control"
               id="service-shop"
               name="shop"
@@ -331,8 +341,12 @@ export default function ServicePage({
             )}
           </div>
 
-          <button className="primary-button form-field-wide" type="submit">
-            Registrar serviço
+          <button
+            className="primary-button form-field-wide"
+            type="submit"
+            disabled={isSaving}
+          >
+            {isSaving ? "Salvando…" : "Registrar serviço"}
           </button>
         </form>
       </section>
