@@ -244,16 +244,19 @@ A oportunidade R8 não abate orçamento. R1, R2 e R3 consomem também a reserva 
 *Risco geral do projeto:* alto, porque a data é fixa, o caminho crítico não tem folga e a variação de 4 dias já ocorreu. Se em 04/10 o roteiro T01–T23 não estiver executado, o patrocinador decide entre cortar opcionais e renegociar a data.
 
 ## 13. Qualidade e controle de mudanças
-- Qualidade entra no processo: aceite observável por pacote (Dicionário), revisão por PR e roteiro T01–T23.
-- *Mudança:* todo pedido fora da linha de base vira Issue, é avaliado pelo GP e, passando da tolerância, decidido pelo patrocinador. Aprovada, atualiza EAP, dicionário, cronograma e orçamento juntos.
-- *M-01 (30/09):* replanejamento do cronograma (seção 7). Impacto: escopo e data final inalterados; custo dentro da contingência de R1. Decisão do patrocinador (Prof. Diogo): [aprovado / rejeitado] em _/_.
+
+* Qualidade entra no processo: aceite observável por pacote (Dicionário), revisão por PR e roteiro T01-T23.
+* *Mudança*: todo pedido fora da linha de base vira Issue, é avaliado pelo GP e, passando da tolerância, decidido pelo patrocinador. Aprovada, atualiza EAP, dicionário, cronograma e orçamento juntos.
+* *M-01 (30/09)*: replanejamento do cronograma (seção 7). Impacto: escopo e data final inalterados; custo dentro da contingência de R1. Decisão do patrocinador (Prof. Diogo): pendente.
 
 ## 14. Uso de IA e revisão humana
-Rascunho assistido por IA e revisado pela equipe, conferido contra o repositório (código, histórico e documentos). *Recusado:* (1) um rascunho anterior que tratava o AutoCUIDA como app de hábitos e humor, por não corresponder ao repositório; (2) [PREENCHER: outros itens alterados ou recusados]. Revisado por: [PREENCHER] em [PREENCHER].
+
+Rascunho assistido por IA e revisado pela equipe, conferido contra o repositório (código, histórico e documentos). Recusado: (1) um rascunho anterior que tratava o AutoCUIDA como app de hábitos e humor, por não corresponder ao repositório; (2) a formatação do diagrama de caminho crítico na Seção 7, que exigiu correção manual de sintaxe do código Mermaid. Revisado por: Ronald em 04/10/2026.
 
 ## 15. Integração: como os componentes se conectam
+
 | Se muda... | Então revisar... |
-|---|---|
+| --- | --- |
 | Requisito (seção 4) | Pacote na EAP → aceite no dicionário → estimativa e cronograma |
 | Duração de pacote do caminho crítico | Reserva de prazo (7.3) → status ao patrocinador → mudança, se passar de 1 dia |
 | Risco (seção 12) | Reserva de contingência (seção 8) → pacote e aceite afetados → cronograma |
