@@ -59,32 +59,33 @@ A interface ainda usa CSS próprio e validações manuais.
 
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 
+Execute na raiz do repositório, em um único terminal:
+
 ```bash
 git clone https://github.com/YahataRD/AUTOCUIDA-PSW.git
-cd AUTOCUIDA-PSW/mock
+cd AUTOCUIDA-PSW
 npm ci
 npm start
 ```
 
+`npm ci` instala as dependências da raiz, do frontend e do mock. `npm start`
+inicia os dois serviços juntos, com logs identificados. Abra o endereço exibido
+pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`. Ctrl+C encerra ambos.
+Se um serviço encerrar, o outro também é encerrado.
+
+As pastas `frontend/` e `mock/` organizam o código; não exigem terminais separados.
+Após a primeira instalação, basta executar `npm start`. `npm run dev` é um atalho
+equivalente. Os comandos individuais das duas pastas continuam disponíveis.
+
 O mock atende em `http://127.0.0.1:3001`. Na primeira execução, copia `mock/seed.json`
 para `mock/db.json`. As alterações persistem nesse arquivo, ignorado pelo Git.
-Reiniciar o mock preserva os dados.
-
-Em outro terminal, a partir da raiz do repositório:
-
-```bash
-cd frontend
-npm ci
-npm run dev
-```
+Reiniciar o projeto preserva os dados.
 
 Para mudar a API, copie `frontend/.env.example` para `frontend/.env`, ajuste
-`VITE_API_URL` e reinicie o Vite. O padrão é a API local; falhas nunca ativam o demo.
-Para restaurar os dados, pare o mock, execute `npm run reset` em `mock/` e reinicie-o.
+`VITE_API_URL` e reinicie o projeto. O padrão é a API local; falhas nunca ativam o demo.
+Para restaurar os dados, pare o projeto e execute `npm run reset` na raiz.
 O reset descarta as alterações locais e restaura a seed versionada.
 
-Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`.
-Execute os comandos de cada componente dentro de sua respectiva pasta.
 O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
 No PowerShell, caso a execução de scripts esteja bloqueada, use `npm.cmd`
@@ -97,8 +98,9 @@ npm run build
 npm run preview
 ```
 
-O build é gerado em `frontend/dist/`. O comando de preview permite conferir essa versão
-localmente, normalmente em `http://localhost:4173/AUTOCUIDA-PSW/`.
+Execute ambos os comandos na raiz. O build é gerado em `frontend/dist/`.
+`npm run preview` inicia o mock e a prévia desse build juntos, normalmente em
+`http://localhost:4173/AUTOCUIDA-PSW/`. Pare `npm start` antes de iniciar a prévia.
 
 ### Publicação
 
@@ -120,8 +122,8 @@ npm test
 npm run build
 ```
 
-Os testes usam o executor nativo do Node.js. Execute também `npm ci` e `npm test`
-em `mock/`: a integração HTTP usa uma base temporária e não altera `mock/db.json`.
+`npm test` na raiz executa as duas suítes, usando o executor nativo do Node.js.
+A integração HTTP usa uma base temporária e não altera `mock/db.json`.
 Veja o [registro desta etapa](docs/testes/integracao-mock.md).
 O [contrato da base](docs/base-compartilhada.md) explica como continuar o
 desenvolvimento. O [registro de validação](docs/testes/base-compartilhada.md)

@@ -15,9 +15,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - name: Baixar código
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -27,16 +24,11 @@ jobs:
           node-version: '24'
           cache: npm
           cache-dependency-path: |
+            package-lock.json
             frontend/package-lock.json
             mock/package-lock.json
       - name: Instalar dependências
         run: npm ci
-      - name: Instalar mock
-        working-directory: mock
-        run: npm ci
-      - name: Testar integração HTTP
-        working-directory: mock
-        run: npm test
       - name: Executar testes
         run: npm test
       - name: Verificar build com API
