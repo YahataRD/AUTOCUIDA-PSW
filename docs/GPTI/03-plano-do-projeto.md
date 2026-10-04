@@ -125,7 +125,7 @@ flowchart LR
     
     classDef crit stroke:#c00,stroke-width:3px;
     class P21,P22,P41,P51,P61,P52,P71,P72,P73,P74 crit;
-
+```
 
 *Linha de base do cronograma:* as datas v1.1, após aprovação do patrocinador; só mudam por controle de mudanças.
 
