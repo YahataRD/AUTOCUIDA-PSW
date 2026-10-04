@@ -58,13 +58,13 @@ funcionais, estado local do React e CSS próprio.
 
 ```bash
 git clone https://github.com/YahataRD/AUTOCUIDA-PSW.git
-cd AUTOCUIDA-PSW
+cd AUTOCUIDA-PSW/frontend
 npm ci
 npm run dev
 ```
 
 Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`.
-Se já tiver o projeto na máquina, execute os comandos npm dentro da pasta dele.
+Se já tiver o projeto na máquina, execute os comandos npm dentro de `frontend/`.
 O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
 No PowerShell, caso a execução de scripts esteja bloqueada, use `npm.cmd`
@@ -77,18 +77,19 @@ npm run build
 npm run preview
 ```
 
-O build é gerado em `dist/`. O comando de preview permite conferir essa versão
+O build é gerado em `frontend/dist/`. O comando de preview permite conferir essa versão
 localmente, normalmente em `http://localhost:4173/AUTOCUIDA-PSW/`.
 
 ### Publicação
 
 O workflow `.github/workflows/deploy-pages.yml` instala as dependências, executa
-os testes, gera o build e publica somente o conteúdo de `dist/`. Também pode ser
+os testes dentro de `frontend/`, gera o build e publica somente o conteúdo de
+`frontend/dist/`. Também pode ser
 executado manualmente pela aba Actions na branch `main`.
 
 Em **Settings → Pages → Build and deployment**, a fonte deve ser **GitHub Actions**.
-O caminho `/AUTOCUIDA-PSW/` está definido em `vite.config.js` e é usado também pelo
-JSON local. Não é necessário versionar `dist/`, criar uma branch `gh-pages` ou
+O caminho `/AUTOCUIDA-PSW/` está definido em `frontend/vite.config.js` e é usado também pelo
+JSON local. Não é necessário versionar `frontend/dist/`, criar uma branch `gh-pages` ou
 publicar os documentos do repositório.
 
 ### Verificar a base compartilhada
@@ -105,6 +106,10 @@ separa os testes executados das funcionalidades ainda pendentes.
 
 ## Organização do código
 
+A aplicação, suas dependências, testes e protótipos ficam em `frontend/`.
+Os caminhos de código abaixo são relativos a essa pasta. A documentação permanece
+em `docs/` e o workflow de publicação em `.github/workflows/` na raiz do repositório.
+
 - `src/App.jsx`: ligação da base compartilhada com as telas.
 - `src/hooks/`: carregamento, estado compartilhado e navegação por hash.
 - `src/state/autoCuida.js`: ações de odômetro/serviço e consultas por veículo.
@@ -116,7 +121,7 @@ separa os testes executados das funcionalidades ainda pendentes.
 - `src/utils/`: cálculos de manutenção, custos e formatação.
 - `style.css`: estilos da aplicação.
 
-Os arquivos `manutencoes.html`, `registro.html` e `veiculo.html` na raiz são
+Os arquivos `manutencoes.html`, `registro.html` e `veiculo.html` em `frontend/` são
 referências do protótipo anterior. A aplicação React usa `index.html` como
 ponto de entrada.
 
