@@ -105,25 +105,26 @@ Mitigações com trabalho certo estão nos pacotes: R1 em 2.2 (contrato de dados
 
 *Caminho crítico* (cadeias paralelas de mesma duração): 2.1/2.2 → 4.1/5.1 → 6.1/5.2 → 7.1 → 7.2 → 7.3 → 7.4 = *7 dias (30/09 a 06/10), sem folga*. A reserva de prazo é o pacote 7.3 (05/10), reservado para correções, que R1, R2 e R3 consomem. Folgas: 3.1 tem 1 dia (só precisa terminar antes de 7.1) e 1.1 tem 1 dia antes do prazo da AV1.
 
-mermaid
+```mermaid
 flowchart LR
-  P21["2.1 Kit e painel<br/>1 d"] --> P31["3.1 Veículos<br/>1 d"]
-  P21 --> P41["4.1 Itens<br/>1 d"]
-  P21 --> P51["5.1 Serviços<br/>1 d"]
-  P22["2.2 Dados e URLs<br/>1 d"] --> P31
-  P22 --> P41
-  P22 --> P51
-  P41 --> P61["6.1 Alertas<br/>1 d"]
-  P51 --> P61
-  P51 --> P52["5.2 Custos<br/>1 d"]
-  P31 --> P71["7.1 Responsivo e acessível<br/>1 d"]
-  P61 --> P71
-  P52 --> P71
-  P71 --> P72["7.2 Roteiro T01-T23<br/>1 d"]
-  P72 --> P73["7.3 Correções e ensaio<br/>1 d"]
-  P73 --> P74["7.4 Entrega<br/>1 d"]
-  classDef crit stroke:#c00,stroke-width:3px;
-  class P21,P22,P41,P51,P61,P52,P71,P72,P73,P74 crit;
+    P21["2.1 Kit e painel<br>1 d"] --> P31["3.1 Veículos<br>1 d"]
+    P21 --> P41["4.1 Itens<br>1 d"]
+    P21 --> P51["5.1 Serviços<br>1 d"]
+    P22["2.2 Dados e URLs<br>1 d"] --> P31
+    P22 --> P41
+    P22 --> P51
+    P41 --> P61["6.1 Alertas<br>1 d"]
+    P51 --> P61
+    P51 --> P52["5.2 Custos<br>1 d"]
+    P31 --> P71["7.1 Responsivo e acessível<br>1 d"]
+    P61 --> P71
+    P52 --> P71
+    P71 --> P72["7.2 Roteiro T01-T23<br>1 d"]
+    P72 --> P73["7.3 Correções e ensaio<br>1 d"]
+    P73 --> P74["7.4 Entrega<br>1 d"]
+    
+    classDef crit stroke:#c00,stroke-width:3px;
+    class P21,P22,P41,P51,P61,P52,P71,P72,P73,P74 crit;
 
 
 *Linha de base do cronograma:* as datas v1.1, após aprovação do patrocinador; só mudam por controle de mudanças.
