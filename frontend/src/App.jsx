@@ -24,7 +24,7 @@ export default function App() {
       return (
         <main className="page-content" aria-busy="true">
           <StateMessage title="Carregando veículos">
-            Aguarde enquanto os dados de demonstração são carregados.
+            Aguarde enquanto os dados são carregados.
           </StateMessage>
         </main>
       );
@@ -62,9 +62,10 @@ export default function App() {
           <GaragePage
             key={vehicle?.id ?? "empty"}
             vehicle={vehicle}
+            isSaving={store.isSaving}
             justRegistered={Boolean(vehicle && vehicle.id === createdVehicleId)}
-            onRegisterVehicle={(input) => {
-              const created = store.registerVehicle(input);
+            onRegisterVehicle={async (input) => {
+              const created = await store.registerVehicle(input);
               setCreatedVehicleId(created.id);
               route.navigate("garage", { vehicleId: created.id });
             }}
@@ -77,6 +78,7 @@ export default function App() {
           <ServicePage
             key={`${vehicle.id}:${route.itemId ?? ""}`}
             vehicle={vehicle}
+            isSaving={store.isSaving}
             maintenanceItems={maintenanceItems}
             selectedMaintenanceItemId={route.itemId}
             onRegisterService={(service) =>
@@ -103,15 +105,41 @@ export default function App() {
   return (
     <div className="app-shell">
       <AppHeader page={route.page} currentKm={vehicle?.currentKm} />
+      {store.isDemo && (
+        <p className="surface state-message" role="status">
+          Demonstração: alterações ficam apenas nesta sessão e são descartadas
+          ao recarregar.
+        </p>
+      )}
+      {store.refreshError && (
+        <StateMessage
+          title="Não foi possível atualizar os dados"
+          error
+          onAction={store.retry}
+          actionLabel="Tentar novamente"
+        >
+          Os dados exibidos podem estar desatualizados. {store.error}
+        </StateMessage>
+      )}
+      {store.isSaving && (
+        <p className="state-message" role="status">
+          Salvando alterações…
+        </p>
+      )}
       {vehicle && (
         <VehicleSelector
+          disabled={store.isSaving}
           vehicles={store.data.vehicles}
           vehicleId={vehicle.id}
           onSelect={(vehicleId) => route.navigate(route.page, { vehicleId })}
         />
       )}
       {renderActivePage()}
-      <BottomNavigation activePage={route.page} onNavigate={route.navigate} />
+      <BottomNavigation
+        activePage={route.page}
+        onNavigate={route.navigate}
+        disabled={store.isSaving}
+      />
     </div>
   );
 }

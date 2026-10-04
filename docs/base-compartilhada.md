@@ -1,6 +1,20 @@
 # Contrato da base compartilhada
 
-Implementado em 02/10/2026. Escopo desta etapa: dados locais por veículo,
+Atualizado em 04/10/2026: a integração atual usa json-server e TanStack Query.
+Consulte [integração e validação](testes/integracao-mock.md) e o README para executar.
+A seed fica em `mock/seed.json`; `mock/db.json` é a cópia persistente local.
+Os comandos do hook agora retornam Promises e devem ser aguardados com `await`.
+`src/data/api.js` centraliza HTTP e regras; `src/data/queries.js` mantém o cache.
+As telas recebem `isSaving` para bloquear envios concorrentes. Falhas preservam
+os campos; novas consultas atualizam os dados, inclusive após falha parcial.
+Adicionar futuras operações nesses módulos, reutilizando as validações e seletores.
+O reducer continua atendendo apenas o adaptador demo e os testes de regras.
+
+O restante deste documento registra a etapa original de 02/10/2026. Referências
+a dados em memória, carregamento estático e comandos síncronos são históricas;
+o contrato dos campos, vínculos e cálculos continua válido.
+
+Implementado originalmente em 02/10/2026. Escopo desta etapa: dados locais por veículo,
 carregamento/erro/vazio, navegação por URL e ações usadas pelas telas atuais.
 Sem API, banco, persistência ou biblioteca adicional de estado/rotas.
 

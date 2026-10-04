@@ -13,7 +13,8 @@ Projeto desenvolvido para a disciplina de Programação de Software Web.
 A publicação no GitHub Pages é atualizada automaticamente após alterações na
 `main`, desde que os testes e o build passem. O andamento pode ser acompanhado
 na [aba Actions](https://github.com/YahataRD/AUTOCUIDA-PSW/actions/workflows/deploy-pages.yml).
-Cada visitante usa dados de demonstração independentes, restaurados ao recarregar.
+O Pages usa o modo `demo`, identificado na interface: cada visitante usa dados
+em memória, restaurados ao recarregar. A integração com json-server roda localmente.
 
 ## Funcionalidades atuais
 
@@ -27,8 +28,8 @@ Cada visitante usa dados de demonstração independentes, restaurados ao recarre
 Atualizar o odômetro recalcula os alertas. Registrar um serviço atualiza o
 histórico, os custos e a referência de manutenção do item escolhido.
 
-A base compartilhada carrega dois veículos de demonstração a partir de um JSON
-local. Cada veículo tem seus próprios itens, serviços e custos. A seleção está
+A base compartilhada consulta veículos, itens e serviços na API do json-server.
+Os dados iniciais incluem dois veículos. Cada veículo tem seus próprios itens, serviços e custos. A seleção está
 disponível em todas as telas e é preservada na URL, junto com a seção aberta.
 Voltar/Avançar funciona entre essas URLs. O carregamento trata falhas com nova
 tentativa e as telas orientam quando não há veículos, itens ou serviços.
@@ -36,7 +37,9 @@ tentativa e as telas orientam quando não há veículos, itens ou serviços.
 ## Primeira entrega
 
 A primeira entrega está prevista para **6 de outubro de 2026**, com o front-end
-funcionando com dados simulados, sem back-end ou banco de dados.
+integrado ao backend mockado com json-server, sem backend real ou banco de dados.
+TanStack Query está integrado. React Hook Form, Zod e um framework responsivo,
+também exigidos pelo professor, continuam pendentes.
 
 Ainda estão previstos:
 
@@ -49,8 +52,8 @@ As etapas e datas estão no [cronograma](docs/cronograma.md).
 
 ## Tecnologias
 
-React 18, Vite 8, JavaScript, HTML e CSS. A interface atual utiliza componentes
-funcionais, estado local do React e CSS próprio.
+React 18, Vite 8, JavaScript ES6+, TanStack Query 5 e json-server 0.17.4.
+A interface ainda usa CSS próprio e validações manuais.
 
 ## Como executar
 
@@ -58,13 +61,30 @@ funcionais, estado local do React e CSS próprio.
 
 ```bash
 git clone https://github.com/YahataRD/AUTOCUIDA-PSW.git
-cd AUTOCUIDA-PSW/frontend
+cd AUTOCUIDA-PSW/mock
+npm ci
+npm start
+```
+
+O mock atende em `http://127.0.0.1:3001`. Na primeira execução, copia `mock/seed.json`
+para `mock/db.json`. As alterações persistem nesse arquivo, ignorado pelo Git.
+Reiniciar o mock preserva os dados.
+
+Em outro terminal, a partir da raiz do repositório:
+
+```bash
+cd frontend
 npm ci
 npm run dev
 ```
 
+Para mudar a API, copie `frontend/.env.example` para `frontend/.env`, ajuste
+`VITE_API_URL` e reinicie o Vite. O padrão é a API local; falhas nunca ativam o demo.
+Para restaurar os dados, pare o mock, execute `npm run reset` em `mock/` e reinicie-o.
+O reset descarta as alterações locais e restaura a seed versionada.
+
 Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`.
-Se já tiver o projeto na máquina, execute os comandos npm dentro de `frontend/`.
+Execute os comandos de cada componente dentro de sua respectiva pasta.
 O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
 No PowerShell, caso a execução de scripts esteja bloqueada, use `npm.cmd`
@@ -83,13 +103,14 @@ localmente, normalmente em `http://localhost:4173/AUTOCUIDA-PSW/`.
 ### Publicação
 
 O workflow `.github/workflows/deploy-pages.yml` instala as dependências, executa
-os testes dentro de `frontend/`, gera o build e publica somente o conteúdo de
+os testes de `frontend/` e `mock/`, verifica o build com API e gera o demo com
+`VITE_DATA_MODE=demo`. Publica somente o conteúdo de
 `frontend/dist/`. Também pode ser
 executado manualmente pela aba Actions na branch `main`.
 
 Em **Settings → Pages → Build and deployment**, a fonte deve ser **GitHub Actions**.
 O caminho `/AUTOCUIDA-PSW/` está definido em `frontend/vite.config.js` e é usado também pelo
-JSON local. Não é necessário versionar `frontend/dist/`, criar uma branch `gh-pages` ou
+site. A seed do demo é incluída no bundle; o Pages não executa a API. Não é necessário versionar `frontend/dist/`, criar uma branch `gh-pages` ou
 publicar os documentos do repositório.
 
 ### Verificar a base compartilhada
@@ -99,7 +120,9 @@ npm test
 npm run build
 ```
 
-Os testes usam o executor nativo do Node.js, sem dependências adicionais.
+Os testes usam o executor nativo do Node.js. Execute também `npm ci` e `npm test`
+em `mock/`: a integração HTTP usa uma base temporária e não altera `mock/db.json`.
+Veja o [registro desta etapa](docs/testes/integracao-mock.md).
 O [contrato da base](docs/base-compartilhada.md) explica como continuar o
 desenvolvimento. O [registro de validação](docs/testes/base-compartilhada.md)
 separa os testes executados das funcionalidades ainda pendentes.
@@ -111,13 +134,13 @@ Os caminhos de código abaixo são relativos a essa pasta. A documentação perm
 em `docs/` e o workflow de publicação em `.github/workflows/` na raiz do repositório.
 
 - `src/App.jsx`: ligação da base compartilhada com as telas.
-- `src/hooks/`: carregamento, estado compartilhado e navegação por hash.
+- `src/hooks/`: TanStack Query, comandos assíncronos e navegação por hash.
 - `src/state/autoCuida.js`: ações de odômetro/serviço e consultas por veículo.
 - `src/navigation/routes.js`: interpretação e construção das URLs.
 - `src/pages/`: Painel, Garagem, Registro de Serviço e Custos.
 - `src/components/`: componentes reutilizáveis da interface.
-- `public/data/autocuida.json`: dados de demonstração, carregados por HTTP local.
-- `src/data/`: carregamento e validação do formato e dos vínculos dos dados.
+- `src/data/`: cliente HTTP, consultas/mutações, adaptador demo e validações.
+- `../mock/seed.json`: fonte única dos dados iniciais da API e do demo.
 - `src/utils/`: cálculos de manutenção, custos e formatação.
 - `style.css`: estilos da aplicação.
 
@@ -138,8 +161,14 @@ mensal consideram o mês atual e os cinco anteriores, incluindo meses sem gastos
 
 ## Limitações atuais
 
-Os dados ficam na memória do navegador e são restaurados ao recarregar a página.
-A URL preserva a tela e o veículo selecionado, mas não salva alterações nos dados.
+No modo API, os dados persistem no mock. As validações ficam no frontend; o
+json-server não implementa autenticação, regras de negócio ou transações.
+Gravações simultâneas de vários clientes não têm garantia de exclusividade.
+
+Um serviço pode exigir PATCH do odômetro seguido de POST do registro. Se o POST
+falhar, o odômetro pode já ter sido atualizado. A interface orienta conferir o
+histórico antes de repetir; gravações não são repetidas automaticamente.
+Somente no modo demo os dados são restaurados ao recarregar a página.
 Ainda faltam edição/inativação de veículos, gestão de itens e edição/exclusão de serviços.
 
 Na Garagem, **Cadastrar veículo** permite informar placa, modelo, ano e km inicial.

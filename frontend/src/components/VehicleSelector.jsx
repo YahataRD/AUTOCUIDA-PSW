@@ -1,10 +1,16 @@
-export default function VehicleSelector({ vehicles, vehicleId, onSelect }) {
+export default function VehicleSelector({
+  vehicles,
+  vehicleId,
+  onSelect,
+  disabled,
+}) {
   return (
     <div className="vehicle-selector">
       <label className="form-label" htmlFor="active-vehicle">
         Veículo selecionado
       </label>
       <select
+        disabled={disabled}
         className="form-control"
         id="active-vehicle"
         value={vehicleId}

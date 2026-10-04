@@ -18,7 +18,7 @@ const fields = [
   { name: "currentKm", label: "Quilometragem inicial", type: "number", min: 0 },
 ];
 
-export default function VehicleRegistration({ onRegister }) {
+export default function VehicleRegistration({ onRegister, isSaving }) {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(emptyForm);
   const [errors, setErrors] = useState({});
@@ -31,20 +31,25 @@ export default function VehicleRegistration({ onRegister }) {
     opener.current?.focus();
   }
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
+    const form = event.currentTarget;
+    if (isSaving) return;
+    setErrors({});
     try {
-      onRegister(values);
+      await onRegister(values);
+      cancel();
     } catch (error) {
       setErrors(error.fields ?? { form: error.message });
       const first = fields.find((field) => error.fields?.[field.name]);
-      if (first) event.currentTarget.elements.namedItem(first.name)?.focus();
+      if (first) form.elements.namedItem(first.name)?.focus();
     }
   }
 
   return (
     <section className="surface state-message vehicle-registration">
       <button
+        disabled={isSaving}
         ref={opener}
         className="secondary-button"
         type="button"
@@ -73,6 +78,7 @@ export default function VehicleRegistration({ onRegister }) {
                 {field.label}
               </label>
               <input
+                disabled={isSaving}
                 className="form-control"
                 id={`vehicle-${field.name}`}
                 name={field.name}
@@ -109,10 +115,15 @@ export default function VehicleRegistration({ onRegister }) {
               )}
             </div>
           ))}
-          <button className="primary-button" type="submit">
-            Salvar veículo
+          <button className="primary-button" type="submit" disabled={isSaving}>
+            {isSaving ? "Salvando…" : "Salvar veículo"}
           </button>
-          <button className="secondary-button" type="button" onClick={cancel}>
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={cancel}
+            disabled={isSaving}
+          >
             Cancelar cadastro
           </button>
         </form>

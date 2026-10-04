@@ -2,7 +2,6 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { validateData } from "../src/data/validation.js";
-import { loadData } from "../src/data/loadData.js";
 import {
   autoCuidaReducer,
   createServiceRecord,
@@ -19,7 +18,7 @@ import { calculateMaintenance } from "../src/utils/maintenance.js";
 
 const fixture = JSON.parse(
   await readFile(
-    new URL("../public/data/autocuida.json", import.meta.url),
+    new URL("../../mock/seed.json", import.meta.url),
     "utf8",
   ),
 );
@@ -329,42 +328,6 @@ test("intervalo desabilitado não gera NaN ou infinito", () => {
   assert.equal(kmOnly.nextServiceDate, null);
   assert.equal(monthsOnly.nextServiceKm, null);
   assert.ok(Number.isFinite(monthsOnly.wear));
-});
-
-test("carga HTTP valida o JSON e encaminha cancelamento", async () => {
-  const controller = new AbortController();
-  const result = await loadData("/data/test.json", {
-    signal: controller.signal,
-    fetcher: async (url, init) => {
-      assert.equal(url, "/data/test.json");
-      assert.equal(init.signal, controller.signal);
-      return { ok: true, json: async () => fresh() };
-    },
-  });
-  assert.deepEqual(result, fixture);
-});
-
-test("carga rejeita HTTP, rede, JSON malformado e estrutura inválida; permite nova tentativa", async () => {
-  for (const fetcher of [
-    async () => ({ ok: false }),
-    async () => {
-      throw new TypeError("network");
-    },
-    async () => ({
-      ok: true,
-      json: async () => {
-        throw new SyntaxError("json");
-      },
-    }),
-    async () => ({ ok: true, json: async () => ({ vehicles: [] }) }),
-  ])
-    await assert.rejects(loadData("/data/test.json", { fetcher }));
-  assert.deepEqual(
-    await loadData("/data/test.json", {
-      fetcher: async () => ({ ok: true, json: async () => fresh() }),
-    }),
-    fixture,
-  );
 });
 
 test("rotas preservam página/veículo/item e codificam parâmetros", () => {

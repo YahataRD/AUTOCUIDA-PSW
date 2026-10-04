@@ -5,12 +5,13 @@ const navigationItems = [
   { id: "costs", label: "Custos", icon: "▥" },
 ];
 
-export default function BottomNavigation({ activePage, onNavigate }) {
+export default function BottomNavigation({ activePage, onNavigate, disabled }) {
   return (
     <nav className="bottom-nav" aria-label="Navegação principal">
       <div className="bottom-nav-inner">
         {navigationItems.map((item) => (
           <button
+            disabled={disabled}
             key={item.id}
             className={`nav-button ${activePage === item.id ? "active" : ""}`}
             type="button"
