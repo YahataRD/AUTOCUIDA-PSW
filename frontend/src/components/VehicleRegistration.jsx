@@ -1,4 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createVehicleSchema } from "../data/formSchemas.js";
 
 const emptyForm = { plate: "", model: "", year: "", currentKm: "" };
 const fields = [
@@ -20,36 +24,55 @@ const fields = [
 
 export default function VehicleRegistration({ onRegister, isSaving }) {
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState(emptyForm);
-  const [errors, setErrors] = useState({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    clearErrors,
+    setFocus,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(createVehicleSchema()),
+    defaultValues: emptyForm,
+  });
+  const busy = isSaving || isSubmitting;
+  useEffect(() => {
+    if (!busy) {
+      const first = fields.find(
+        (field) => errors[field.name]?.type === "server",
+      );
+      if (first) setFocus(first.name);
+    }
+  }, [busy, errors, setFocus]);
   const opener = useRef(null);
 
   function cancel() {
     setOpen(false);
-    setValues(emptyForm);
-    setErrors({});
+    reset(emptyForm);
     opener.current?.focus();
   }
 
-  async function submit(event) {
-    event.preventDefault();
-    const form = event.currentTarget;
+  async function submit(values) {
     if (isSaving) return;
-    setErrors({});
     try {
       await onRegister(values);
       cancel();
     } catch (error) {
-      setErrors(error.fields ?? { form: error.message });
-      const first = fields.find((field) => error.fields?.[field.name]);
-      if (first) form.elements.namedItem(first.name)?.focus();
+      if (error.fields) {
+        for (const [name, message] of Object.entries(error.fields)) {
+          setError(name, { type: "server", message });
+        }
+      } else {
+        setError("root.server", { message: error.message });
+      }
     }
   }
 
   return (
     <section className="surface state-message vehicle-registration">
       <button
-        disabled={isSaving}
+        disabled={busy}
         ref={opener}
         className="secondary-button"
         type="button"
@@ -63,13 +86,15 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
         <form
           id="vehicle-registration-form"
           className="service-form"
-          onSubmit={submit}
+          onSubmit={handleSubmit(submit)}
+          onChange={() => clearErrors("root")}
+          aria-busy={busy}
           noValidate
         >
           <h2 className="form-title form-field-wide">Novo veículo</h2>
-          {errors.form && (
+          {errors.root?.server && (
             <p className="field-error form-field-wide" role="alert">
-              {errors.form}
+              {errors.root?.server.message}
             </p>
           )}
           {fields.map((field, index) => (
@@ -78,10 +103,10 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
                 {field.label}
               </label>
               <input
-                disabled={isSaving}
+                disabled={busy}
                 className="form-control"
                 id={`vehicle-${field.name}`}
-                name={field.name}
+                {...register(field.name)}
                 type={field.type}
                 autoFocus={index === 0}
                 required
@@ -94,11 +119,6 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
                 }
                 inputMode={field.type === "number" ? "numeric" : undefined}
                 placeholder={field.placeholder}
-                value={values[field.name]}
-                onChange={(event) => {
-                  setValues({ ...values, [field.name]: event.target.value });
-                  setErrors({ ...errors, [field.name]: "", form: "" });
-                }}
                 aria-invalid={Boolean(errors[field.name])}
                 aria-describedby={
                   errors[field.name] ? `vehicle-error-${field.name}` : undefined
@@ -110,19 +130,19 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
                   id={`vehicle-error-${field.name}`}
                   role="alert"
                 >
-                  {errors[field.name]}
+                  {errors[field.name].message}
                 </p>
               )}
             </div>
           ))}
-          <button className="primary-button" type="submit" disabled={isSaving}>
-            {isSaving ? "Salvando…" : "Salvar veículo"}
+          <button className="primary-button" type="submit" disabled={busy}>
+            {busy ? "Salvando…" : "Salvar veículo"}
           </button>
           <button
             className="secondary-button"
             type="button"
             onClick={cancel}
-            disabled={isSaving}
+            disabled={busy}
           >
             Cancelar cadastro
           </button>

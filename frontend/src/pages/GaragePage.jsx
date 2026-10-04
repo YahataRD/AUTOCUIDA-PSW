@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { formatKm } from "../utils/maintenance";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createOdometerSchema } from "../data/formSchemas.js";
 import VehicleRegistration from "../components/VehicleRegistration";
 
 export default function GaragePage({
@@ -10,54 +13,34 @@ export default function GaragePage({
   justRegistered,
   isSaving,
 }) {
-  const [odometer, setOdometer] = useState(String(vehicle?.currentKm ?? ""));
-  const [error, setError] = useState("");
   const [feedback, setFeedback] = useState("");
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(createOdometerSchema(vehicle?.currentKm ?? 0)),
+    defaultValues: { currentKm: String(vehicle?.currentKm ?? "") },
+  });
+  const busy = isSaving || isSubmitting;
   useEffect(() => {
-    setOdometer(String(vehicle?.currentKm ?? ""));
-  }, [vehicle?.currentKm]);
+    reset({ currentKm: String(vehicle?.currentKm ?? "") });
+  }, [vehicle?.currentKm, reset]);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function submit({ currentKm }) {
     if (isSaving) return;
-    setError("");
     setFeedback("");
-
-    const newOdometer = Number(odometer);
-
-    if (
-      !odometer.trim() ||
-      !Number.isSafeInteger(newOdometer) ||
-      newOdometer < 0
-    ) {
-      setError(
-        "Informe uma quilometragem válida, usando apenas números inteiros.",
-      );
-      return;
-    }
-
-    if (newOdometer < vehicle.currentKm) {
-      setError(
-        `A nova leitura não pode ser menor que ${formatKm(vehicle.currentKm)}.`,
-      );
-      return;
-    }
-
-    if (newOdometer === vehicle.currentKm) {
-      setError("A nova leitura deve ser diferente da quilometragem atual.");
-      return;
-    }
-
     try {
-      await onUpdateOdometer(newOdometer);
+      await onUpdateOdometer(currentKm);
+      setFeedback(
+        `Odômetro atualizado para ${formatKm(currentKm)}. Os alertas foram recalculados.`,
+      );
     } catch (error) {
-      setError(error.message);
-      return;
+      setError("root.server", { message: error.message });
     }
-    setFeedback(
-      `Odômetro atualizado para ${formatKm(newOdometer)}. Os alertas foram recalculados.`,
-    );
   }
 
   return (
@@ -67,7 +50,7 @@ export default function GaragePage({
           Veículo cadastrado e selecionado.
         </p>
       )}
-      <VehicleRegistration onRegister={onRegisterVehicle} isSaving={isSaving} />
+      <VehicleRegistration onRegister={onRegisterVehicle} isSaving={busy} />
       {vehicle && (
         <div className="garage-grid">
           <section
@@ -106,32 +89,40 @@ export default function GaragePage({
               desgaste dos itens de manutenção.
             </p>
 
-            <form onSubmit={handleSubmit} noValidate>
+            <form
+              onSubmit={handleSubmit(submit)}
+              aria-busy={busy}
+              onChange={() => {
+                clearErrors("root");
+                setFeedback("");
+              }}
+              noValidate
+            >
               <label className="form-label" htmlFor="odometer">
                 Nova quilometragem
               </label>
               <input
-                disabled={isSaving}
+                disabled={busy}
                 className="form-control"
                 id="odometer"
-                name="odometer"
+                {...register("currentKm")}
                 type="number"
                 min={vehicle.currentKm}
                 step="1"
                 inputMode="numeric"
-                value={odometer}
-                onChange={(event) => {
-                  setOdometer(event.target.value);
-                  setError("");
-                  setFeedback("");
-                }}
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? "odometer-error" : undefined}
+                aria-invalid={Boolean(errors.currentKm)}
+                aria-describedby={
+                  errors.currentKm ? "odometer-error" : undefined
+                }
               />
-
-              {error && (
+              {errors.currentKm && (
                 <p className="field-error" id="odometer-error" role="alert">
-                  {error}
+                  {errors.currentKm.message}
+                </p>
+              )}
+              {errors.root?.server && (
+                <p className="field-error" role="alert">
+                  {errors.root.server.message}
                 </p>
               )}
 
@@ -141,12 +132,8 @@ export default function GaragePage({
                 </p>
               )}
 
-              <button
-                className="primary-button"
-                type="submit"
-                disabled={isSaving}
-              >
-                {isSaving ? "Salvando…" : "Atualizar quilometragem"}
+              <button className="primary-button" type="submit" disabled={busy}>
+                {busy ? "Salvando…" : "Atualizar quilometragem"}
               </button>
               {feedback && (
                 <button
