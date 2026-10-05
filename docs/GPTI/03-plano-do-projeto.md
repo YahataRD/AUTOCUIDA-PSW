@@ -107,7 +107,7 @@ Mitigações com trabalho certo estão nos pacotes: R1 em 2.2 (contrato de dados
 | 7.4 | F11 | 1 | 7.3 | 06/10 | 0 | 06/10 |
 
 *Caminho crítico* (cadeias paralelas de mesma duração): 2.1/2.2 → 4.1/5.1 → 6.1/5.2 → 7.1 → 7.2 → 7.3 → 7.4 = *7 dias (30/09 a 06/10), sem folga*. A reserva de prazo é o pacote 7.3 (05/10), reservado para correções, que R1, R2 e R3 consomem. Folgas: 3.1 tem 1 dia (só precisa terminar antes de 7.1) e 1.1 tem 1 dia antes do prazo da AV1.
-
+'''
 mermaid
 flowchart LR
     P21["2.1 Kit e painel<br>1 d"] --> P31["3.1 Veículos<br>1 d"]
@@ -128,7 +128,7 @@ flowchart LR
 
     classDef crit stroke:#c00,stroke-width:3px;
     class P21,P22,P41,P51,P61,P52,P71,P72,P73,P74 crit;
-
+'''
 
 *Linha de base do cronograma:* as datas v1.1, após aprovação do patrocinador; só mudam por controle de mudanças.
 
