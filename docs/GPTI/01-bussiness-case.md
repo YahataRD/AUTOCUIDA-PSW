@@ -1,87 +1,136 @@
-# Business Case - AutoCUIDA
+# Business Case — AutoCUIDA
 
-**Versão:** 2.0  
-**Data:** 04/10/2026  
-**Patrocinador:** Diogo Silveira Mendonça  
-**Equipe de gerenciamento:** Patrick Cruz Azevedo (GP), Ronald Teixeira de Assis, Hugo Lima de Almeida Antunes Aguiar, Rodrigo Americo Nascimento D'Icarahy, Thiago Souza da Silva  
-**Equipe de desenvolvimento:** Rafael Duarte Yahata, Gabriel Felipe Martins da Silva, Rafael Voigt Villas Boas
+| Campo | Informação |
+|---|---|
+| Versão | 2.0 — 04/10/2026 |
+| Patrocinador | Prof. Diogo Silveira Mendonça |
+| Gerente do projeto (GP) | Patrick Cruz Azevedo |
+| Equipe de gerenciamento (GPTI Grupo H) | Ronald Teixeira de Assis, Hugo Lima de Almeida Antunes Aguiar, Rodrigo Americo Nascimento D'Icarahy, Thiago Souza da Silva |
+| Equipe de desenvolvimento (PSW Grupo 7) | Rafael Duarte Yahata, Gabriel Felipe Martins da Silva, Rafael Voigt Villas Boas |
+| Repositório | https://github.com/YahataRD/AUTOCUIDA-PSW |
 
-> Este documento justifica o projeto AutoCUIDA, fundamenta o problema com dados reais de mercado automotivo, analisa alternativas, e resume o custo, benefício e viabilidade técnica do escopo aprovado.
+> Este documento justifica o projeto AutoCUIDA, fundamenta o problema com dados do setor automotivo, analisa alternativas e resume custo, benefício e risco do escopo proposto.
 
-## 1. Resumo Executivo
+## 1. Resumo executivo
 
-O AutoCUIDA é uma aplicação web focada em gestão de manutenção veicular preventiva. O sistema permite ao usuário registrar veículos, acompanhar alertas de serviços por quilometragem/data e registrar custos associados.
+O AutoCUIDA é uma aplicação web para acompanhar a manutenção preventiva de veículos. O usuário registra veículos, acompanha alertas por quilometragem e por data e registra os custos dos serviços.
 
-*   **Problema:** Proprietários de veículos negligenciam as revisões programadas por falta de organização, resultando em manutenções corretivas emergenciais que chegam a ser até 4 vezes mais caras.
-*   **Solução:** Um painel web simples e responsivo que centraliza os dados do veículo e emite alertas automáticos para as próximas revisões e serviços pendentes.
-*   **Investimento:** 83,8 horas de esforço (67,6 h de trabalho + 16,2 h de contingência). O custo econômico do projeto é de **R$ 838,00** (valorizando a hora acadêmica a R$ 10,00), mas o desembolso de caixa é estritamente **R$ 0,00**.
-*   **Recomendação:** Seguir com a construção da solução própria (Alternativa C), mantendo o cronograma comprimido aprovado no replanejamento M-01.
+- *Problema:* proprietários de veículos esquecem ou adiam revisões por falta de organização, o que tende a levar a reparos corretivos mais caros.
+- *Solução:* um painel web simples e responsivo, com alertas visuais (Em dia, Próximo, Vencido) para as próximas revisões, sem notificações nesta entrega.
+- *Investimento:* 83,8 horas-pessoa na linha de base (67,6 h de trabalho + 16,2 h de contingência) e 90,8 h com a reserva de gerenciamento de 7,0 h, que só o patrocinador libera. Com o valor de referência de R$ 10,00 por hora, isso equivale a R$ 838,00 (R$ 908,00 com a reserva). O desembolso de caixa é de *R$ 0,00*.
+- *Recomendação:* seguir com a solução própria (Alternativa C), conforme o cronograma replanejado em M-01 (aprovação do patrocinador pendente).
 
-## 2. Problema ou Oportunidade
+## 2. Necessidade de negócio
 
-A premissa fundamental do AutoCUIDA é que a falta de organização e o esquecimento dos prazos de revisão geram prejuízos financeiros severos e riscos de segurança. Esta não é apenas uma hipótese, mas uma realidade comprovada por dados do setor automotivo em 2026:
+Hoje o proprietário depende da memória, de anotações e de adesivos no para-brisa para saber quando fazer uma revisão. Quando o prazo passa, a peça tende a falhar e o reparo se torna corretivo e mais caro.
 
-*   **Impacto Financeiro a Longo Prazo:** Levantamentos comparativos de gestão de frotas (Cobli/CalculadoraBrasil, 2026) demonstram que, em um período de 5 anos, a manutenção preventiva (trocas de óleo regulares, filtros, pastilhas programadas) custa entre **R$ 3.000 e R$ 5.000**. Em contrapartida, a manutenção corretiva (esperar a quebra, como rompimento de correia dentada ou retífica de motor) custa entre **R$ 10.000 e R$ 20.000**.
-*   **Economia Direta:** A Confederação Nacional do Transporte (CNT) reforça que a manutenção preventiva é, no mínimo, 30% mais barata em peças e mão de obra isoladas, além de evitar os "custos invisíveis" como guincho e dias sem o veículo.
+Evidências do setor (indicativas, não medidas por este projeto):
 
-**Oportunidade:** Existe uma lacuna de mercado para condutores comuns (não-frotistas) que precisam de uma ferramenta visual, rápida e focada exclusivamente no roteiro de manutenção do seu carro ou moto, sem a complexidade de apps financeiros genéricos.
+- *Custo:* a manutenção preventiva pode custar até 30% menos que a corretiva, segundo dados do Grupo T-Line citados pela Instacarro.
+- *Exemplo:* a troca preventiva da correia dentada pode passar de R$ 2.000 em carros mais sofisticados, enquanto um motor danificado pode custar de R$ 8.000 a R$ 12.000 (Localiza Seminovos).
+- *Segurança:* segundo a Instacarro, a CNT relaciona a falta de manutenção preventiva a 27% dos acidentes urbanos e rodoviários.
+- *Adesão:* em uma pesquisa-ação feita numa oficina, só 30% dos proprietários procurados faziam manutenção preventiva (Onohara, UFU).
 
-## 3. Justificativa do Projeto
+A economia citada é *hipótese de implantação futura*, como registrado no Termo de Abertura. Ela não será medida nesta entrega.
 
-Se o projeto for entregue com sucesso, o **valor gerado para o usuário** será a redução drástica de gastos imprevistos com o veículo e o aumento da segurança veicular e valor de revenda. O valor é observável através do uso do painel de alertas do sistema.
+*Oportunidade:* já existem aplicativos com lembretes por quilometragem ou data, como o Drivvo, gratuito para uso pessoal. O AutoCUIDA não se apresenta como lacuna de mercado: é um protótipo acadêmico focado no plano de manutenção por item, em uma regra de desgaste simples (o maior entre km e tempo) e nos custos por veículo.
 
-Para a equipe do Grupo 7, o projeto cumpre o requisito acadêmico de engenharia de software, garantindo experiência em desenvolvimento React/Vite de ponta a ponta, com restrições reais de prazo e gestão rígida de tempo e escopo.
+## 3. Justificativa, estados e valor
 
-## 4. Objetivos de Negócio
+*Estados*
+- *Atual:* controle por memória, caderno ou adesivo, sem cálculo de desgaste por km e tempo e sem visão de custos.
+- *Transição:* Entrega 1, front-end com dados em memória, prevista para 06/10/2026.
+- *Futuro:* aplicação com back-end, banco, autenticação e persistência (etapa posterior, sem data).
 
-Metas propostas para medir o sucesso técnico e de gestão do projeto.
+*Valor para o usuário:* ver, num só painel, o que está em dia, próximo ou vencido e quanto já gastou, para preferir a manutenção preventiva.
 
-| # | Objetivo | Indicador e Meta | Quando medir |
-| :--- | :--- | :--- | :--- |
-| **O1** | **Entrega do Caminho Crítico** | 100% dos pacotes F01 a F11 integrados, testados e entregues até a data limite. | 06/10/2026 |
-| **O2** | **Controle de Custos e Esforço** | Desembolso de caixa R$ 0,00. Estouro máximo de tolerância de 10% (8,4h) sobre a linha de base de 83,8h. | Ao longo da execução |
-| **O3** | **Usabilidade do Produto** | O usuário deve ser capaz de registar um veículo e um novo alerta de manutenção em menos de 1 minuto de navegação. | Fase de Ensaios (Pacote 7.3) |
+*Valor para a equipe do par 7 (PSW Grupo 7 e GPTI Grupo H):* cumprir o requisito acadêmico com desenvolvimento em React e Vite e gestão de projeto sob prazo e escopo fixos.
 
-## 5. Solução Proposta
+| Tipo | Valor |
+|---|---|
+| Tangível | Situação calculada de cada item e total gasto por tipo e por mês (últimos seis meses) |
+| Intangível | Previsibilidade e segurança na manutenção; aprendizado e portfólio da equipe |
+| Desbenefício | Alerta calculado errado gera falsa segurança; horas tiradas de outras disciplinas; dados em memória podem parecer produto pronto |
 
-O AutoCUIDA está estruturado como uma interface front-end responsiva.
+## 4. Objetivos de negócio
 
-*   **Dentro do escopo:** Painel de visão geral do veículo, registro de veículos, cadastro de itens (peças/fluidos), catálogo de serviços realizados, registro de custos de manutenção, alertas automáticos (status de quilometragem ou data) e interface adaptável (mobile/desktop).
-*   **Fora do escopo:** Integração direta com sistemas de oficinas mecânicas ou Detran, pagamentos dentro da plataforma, e manutenção preditiva via telemetria (OBD2).
+Os critérios de sucesso do projeto (O1 a O4) estão no Termo de Abertura. Os objetivos abaixo são do business case.
 
-## 6. Benefícios Esperados
+| # | Objetivo | Indicador e meta | Quando medir |
+|---|---|---|---|
+| *OB1* | Entrega no prazo | Pacotes 2.1 a 7.4 (etapas F01 a F11) integrados, testados e aceitos até a data limite | 06/10/2026 |
+| *OB2* | Controle de esforço | Desembolso de R$ 0,00 e estouro de até 10% (8,4 h) sobre a linha de base de 83,8 h | Ao longo da execução |
+| *OB3* | Usabilidade | O usuário registra um veículo e cria um item de manutenção em menos de 1 minuto | Ensaios (pacote 7.3) |
 
-*   **Para o utilizador final:** Transformar a manutenção corretiva emergencial (alto custo) em manutenção preventiva calendarizada (baixo custo), gerando uma poupança média superior a R$ 5.000 num ciclo de 5 anos de vida do veículo.
-*   **Para a equipa:** Conhecimento aplicado em metodologias ágeis, documentação estruturada, ferramentas de planeamento (PERT, CPM) e desenvolvimento de interfaces.
+## 5. Solução proposta e escopo
 
-## 7. Alternativas Consideradas
+O AutoCUIDA é uma interface front-end responsiva, que funciona com dados em memória.
 
-A decisão técnica foi baseada numa matriz quantitativa, avaliando Custo, Benefício e Risco numa escala de 1 a 5 (onde 5 é o melhor cenário).
+- *Dentro do escopo:* gestão de veículos (cadastro, seleção, edição, inativação e odômetro); itens de manutenção com regras por km e/ou tempo; registro, edição e exclusão de serviços; alertas visuais no painel; relatório de custos e histórico por veículo; estados de carregamento, erro e lista vazia; interface mobile e desktop; README e build.
+- *Fora do escopo:* back-end e API, banco de dados, autenticação real, notificações por e-mail, push ou SMS, integração com oficinas ou Detran, pagamentos, sincronização em nuvem e manutenção preditiva por telemetria (OBD2).
 
-| Alternativa | Descrição | Custo (Peso 3) | Benefício (Peso 4) | Risco (Peso 3) | Pontuação Final |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **A. Fazer nada** | Utilizador continua a usar papel, cabeça ou Excel. | 5 (Nulo) | 1 (Nenhum) | 1 (Alto risco de esquecimento) | **22** |
-| **B. Apps Genéricos** | Uso de apps de despesas diárias (ex: Mobills). | 3 (Freemium) | 3 (Controla dinheiro, mas não peças/km) | 3 (Médio) | **30** |
-| **C. AutoCUIDA** | Desenvolvimento de solução dedicada. | 4 (Apenas esforço) | 5 (Foco total no problema veicular) | 2 (Risco técnico da equipa) | **38 (Recomendada)** |
+## 6. Alternativas consideradas
 
-A alternativa **C (AutoCUIDA)** obteve a maior pontuação por oferecer a melhor relação de benefício focado no problema da manutenção, sem incorrer em custos financeiros de subscrição de plataformas de terceiros.
+Critérios avaliados de 1 a 5 (5 = melhor cenário). Em Risco, a nota mede o risco de não entregar o valor esperado.
 
-## 8. Análise Financeira (Custo Econômico)
+| Alternativa | Descrição | Custo (peso 3) | Benefício (peso 4) | Risco (peso 3) | Total (máx. 50) |
+|---|---|---|---|---|---|
+| *A. Fazer nada* | Continuar com papel, memória ou planilha | 5 (nulo) | 1 (nenhum) | 1 (alto risco de esquecimento) | *22* |
+| *B. Aplicativos existentes* | Mobills (despesas) ou Drivvo (lembretes por km e data) | 3 (gratuitos com anúncios ou assinatura) | 4 (atende em parte, mas é genérico) | 3 (médio) | *34* |
+| *C. AutoCUIDA* | Solução dedicada | 4 (apenas esforço) | 5 (foco no plano de manutenção por item) | 2 (risco técnico da equipe) | *38 (recomendada)* |
 
-Como o projeto possui uma restrição de **zero desembolso financeiro** aprovada no Termo de Abertura, a análise é baseada no custo de oportunidade e esforço (hora-pessoa). 
+Atender ao trabalho de PSW é restrição eliminatória, e só a Alternativa C a cumpre. Mesmo sem ela, C lidera, mas por pouco (38 contra 34), o que mostra que o ganho de C está no aprendizado e no controle das regras, e não em uma lacuna de mercado.
 
-*   **Valor Base da Hora:** Para fins de maturidade de projeto, estipulou-se o custo da hora técnica a R$ 10,00.
-*   **Estimativa de Esforço (PERT):** Calculada pela fórmula `(O + 4M + P) / 6`, somando 67,6 horas de desenvolvimento e gestão.
-*   **Reserva de Contingência:** 16,2 horas alocadas especificamente para cobrir os riscos R1, R2 e R3 mapeados no plano.
-*   **Custo da Linha de Base:** 83,8 horas totais.
-*   **Investimento Econômico Total:** 83,8 horas × R$ 10,00 = **R$ 838,00**.
-*   **Limite de Tolerância:** Estouro acima de 10% (8,4 h) exige pedido formal de mudança.
+## 7. Custo, benefício e risco
 
-## 9. Fontes e Referências
-*   Termo de Abertura e Plano de Projeto do AutoCUIDA.
-*   Confederação Nacional do Transporte (CNT). "Manutenção preventiva gera economia".
-*   Cobli & Calculadora Brasil (2026). "Custo de manutenção de frota e veículos de passeio: preventiva x corretiva".
-- *Riscos principais:* integração do trabalho em paralelo (R1), regra de alertas (R2), kit visual (R3), histórico individual de commits (R6). Detalhes no Plano do Projeto.
+### 7.1 Custo
+- *Esforço:* 67,6 h, calculadas pela fórmula de três pontos (O + 4M + P) / 6 (22,6 h de gestão e 45,0 h de desenvolvimento e qualidade). Nos pacotes de desenvolvimento, O e P vêm do cronograma do grupo de PSW e M é o ponto médio (premissa).
+- *Reserva de contingência:* 16,2 h para os riscos R1 a R7 (probabilidade × custo de mitigação e contingência), conforme o Plano, seção 12.
+- *Linha de base:* 83,8 h. *Reserva de gerenciamento:* 7,0 h, fora da linha de base. *Orçamento autorizado:* 90,8 h.
+- *Valor de referência:* R$ 10,00 por hora-pessoa, definido pela equipe só para dimensionar o esforço, pois ninguém é remunerado. Linha de base: R$ 838,00. Orçamento autorizado: R$ 908,00.
+- *Tolerância:* estouro acima de 10% (8,4 h) exige pedido formal de mudança.
 
-## 7. Recomendação
-Opção C. O trade-off aceito é não ter back-end nem persistência agora, em troca de valor visível e demonstrável na data fixa de 06/10/2026.
+### 7.2 Benefício
+Valor tangível e intangível na seção 3. A economia de até 30% é hipótese e só poderá ser medida em uso real, depois da etapa com back-end.
+
+### 7.3 Risco
+| ID | Risco | Probabilidade | Impacto |
+|---|---|---|---|
+| R1 | Paralelizar pacotes gera modelos de dados incompatíveis | Média | Alto |
+| R2 | Regra de alertas com falhas conhecidas (arredondamento, retroatividade, calendário) | Média | Alto |
+| R3 | Kit visual ainda não definido atrasa o pacote 2.1 | Alta | Alto |
+| R6 | Algum integrante termina sem commits próprios | Média | Alto |
+| R7 | O patrocinador espera outro critério de "front-end completo" | Baixa | Alto |
+
+O risco geral do projeto é *alto*, porque a data é fixa e o caminho crítico não tem folga. Detalhes no Plano do Projeto, seção 12.
+
+### 7.4 Modelos econômicos
+VPL, TIR e payback não se aplicam: não há receita nem desembolso, e o custo é esforço. A decisão usa a matriz da seção 6.
+
+## 8. Premissas
+
+| Premissa | Risco se falhar |
+|---|---|
+| A entrega de 06/10 vale como "front-end completo", sem rubrica formal de avaliação | R7 |
+| O kit visual é decidido sem atrasar o pacote 2.1 | R3 |
+| Os 3 desenvolvedores trabalham nos fins de semana de 03 e 04/10 | R1 |
+| Dados em memória bastam para o aceite | R7 |
+
+## 9. Recomendação
+
+Seguir com a *Alternativa C*. O trade-off aceito é não ter back-end nem persistência agora, em troca de valor demonstrável na data fixa de 06/10/2026. Uma etapa com back-end exigirá novo business case.
+
+## 10. Fontes e referências
+
+- Termo de Abertura e Plano do Projeto do AutoCUIDA.
+- INSTACARRO. Manutenção preventiva pode reduzir gastos com o carro em até 30%. https://www.instacarro.com/blog/?p=314802
+- LOCALIZA SEMINOVOS. Quando trocar a correia dentada? https://seminovos.localiza.com/blog/posts/quando-trocar-correia-dentada
+- ONOHARA, E. Y. Manutenção automotiva preventiva: na ótica do proprietário da oficina. UFU. https://repositorio.ufu.br/handle/123456789/27667
+- DRIVVO. Controle completo do seu veículo. https://drivvo.com/en/personal-use/
+
+## 11. Histórico de versões
+
+| Versão | Data | Mudança | Autor |
+|---|---|---|---|
+| 1.1 | 30/09/2026 | Primeira versão em docs/av1/ | Ronald Teixeira de Assis |
+| 2.0 | 04/10/2026 | Fundamentação com fontes, alternativas, objetivos e análise de custo; revisão de português e alinhamento ao Termo e ao Plano | Ronald Teixeira de Assis |
