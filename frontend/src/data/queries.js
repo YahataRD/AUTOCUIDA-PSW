@@ -20,6 +20,27 @@ export function commandMutation(client, api) {
     onSuccess: (result, { command }) => {
       client.setQueryData(dataKey, (data) => {
         if (!data) return data;
+        if (command === "updateVehicle") {
+          return { ...data, vehicles: data.vehicles.map((v) => v.id === result.id ? result : v) };
+        }
+        if (command === "deactivateVehicle") {
+          return { ...data, vehicles: data.vehicles.map((v) => v.id === result.id ? { ...v, active: false } : v) };
+        }
+        if (command === "registerMaintenanceItem") {
+          return { ...data, maintenanceItems: [...data.maintenanceItems, result] };
+        }
+        if (command === "updateMaintenanceItem") {
+          return { ...data, maintenanceItems: data.maintenanceItems.map((i) => i.id === result.id ? result : i) };
+        }
+        if (command === "removeMaintenanceItem") {
+          return { ...data, maintenanceItems: data.maintenanceItems.map((i) => i.id === result.id ? { ...i, active: false } : i) };
+        }
+        if (command === "updateService") {
+          return { ...data, serviceRecords: data.serviceRecords.map((r) => r.id === result.id ? result : r) };
+        }
+        if (command === "removeService") {
+          return { ...data, serviceRecords: data.serviceRecords.filter((r) => r.id !== result.id) };
+        }
         if (command === "registerService") {
           return {
             ...data,

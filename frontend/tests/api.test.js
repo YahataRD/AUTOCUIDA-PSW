@@ -126,3 +126,47 @@ test("demo usa mesma seed e descarta alterações em uma nova sessão", async ()
   assert.equal((await demo.load()).vehicles[1].currentKm, 23000);
   assert.deepEqual(await createDemoApi().load(), seed);
 });
+
+test("demo gerencia veículos e itens sem perder o histórico", async () => {
+  const api = createDemoApi();
+  const vehicle = (await api.load()).vehicles[0];
+  const updated = await api.updateVehicle(vehicle.id, {
+    plate: vehicle.plate,
+    model: "Modelo atualizado",
+    year: String(vehicle.year),
+    currentKm: String(vehicle.currentKm),
+  });
+  assert.equal(updated.model, "Modelo atualizado");
+  const item = await api.registerMaintenanceItem(vehicle.id, {
+    name: "Pneus",
+    intervalKm: "40000",
+    intervalMonths: "48",
+    initialDate: "2026-01-01",
+    initialKm: "40000",
+  });
+  assert.equal((await api.load()).maintenanceItems.at(-1).id, item.id);
+  await api.removeMaintenanceItem(item.id);
+  await api.deactivateVehicle(vehicle.id);
+  const data = await api.load();
+  assert.equal(data.vehicles.find((entry) => entry.id === vehicle.id).active, false);
+  assert.equal(data.serviceRecords.filter((record) => record.vehicleId === vehicle.id).length, 4);
+});
+
+test("editar e excluir serviço recalcula a referência derivada", async () => {
+  const api = createDemoApi();
+  const before = await api.load();
+  const record = before.serviceRecords.find((entry) => entry.maintenanceItemId === "1");
+  await api.updateService(record.id, {
+    maintenanceItemId: "1",
+    maintenanceType: "preventive",
+    serviceKm: 32000,
+    serviceDate: "2026-03-01",
+    amount: 375,
+    shop: "Nova oficina",
+  });
+  let data = await api.load();
+  assert.equal(data.serviceRecords.find((entry) => entry.id === record.id).amount, 375);
+  await api.removeService(record.id);
+  data = await api.load();
+  assert.equal(data.serviceRecords.some((entry) => entry.id === record.id), false);
+});

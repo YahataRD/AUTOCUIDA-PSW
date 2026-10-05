@@ -62,8 +62,8 @@ lista. As referências também usam strings; não converter IDs com `Number()`.
 - Item e serviço devem apontar para um veículo existente; o item do serviço deve
   pertencer ao mesmo veículo. Um JSON inválido é rejeitado por inteiro.
 - `active: false` retira veículo/item da seleção ativa, preservando registros.
-  Na etapa de remoção de itens, usar esse campo em vez de apagar o objeto
-  referenciado pelo histórico. Esta etapa não acrescenta botões de inativação.
+  A interface usa esse campo ao inativar veículos e remover itens, em vez de
+  apagar objetos referenciados pelo histórico.
 - `itemName` é uma cópia do nome na data do registro, para manter o histórico
   legível após uma futura alteração de nome.
 
@@ -79,9 +79,9 @@ serviceRecords }`. Os itens retornados ganham `lastServiceDate` e `lastServiceKm
 derivados para uso pelas telas e pela função de desgaste. Não persistir esses
 dois campos derivados no JSON ou escrever neles diretamente.
 
-Uma futura edição/exclusão altera o histórico e essa consulta recalcula a
-referência anterior ou inicial. Essa derivação já está testada; as ações e
-telas de edição/exclusão serão implementadas em sua própria etapa.
+Edição e exclusão alteram o histórico e essa consulta recalcula a referência
+anterior ou inicial. Essa derivação já está testada e as telas correspondentes
+estão disponíveis na entrega.
 
 ## Comandos disponíveis
 
@@ -147,10 +147,11 @@ Antes de encerrar uma etapa: `npm test`, `npm run build`, cenário da tela,
 diff revisado e commit. Enviar a branch e abrir PR para revisão de um colega;
 integrar antes de os demais iniciarem trabalho dependente.
 
-Continuam pendentes: edição/inativação de veículos, gestão de itens, edição/exclusão de
-serviços, kit visual, filtro por situação e revisão de arredondamento/calendário
-dos alertas. O suporte a intervalos desabilitados apenas evita valores inválidos;
-não representa homologação de todas as regras de desgaste.
+Os fluxos de edição/inativação de veículos, gestão de itens e edição/exclusão de
+serviços estão disponíveis nas camadas de API, demo e interface. Bootstrap 5
+foi adotado para o grid e os utilitários responsivos; os estilos próprios ficam
+restritos à identidade visual. O filtro por situação permanece fora da
+interface atual, embora os cards já apresentem a classificação de cada item.
 
 `docs/GPTI/` é mantida exclusivamente pelo grupo de gestão e fica fora das
 alterações desta frente.

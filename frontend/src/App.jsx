@@ -70,6 +70,15 @@ export default function App() {
               route.navigate("garage", { vehicleId: created.id });
             }}
             onUpdateOdometer={(km) => store.updateOdometer(vehicle.id, km)}
+            onUpdateVehicle={store.updateVehicle}
+            onDeactivateVehicle={async (id) => {
+              await store.deactivateVehicle(id);
+              route.navigate("garage");
+            }}
+            maintenanceItems={maintenanceItems}
+            onCreateMaintenanceItem={store.registerMaintenanceItem}
+            onUpdateMaintenanceItem={store.updateMaintenanceItem}
+            onRemoveMaintenanceItem={store.removeMaintenanceItem}
             onBackToDashboard={() => route.navigate("dashboard")}
           />
         );
@@ -88,7 +97,15 @@ export default function App() {
           />
         );
       case "costs":
-        return <CostsPage serviceRecords={serviceRecords} />;
+        return (
+          <CostsPage
+            serviceRecords={serviceRecords}
+            maintenanceItems={maintenanceItems}
+            isSaving={store.isSaving}
+            onDeleteService={(id) => store.removeService(id)}
+            onUpdateService={store.updateService}
+          />
+        );
       default:
         return (
           <DashboardPage
@@ -103,7 +120,7 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell container-fluid px-0">
       <AppHeader page={route.page} currentKm={vehicle?.currentKm} />
       {store.isDemo && (
         <p className="surface state-message" role="status">

@@ -6,6 +6,7 @@ import {
   validateChronology,
   validateServiceFields,
 } from "../data/validation.js";
+import { createMaintenanceItemSchema } from "../data/formSchemas.js";
 
 export function selectVehicleData(data, vehicleId) {
   const vehicle =
@@ -98,6 +99,43 @@ export function createServiceRecord(data, vehicleId, input, { id, today }) {
   return record;
 }
 
+export function createMaintenanceItem(data, vehicleId, input, { id }) {
+  const vehicle = data.vehicles.find((entry) => entry.id === vehicleId && entry.active);
+  requireCondition(vehicle, "Selecione um veículo ativo.");
+  const parsed = createMaintenanceItemSchema().safeParse({
+    ...input,
+    initialDate: input.initialDate ?? input.initialReference?.date,
+    initialKm: input.initialKm ?? input.initialReference?.km,
+  });
+  requireCondition(
+    parsed.success,
+    parsed.success ? "Item inválido." : parsed.error.issues[0]?.message || "Item inválido.",
+  );
+  requireCondition(parsed.data.initialKm <= vehicle.currentKm, "A referência não pode superar o odômetro.");
+  return {
+    id, vehicleId, name: parsed.data.name, intervalKm: parsed.data.intervalKm,
+    intervalMonths: parsed.data.intervalMonths, active: true,
+    initialReference: { date: parsed.data.initialDate, km: parsed.data.initialKm },
+  };
+}
+
+export function updateServiceRecord(data, serviceId, input, { today }) {
+  const current = data.serviceRecords.find((record) => record.id === serviceId);
+  requireCondition(current, "Serviço não encontrado.");
+  const records = data.serviceRecords.filter((record) => record.id !== serviceId);
+  const next = createServiceRecord(
+    { ...data, serviceRecords: records },
+    current.vehicleId,
+    input,
+    { id: serviceId, today },
+  );
+  validateChronology(
+    data.maintenanceItems.find((item) => item.id === next.maintenanceItemId).initialReference,
+    [...records.filter((record) => record.maintenanceItemId === next.maintenanceItemId), next],
+  );
+  return next;
+}
+
 export function autoCuidaReducer(data, action) {
   switch (action.type) {
     case "vehicleRegistered": {
@@ -137,6 +175,20 @@ export function autoCuidaReducer(data, action) {
         serviceRecords: [record, ...data.serviceRecords],
       };
     }
+    case "vehicleUpdated":
+      return { ...data, vehicles: data.vehicles.map((vehicle) => vehicle.id === action.vehicleId ? action.vehicle : vehicle) };
+    case "vehicleDeactivated":
+      return { ...data, vehicles: data.vehicles.map((vehicle) => vehicle.id === action.vehicleId ? { ...vehicle, active: false } : vehicle) };
+    case "maintenanceItemRegistered":
+      return { ...data, maintenanceItems: [...data.maintenanceItems, action.item] };
+    case "maintenanceItemUpdated":
+      return { ...data, maintenanceItems: data.maintenanceItems.map((item) => item.id === action.item.id ? action.item : item) };
+    case "maintenanceItemRemoved":
+      return { ...data, maintenanceItems: data.maintenanceItems.map((item) => item.id === action.itemId ? { ...item, active: false } : item) };
+    case "serviceUpdated":
+      return { ...data, serviceRecords: data.serviceRecords.map((record) => record.id === action.record.id ? action.record : record) };
+    case "serviceRemoved":
+      return { ...data, serviceRecords: data.serviceRecords.filter((record) => record.id !== action.serviceId) };
     default:
       throw new Error(`Ação desconhecida: ${action.type}`);
   }

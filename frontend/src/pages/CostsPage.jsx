@@ -7,7 +7,7 @@ import {
   getLastSixMonths,
 } from "../utils/costs";
 
-export default function CostsPage({ serviceRecords }) {
+export default function CostsPage({ serviceRecords, maintenanceItems, onDeleteService, onUpdateService, isSaving }) {
   const summary = calculateCostSummary(serviceRecords);
   const monthlyExpenses = getLastSixMonths(serviceRecords);
   const lastSixMonthsTotal = monthlyExpenses.reduce(
@@ -39,7 +39,8 @@ export default function CostsPage({ serviceRecords }) {
         </div>
       </section>
 
-      <ServiceHistory records={serviceRecords} />
+      <ServiceHistory records={serviceRecords} items={maintenanceItems} isSaving={isSaving}
+        onDelete={onDeleteService} onUpdate={onUpdateService} />
     </main>
   );
 }

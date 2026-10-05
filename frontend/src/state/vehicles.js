@@ -16,6 +16,7 @@ export function createVehicle(data, input, { id, currentYear }) {
   ) {
     errors.plate = "Já existe um veículo com esta placa.";
   }
+
   if (Object.keys(errors).length) {
     const error = new Error("Confira os campos do veículo.");
     error.fields = errors;
@@ -28,4 +29,15 @@ export function createVehicle(data, input, { id, currentYear }) {
     "Identificador de veículo inválido.",
   );
   return { id, ...result.data, active: true };
+}
+
+export function updateVehicle(data, vehicleId, input, { currentYear }) {
+  const vehicle = data.vehicles.find((entry) => entry.id === vehicleId);
+  requireCondition(vehicle, "Veículo não encontrado.");
+  const result = createVehicle(
+    { ...data, vehicles: data.vehicles.filter((entry) => entry.id !== vehicleId) },
+    input,
+    { id: vehicleId, currentYear },
+  );
+  return { ...result, active: vehicle.active };
 }

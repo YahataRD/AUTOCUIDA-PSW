@@ -94,3 +94,19 @@ export function createServiceSchema(items, today = getToday()) {
       .min(1, "Informe a oficina ou o mecânico responsável."),
   });
 }
+
+export function createMaintenanceItemSchema() {
+  return z.object({
+    name: z.string().trim().min(1, "Informe o nome do item."),
+    intervalKm: numericInput("Informe um intervalo em km válido.", isKm),
+    intervalMonths: numericInput(
+      "Informe um intervalo em meses válido.",
+      isKm,
+    ),
+    initialDate: z.string().refine(isDate, "Informe uma data válida."),
+    initialKm: kmInput(),
+  }).refine(
+    (value) => value.intervalKm > 0 || value.intervalMonths > 0,
+    { message: "Informe um intervalo em km ou meses.", path: ["intervalKm"] },
+  );
+}

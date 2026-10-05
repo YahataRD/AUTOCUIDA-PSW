@@ -1,6 +1,6 @@
 import { validateData, getToday } from "./validation.js";
-import { createVehicle } from "../state/vehicles.js";
-import { createServiceRecord, validateOdometer } from "../state/autoCuida.js";
+import { createVehicle, updateVehicle } from "../state/vehicles.js";
+import { createMaintenanceItem, createServiceRecord, updateServiceRecord, validateOdometer } from "../state/autoCuida.js";
 
 export function createApi(baseUrl, fetcher = fetch) {
   const base = baseUrl.replace(/\/$/, "");
@@ -62,6 +62,31 @@ export function createApi(baseUrl, fetcher = fetch) {
         body: { currentKm },
       });
     },
+    async updateVehicle(vehicleId, input) {
+      const data = await load();
+      const vehicle = updateVehicle(data, vehicleId, input, { currentYear: new Date().getFullYear() });
+      return request(`vehicles/${encodeURIComponent(vehicleId)}`, { method: "PUT", body: vehicle });
+    },
+    async deactivateVehicle(vehicleId) {
+      await request(`vehicles/${encodeURIComponent(vehicleId)}`, { method: "PATCH", body: { active: false } });
+      return { id: vehicleId, active: false };
+    },
+    async registerMaintenanceItem(vehicleId, input) {
+      const data = await load();
+      const item = createMaintenanceItem(data, vehicleId, input, { id: crypto.randomUUID() });
+      return request("maintenanceItems", { method: "POST", body: item });
+    },
+    async updateMaintenanceItem(itemId, input) {
+      const data = await load();
+      const current = data.maintenanceItems.find((item) => item.id === itemId);
+      if (!current) throw new Error("Item de manutenção não encontrado.");
+      const item = createMaintenanceItem(data, current.vehicleId, input, { id: itemId });
+      return request(`maintenanceItems/${encodeURIComponent(itemId)}`, { method: "PUT", body: { ...item, active: current.active } });
+    },
+    async removeMaintenanceItem(itemId) {
+      await request(`maintenanceItems/${encodeURIComponent(itemId)}`, { method: "PATCH", body: { active: false } });
+      return { id: itemId, active: false };
+    },
     async registerService(vehicleId, input) {
       const data = await load();
       const record = createServiceRecord(data, vehicleId, input, {
@@ -89,6 +114,15 @@ export function createApi(baseUrl, fetcher = fetch) {
           { cause: error },
         );
       }
+    },
+    async updateService(serviceId, input) {
+      const data = await load();
+      const record = updateServiceRecord(data, serviceId, input, { today: getToday() });
+      return request(`serviceRecords/${encodeURIComponent(serviceId)}`, { method: "PUT", body: record });
+    },
+    async removeService(serviceId) {
+      await request(`serviceRecords/${encodeURIComponent(serviceId)}`, { method: "DELETE" });
+      return { id: serviceId };
     },
   };
 }

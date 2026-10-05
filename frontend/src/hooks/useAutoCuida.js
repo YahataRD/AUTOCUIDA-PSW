@@ -35,6 +35,13 @@ export default function useAutoCuida() {
     retry: query.refetch,
     updateOdometer: (...args) => execute("updateOdometer", ...args),
     registerVehicle: (...args) => execute("registerVehicle", ...args),
+    updateVehicle: (...args) => execute("updateVehicle", ...args),
+    deactivateVehicle: (...args) => execute("deactivateVehicle", ...args),
+    registerMaintenanceItem: (...args) => execute("registerMaintenanceItem", ...args),
+    updateMaintenanceItem: (...args) => execute("updateMaintenanceItem", ...args),
+    removeMaintenanceItem: (...args) => execute("removeMaintenanceItem", ...args),
     registerService: (...args) => execute("registerService", ...args),
+    updateService: (...args) => execute("updateService", ...args),
+    removeService: (...args) => execute("removeService", ...args),
   };
 }

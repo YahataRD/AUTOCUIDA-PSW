@@ -38,23 +38,28 @@ tentativa e as telas orientam quando não há veículos, itens ou serviços.
 
 A primeira entrega está prevista para **6 de outubro de 2026**, com o front-end
 integrado ao backend mockado com json-server, sem backend real ou banco de dados.
-TanStack Query, React Hook Form e Zod estão integrados. A adoção de um framework
-responsivo, também exigido pelo professor, continua pendente.
+TanStack Query, React Hook Form, Zod e Bootstrap 5 estão integrados.
 
-Ainda estão previstos:
-
-- Edição e inativação de veículos.
-- Cadastro, edição e remoção de itens e suas regras de manutenção.
-- Edição e exclusão de serviços, com atualização dos alertas e custos.
-- Padronização visual e revisão da navegação, dos formulários e da responsividade.
+Os fluxos de gestão previstos no cronograma devem ser conferidos no roteiro de
+aceite e nos testes automatizados antes da entrega.
 
 As etapas e datas estão no [cronograma](docs/cronograma.md).
 
 ## Tecnologias
 
-React 18, Vite 8, JavaScript ES6+, TanStack Query 5, React Hook Form 7, Zod 4
-e json-server 0.17.4. Os formulários usam schemas Zod por meio de
-`@hookform/resolvers`. A interface ainda usa CSS próprio.
+React 18, Vite 8, JavaScript ES6+, TanStack Query 5, React Hook Form 7, Zod 4,
+Bootstrap 5 e json-server 0.17.4. Os formulários usam schemas Zod por meio de
+`@hookform/resolvers`. O CSS próprio contém somente a identidade visual e os
+ajustes específicos do produto.
+
+## Documentação da entrega
+
+- [Prototipagem](docs/prototipagem.md)
+- [Refinamento da prototipagem](docs/refinamento-prototipagem.md)
+- [Manual de instalação](docs/manual-instalacao.md)
+- [Manual de operação](docs/manual-operacao.md)
+- [Manual do usuário](docs/manual-usuario.md)
+- [Histórico de contribuições](docs/historico-contribuicoes.md)
 
 ## Como executar
 
@@ -87,7 +92,6 @@ Para mudar a API, copie `frontend/.env.example` para `frontend/.env`, ajuste
 Para restaurar os dados, pare o projeto e execute `npm run reset` na raiz.
 O reset descarta as alterações locais e restaura a seed versionada.
 
-O repositório é público; para enviar alterações, é necessário acesso de colaboração.
 
 No PowerShell, caso a execução de scripts esteja bloqueada, use `npm.cmd`
 no lugar de `npm`.
@@ -129,7 +133,7 @@ Veja os registros de [integração](docs/testes/integracao-mock.md) e
 [formulários](docs/testes/formularios.md).
 O [contrato da base](docs/base-compartilhada.md) explica como continuar o
 desenvolvimento. O [registro de validação](docs/testes/base-compartilhada.md)
-separa os testes executados das funcionalidades ainda pendentes.
+separa os testes executados e as limitações conhecidas do mock.
 
 ## Organização do código
 
@@ -156,10 +160,9 @@ ponto de entrada.
 ## Como funcionam os alertas e custos
 
 Cada item possui uma referência de último serviço e intervalos por distância
-e tempo. O sistema usa o maior desgaste entre os dois. Na implementação atual,
-os percentuais são arredondados antes da classificação: abaixo de 80% indica
-**Em dia**, de 80% a menos de 100% indica **Próximo** e a partir de 100% indica
-**Vencido**.
+e tempo. O sistema usa o maior desgaste entre os dois, sem arredondar antes da
+classificação: abaixo de 80% indica **Em dia**, de 80% a menos de 100% indica
+**Próximo** e a partir de 100% indica **Vencido**.
 
 O total de custos considera todos os serviços registrados. O gráfico e a média
 mensal consideram o mês atual e os cinco anteriores, incluindo meses sem gastos.
@@ -174,7 +177,6 @@ Um serviço pode exigir PATCH do odômetro seguido de POST do registro. Se o POS
 falhar, o odômetro pode já ter sido atualizado. A interface orienta conferir o
 histórico antes de repetir; gravações não são repetidas automaticamente.
 Somente no modo demo os dados são restaurados ao recarregar a página.
-Ainda faltam edição/inativação de veículos, gestão de itens e edição/exclusão de serviços.
 
 Na Garagem, **Cadastrar veículo** permite informar placa, modelo, ano e km inicial.
 Placas antigas e Mercosul são aceitas; placas repetidas são bloqueadas mesmo com
@@ -183,5 +185,4 @@ começa sem itens ou serviços. Cancelar descarta apenas o formulário.
 
 Serviços retroativos coerentes não substituem uma referência mais recente e não
 diminuem o odômetro. A confirmação informa o recálculo, sem prometer que o alerta
-foi encerrado. Os limites de arredondamento e vencimentos por calendário ainda
-precisam de revisão na etapa de alertas. O kit visual ainda não foi adotado.
+foi encerrado.

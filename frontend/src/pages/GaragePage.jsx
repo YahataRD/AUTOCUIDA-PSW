@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createOdometerSchema } from "../data/formSchemas.js";
 import VehicleRegistration from "../components/VehicleRegistration";
+import VehicleEdit from "../components/VehicleEdit";
+import MaintenanceManager from "../components/MaintenanceManager";
 
 export default function GaragePage({
   vehicle,
@@ -12,8 +14,15 @@ export default function GaragePage({
   onRegisterVehicle,
   justRegistered,
   isSaving,
+  onUpdateVehicle,
+  onDeactivateVehicle,
+  maintenanceItems,
+  onCreateMaintenanceItem,
+  onUpdateMaintenanceItem,
+  onRemoveMaintenanceItem,
 }) {
   const [feedback, setFeedback] = useState("");
+  const [editingVehicle, setEditingVehicle] = useState(false);
   const {
     register,
     handleSubmit,
@@ -146,6 +155,31 @@ export default function GaragePage({
               )}
             </form>
           </section>
+          {!editingVehicle ? (
+            <section className="surface state-message">
+              <button className="secondary-button" type="button" onClick={() => setEditingVehicle(true)}>
+                Editar veículo
+              </button>
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={() => window.confirm("Inativar este veículo? O histórico será preservado.") && onDeactivateVehicle(vehicle.id)}
+                disabled={busy}
+              >
+                Inativar veículo
+              </button>
+            </section>
+          ) : (
+            <VehicleEdit vehicle={vehicle} isSaving={isSaving} onSave={(input) => onUpdateVehicle(vehicle.id, input)} onCancel={() => setEditingVehicle(false)} />
+          )}
+          <MaintenanceManager
+            vehicle={vehicle}
+            items={maintenanceItems}
+            isSaving={isSaving}
+            onCreate={(input) => onCreateMaintenanceItem(vehicle.id, input)}
+            onUpdate={(id, input) => onUpdateMaintenanceItem(id, input)}
+            onRemove={onRemoveMaintenanceItem}
+          />
         </div>
       )}
     </main>

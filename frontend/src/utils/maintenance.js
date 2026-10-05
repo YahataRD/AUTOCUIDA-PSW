@@ -18,7 +18,7 @@ export function calculateMaintenance(
   const traveledSinceService = Math.max(0, currentKm - item.lastServiceKm);
   const kmWear =
     item.intervalKm > 0
-      ? Math.round((traveledSinceService / item.intervalKm) * 100)
+      ? (traveledSinceService / item.intervalKm) * 100
       : 0;
   const lastServiceDate = new Date(`${item.lastServiceDate}T00:00:00Z`);
   const nextServiceDate = new Date(lastServiceDate);
@@ -33,7 +33,7 @@ export function calculateMaintenance(
   );
   const timeWear =
     item.intervalMonths > 0
-      ? Math.round((elapsedMonths / item.intervalMonths) * 100)
+      ? (elapsedMonths / item.intervalMonths) * 100
       : 0;
   const wear = Math.max(kmWear, timeWear);
   const calculation = {
