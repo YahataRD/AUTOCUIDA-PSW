@@ -4,15 +4,18 @@ Versão 1.2 — 04/10/2026 (replanejamento M-01, seção 13). Siglas de pessoas 
 Este plano integra os componentes abaixo; a seção 15 mostra as ligações.
 
 ## 1. Abordagem e ciclo de vida: híbrida
+
 | Parte do trabalho | Abordagem | Evidência |
 |---|---|---|
-| Marcos, escopo, prazo e horas | Preditiva | Data final fixa (06/10); linhas de base de escopo, prazo e custo |
-| Telas e interação | Adaptativa | Kit visual em definição; formulários e navegação refinados a cada dia com demonstração à equipe |
-| Regras de alerta | Preditiva com testes | Regra definida (maior desgaste entre km e tempo), mas com falhas conhecidas (arredondamento, retroatividade, calendário) |
+| Marcos, escopo, prazo e esforço | Preditiva | Data de entrega fixa (06/10/2026); linhas de base de escopo, cronograma e custo em horas definidos. |
+| Interface de usuário e prototipagem | Adaptativa | Kit visual mobile-first refinado iterativamente com validação diária de componentes e telas. |
+| Regras de negócio e alertas | Preditiva com validação orientada a testes | Algoritmo de cálculo por maior desgaste (km/tempo) especificado previamente e validado pelo roteiro de testes T01–T23. |
+
+---
 
 ## 2. Governança
 - *Patrocinador* (Prof. Diogo Silveira Mendonça, professor de GPTI e de PSW): aprova termo, plano e mudanças; autoriza a conclusão.
-- *GP:* coordena a equipe de gerenciamento; autoridade baixa (estrutura funcional), governa por negociação e depende de patrocinador ativo.
+- *Gerente de Projeto* (GP - Patrick Cruz Azevedo): Coordenador da equipe de gestão (GPTI Grupo H). Presta contas ao patrocinador, prioriza pacotes da EAP, monitora o caminho crítico e aloca a reserva de contingência.
 - *Coordenação mista:* gerência centralizada no GP; desenvolvimento auto-organizado dentro das fatias verticais da RAM.
 - *Quem decide adiar, encerrar ou expandir:* o patrocinador, com informação do GP (caminho crítico, horas consumidas, resultado do roteiro T01–T23).
 - *Tolerâncias:* o GP decide atraso de até 1 dia e uso da contingência. Vão ao patrocinador: atraso maior que 1 dia, estouro acima de 8,4 h (10% da linha de base) e reserva de gerenciamento.
@@ -293,9 +296,13 @@ A oportunidade R8 não abate orçamento. R1, R2 e R3 consomem também a reserva 
 
 ## 13. Qualidade e controle de mudanças
 
-- Qualidade entra no processo: aceite observável por pacote (Dicionário), revisão por PR e roteiro T01-T23.
-- *Mudança:* todo pedido fora da linha de base vira Issue, é avaliado pelo GP e, passando da tolerância, decidido pelo patrocinador. Aprovada, atualiza EAP, dicionário, cronograma e orçamento juntos.
-- *M-01 (30/09):* replanejamento do cronograma (seção 7). Impacto: escopo e data final inalterados; custo dentro da contingência de R1. Decisão do patrocinador (Prof. Diogo): pendente.
+- *Garantia da Qualidade:* A qualidade é integrada ao processo através da execução do Roteiro de Testes T01–T23, validação dos critérios de aceite de cada pacote definidos no Dicionário da EAP e revisão obrigatória de código via Pull Requests (PRs).
+- *Fluxo de Controlar as Mudanças:*
+  1. Qualquer solicitação de alteração no escopo, prazo ou arquitetura é registrada como *Issue* no GitHub.
+  2. O GP analisa o impacto no caminho crítico e na linha de base de esforço.
+  3. Alterações dentro da tolerância do GP (≤1 dia e ≤8,4 h) são aplicadas e registradas no log do projeto.
+  4. Alterações que ultrapassem a tolerância são encaminhadas como solicitação formal de mudança ao Patrocinador.
+  5. Uma vez aprovada a mudança, o Termo de Abertura, EAP, Dicionário da EAP, Cronograma e Orçamento são atualizados simultaneamente no repositório.
 
 ## 14. Uso de IA e revisão humana
 
@@ -308,4 +315,4 @@ Rascunho assistido por IA e revisado pela equipe, conferido contra o repositóri
 | Requisito (seção 4) | Pacote na EAP → aceite no dicionário → estimativa e cronograma |
 | Duração de pacote do caminho crítico | Reserva de prazo (7.3) → status ao patrocinador → mudança, se passar de 1 dia |
 | Risco (seção 12) | Reserva de contingência (seção 8) → pacote e aceite afetados → cronograma |
-| Responsável (RAM) | Datas por pessoa → engajamento, comunicação e coluna "Commita" |
+| Responsável (RAM) | Datas por pessoa → engajamento, comunicação e coluna de commit |
