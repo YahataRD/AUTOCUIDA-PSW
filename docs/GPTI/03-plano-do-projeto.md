@@ -1,6 +1,6 @@
 # Plano do Projeto (integrado) — AutoCUIDA
 
-Versão 1.1 — 30/09/2026 (replanejamento M-01, seção 13). Siglas de pessoas na seção 11.
+Versão 1.2 — 04/10/2026 (replanejamento M-01, seção 13). Siglas de pessoas na seção 11.
 Este plano integra os componentes abaixo; a seção 15 mostra as ligações.
 
 ## 1. Abordagem e ciclo de vida: híbrida
@@ -53,11 +53,12 @@ Pendência de especificação: permissões de gestor de frota e condutor, e a se
 - *Objetivo:* entregar até 06/10/2026 o front-end do AutoCUIDA com dados locais, cobrindo UC01–UC16.
 - *Produto:* painel, garagem (veículos e odômetro), itens, registro de serviço e histórico, alertas e custos.
 - *Projeto:* gestão, base da aplicação, qualidade, aceite, README e entrega.
-- *Exclusões e opcionais:* ver Termo, seção 4.
+- *Exclusões e opcionais:* ver Termo, seção 3.
 - *Aceite geral:* definição de "front-end completo" (checklist do escopo) e critérios do Dicionário da EAP.
 - *Linha de base do escopo:* declaração + EAP + dicionário; só muda com aprovação do patrocinador.
 
 ## 6. EAP (orientada a entregas)
+
 
 AutoCUIDA — Entrega 1 (front-end com dados locais)
 ├── 1. Gestão do projeto
@@ -81,6 +82,7 @@ AutoCUIDA — Entrega 1 (front-end com dados locais)
     ├── 7.3 Correções, documentação e ensaio
     └── 7.4 Conferência e entrega
 
+
 Mitigações com trabalho certo estão nos pacotes: R1 em 2.2 (contrato de dados), R2 em 6.1 (testes antes da regra), R3 em 2.1 (kit decidido), R4 e R6 em 1.2 (PRs pequenos e conferência de commits), R5 em 7.4 (clone limpo), R7 em 1.2 (validação com o patrocinador).
 
 ## 7. Cronograma
@@ -91,6 +93,7 @@ Mitigações com trabalho certo estão nos pacotes: R1 em 2.2 (contrato de dados
 | Pacote | Etapa | Dur. (d) | Predecessores (término-início) | v1.1 | Folga (d) | v1.0 |
 |---|---|---|---|---|---|---|
 | 1.1 | AV1 | 5 | — | 30/09 a 04/10 (prazo 05/10 18:30) | 1 | — |
+| 1.2 | Monitoramento | 7 | — | 30/09 a 06/10 | fora da rede | — |
 | 2.1 | F01 | 1 | — | 30/09 | 0 | 26/09 |
 | 2.2 | F02 | 1 | — | 30/09 | 0 | 27/09 |
 | 3.1 | F03 | 1 | 2.1, 2.2 | 01/10 | 1 | 28/09 |
@@ -105,7 +108,7 @@ Mitigações com trabalho certo estão nos pacotes: R1 em 2.2 (contrato de dados
 
 *Caminho crítico* (cadeias paralelas de mesma duração): 2.1/2.2 → 4.1/5.1 → 6.1/5.2 → 7.1 → 7.2 → 7.3 → 7.4 = *7 dias (30/09 a 06/10), sem folga*. A reserva de prazo é o pacote 7.3 (05/10), reservado para correções, que R1, R2 e R3 consomem. Folgas: 3.1 tem 1 dia (só precisa terminar antes de 7.1) e 1.1 tem 1 dia antes do prazo da AV1.
 
-```mermaid
+mermaid
 flowchart LR
     P21["2.1 Kit e painel<br>1 d"] --> P31["3.1 Veículos<br>1 d"]
     P21 --> P41["4.1 Itens<br>1 d"]
@@ -122,16 +125,36 @@ flowchart LR
     P71 --> P72["7.2 Roteiro T01-T23<br>1 d"]
     P72 --> P73["7.3 Correções e ensaio<br>1 d"]
     P73 --> P74["7.4 Entrega<br>1 d"]
-    
+
     classDef crit stroke:#c00,stroke-width:3px;
     class P21,P22,P41,P51,P61,P52,P71,P72,P73,P74 crit;
-```
+
 
 *Linha de base do cronograma:* as datas v1.1, após aprovação do patrocinador; só mudam por controle de mudanças.
 
+*Premissas da paralelização (v1.1):* (1) 3.1, 4.1 e 5.1 usam os dados de exemplo (initialData) enquanto as outras telas não ficam prontas, e a integração entre elas acontece em 7.1 e é verificada no roteiro T01–T23 (pacote 7.2); (2) 5.2 depende de 5.1, mas não de 6.1, porque os custos só leem os serviços registrados (premissa a confirmar com o D2); (3) a v1.0 era sequencial, então a v1.1 só vale se o contrato de dados de 2.2 for fechado antes de 01/10 (risco R1). *Evidência da variação:* git log do main (último commit em 25/09, 9db6516), com a página do repositório ainda mostrando 5 commits em 04/10.
+
+*Capacidade:* 45,0 h de desenvolvimento em 7 dias com 3 desenvolvedores são 15 h cada, cerca de 2,1 h por pessoa por dia. As 22,6 h de gestão com 5 gerentes são 4,5 h cada. Premissa: cada desenvolvedor dispõe desse tempo por dia, inclusive em 03–04/10 (Termo, seção 6).
+
+*Atividades por pacote* (base: etapas F01 a F11 de docs/planejamento/cronograma.md, commit 81e55d3)
+
+| Pacote | Atividades |
+|---|---|
+| 2.1 | Registrar a escolha do kit; configurar tema; migrar cabeçalho e navegação; migrar Painel |
+| 2.2 | Organizar dados por veículo e IDs; carregar JSON local com estados; dar URL às seções |
+| 3.1 | Cadastrar, listar e selecionar veículos; editar e inativar; atualizar odômetro |
+| 4.1 | Criar e consultar itens; editar regras; remover do plano preservando o histórico |
+| 5.1 | Migrar registro e histórico para o kit; editar e excluir com confirmação; recalcular a referência |
+| 6.1 | Consolidar regras por tempo e km; tratar retroatividade e baixa; filtrar por situação |
+| 5.2 | Concluir Custos no kit; integrar totais e histórico por veículo |
+| 7.1 | Revisar 360, 768 e 1280 px; revisar teclado, rótulos, foco e erros; corrigir; integrar as telas por veículo |
+| 7.2 | Executar o roteiro T01–T23 em cópia limpa; registrar evidências; congelar funcionalidades |
+| 7.3 | Corrigir falhas; atualizar a documentação; ensaiar a apresentação |
+| 7.4 | Conferir acesso ao GitHub e versão final; registrar o hash; realizar a entrega |
+
 ## 8. Finanças
 *Gestão financeira:* unidade = hora-pessoa (sem desembolso). Estouro acima de 10% da linha de base (8,4 h) pede mudança. Relatório junto ao status diário.
-*Estimativa:* três pontos, (O + 4M + P) / 6. Nos pacotes 2.1 a 7.4, O e P são as faixas do cronograma v1.0 (81e55d3) e M é o ponto médio (premissa). Em 1.1 e 1.2 são estimativas dos gerentes (opinião especializada), a validar.
+*Estimativa:* três pontos, (O + 4M + P) / 6. Nos pacotes 2.1 a 7.4, O e P são as faixas do cronograma v1.0 (81e55d3) e M é o ponto médio (premissa). Como M é o ponto médio, o resultado coincide com a média de O e P; M deve ser ajustado quando os desenvolvedores informarem o "mais provável". Em 1.1 e 1.2 são estimativas dos gerentes (opinião especializada), a validar.
 
 | Pacote | O | M | P | Estimativa (h) |
 |---|---|---|---|---|
@@ -158,6 +181,31 @@ Os pacotes 2.1 a 7.4 somam 45,0 h. Com a etapa F00 (2 a 3 h, já concluída), ch
 | *= Linha de base de custo* | *83,8* |
 | + Reserva de gerenciamento (fora da linha de base; só o patrocinador libera) | 7,0 |
 | *= Orçamento autorizado* | *90,8* |
+
+*Valor de referência:* R$ 10,00 por hora-pessoa, adotado só para dimensionar o esforço (ninguém é remunerado): linha de base de 83,8 h = R$ 838,00; orçamento autorizado de 90,8 h = R$ 908,00. Desembolso de caixa: R$ 0,00 (mesmo valor do Business Case, seção 7.1).
+
+*Custos diretos (R$):* zero. GitHub, Node.js, React, Vite e o kit visual são gratuitos ou open source, e não há hospedagem contratada. O único custo é esforço, em horas-pessoa.
+
+*Base da reserva de gerenciamento:* cerca de 10% da soma dos pacotes (6,8 h), arredondada para 7,0 h; cobre o que ainda não tem nome e só o patrocinador libera.
+
+*Convenção das reservas:* o custo de mitigação é ponderado pela probabilidade, conforme o método da aula 7. Tratar a mitigação como trabalho certo levaria a linha de base a 91,7 h (81,1 h de trabalho + 10,6 h de contingência).
+
+*Registro de horas reais:* cada integrante anota as horas de cada pacote na descrição do PR, e o GP consolida no status diário.
+
+*Orçamento distribuído no tempo (horas-pessoa):*
+
+| Dia | Desenvolvimento | Gerenciamento | Total | Acumulado |
+|---|---|---|---|---|
+| 30/09 | 12,0 | 4,2 | 16,2 | 16,2 |
+| 01/10 | 15,0 | 4,2 | 19,2 | 35,4 |
+| 02/10 | 6,0 | 4,2 | 10,2 | 45,6 |
+| 03/10 | 4,5 | 4,2 | 8,7 | 54,3 |
+| 04/10 | 3,5 | 3,5 | 7,0 | 61,3 |
+| 05/10 | 2,5 | 1,2 | 3,7 | 65,0 |
+| 06/10 | 1,5 | 1,1 | 2,6 | 67,6 |
+| *Soma* | *45,0* | *22,6* | *67,6* | |
+
+A contingência de 16,2 h entra na linha de base e é consumida conforme os riscos ocorrem: 67,6 + 16,2 = 83,8 h.
 
 ## 9. Partes interessadas e engajamento
 | Parte | Interesse | Poder | Impacto | Estratégia | Como engajar |
@@ -245,13 +293,13 @@ A oportunidade R8 não abate orçamento. R1, R2 e R3 consomem também a reserva 
 
 ## 13. Qualidade e controle de mudanças
 
-* Qualidade entra no processo: aceite observável por pacote (Dicionário), revisão por PR e roteiro T01-T23.
-* *Mudança*: todo pedido fora da linha de base vira Issue, é avaliado pelo GP e, passando da tolerância, decidido pelo patrocinador. Aprovada, atualiza EAP, dicionário, cronograma e orçamento juntos.
-* *M-01 (30/09)*: replanejamento do cronograma (seção 7). Impacto: escopo e data final inalterados; custo dentro da contingência de R1. Decisão do patrocinador (Prof. Diogo): pendente.
+- Qualidade entra no processo: aceite observável por pacote (Dicionário), revisão por PR e roteiro T01-T23.
+- *Mudança:* todo pedido fora da linha de base vira Issue, é avaliado pelo GP e, passando da tolerância, decidido pelo patrocinador. Aprovada, atualiza EAP, dicionário, cronograma e orçamento juntos.
+- *M-01 (30/09):* replanejamento do cronograma (seção 7). Impacto: escopo e data final inalterados; custo dentro da contingência de R1. Decisão do patrocinador (Prof. Diogo): pendente.
 
 ## 14. Uso de IA e revisão humana
 
-Rascunho assistido por IA e revisado pela equipe, conferido contra o repositório (código, histórico e documentos). Recusado: (1) um rascunho anterior que tratava o AutoCUIDA como app de hábitos e humor, por não corresponder ao repositório; (2) a formatação do diagrama de caminho crítico na Seção 7, que exigiu correção manual de sintaxe do código Mermaid. Revisado por: Ronald em 04/10/2026.
+Rascunho assistido por IA e revisado pela equipe, conferido contra o repositório (código, histórico e documentos). *Recusado:* (1) um rascunho anterior que tratava o AutoCUIDA como app de hábitos e humor, por não corresponder ao repositório; (2) a formatação do diagrama de caminho crítico na Seção 7, que exigiu correção manual de sintaxe do código Mermaid; (3) dados de mercado do Business Case sem fonte localizável (Cobli/Calculadora Brasil e CNT), substituídos por fontes conferidas pela equipe. *Revisado por:* Ronald em 04/10/2026.
 
 ## 15. Integração: como os componentes se conectam
 
