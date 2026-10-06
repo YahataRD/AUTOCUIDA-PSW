@@ -11,6 +11,11 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-05
 
+### Simplificação do registro de horas
+
+- Consolidado o registro em uma tabela com entregas, commits e subtotais.
+- Mantidas colunas distintas para tempo estimado e tempo confirmado.
+
 ### Estimativas retrospectivas de esforço
 
 - Preenchida a tabela de horas com estimativas por entrega e autor dos commits,
