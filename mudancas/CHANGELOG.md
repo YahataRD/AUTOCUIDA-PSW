@@ -11,6 +11,15 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-05
 
+### Estimativas retrospectivas de esforço
+
+- Preenchida a tabela de horas com estimativas por entrega e autor dos commits,
+  incluindo faixas de incerteza e critérios de cálculo.
+- Separadas as estimativas do tempo efetivamente trabalhado, que continua
+  pendente de confirmação individual.
+- Rafael Voigt Villas Boas permanece sem estimativa: a equipe confirmou que
+  ele ainda não possui commits. O subtotal cobre somente contribuições identificadas.
+
 ### Registro de mudanças e horas
 
 - Criados este changelog e a tabela de horas por desenvolvedor e entrega.
@@ -78,3 +87,22 @@ representam duração de trabalho, e implementação não significa aceite final
   e a navegação por URL, com documentação para continuidade do trabalho.
 - Referências: [f48f9a7](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/f48f9a7)
   e [e65bcd2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/e65bcd2).
+
+## 2026-09-25
+
+### Organização da documentação
+
+- Convertidos materiais para Markdown, mapeados requisitos e revisados o
+  cronograma e a organização dos documentos de desenvolvimento.
+- Referências: [d7e5b6f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d7e5b6f),
+  [b75f7c2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b75f7c2),
+  [81e55d3](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/81e55d3) e
+  [9db6516](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/9db6516).
+
+## 2026-09-23
+
+### Versão inicial
+
+- Incluídos os protótipos, as telas React, os componentes visuais e os cálculos
+  iniciais de manutenção e custos.
+- Referência: [b59f1ab](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b59f1ab).
