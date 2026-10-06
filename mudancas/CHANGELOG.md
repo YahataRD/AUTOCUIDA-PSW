@@ -11,6 +11,21 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-06
 
+### Formulários e tratamento de falhas
+
+- Campos de itens, edição de serviços e veículos com rótulos e mensagens
+  associadas por acessibilidade; datas futuras e referências inválidas rejeitadas.
+- Intervalos de manutenção aceitam somente km, somente meses ou ambos;
+  um critério vazio equivale a desativá-lo.
+- Rascunho e erros da edição de veículo preservados após reconsulta dos dados.
+- Remoção de item, exclusão de serviço e inativação de veículo tratam falhas
+  da API e bloqueiam cliques repetidos enquanto aguardam a resposta.
+- Validação: 47 testes aprovados, builds API e demo, conferência no navegador
+  em celular e desktop e falhas HTTP 500 simuladas. Roteiro em
+  [formulários e ações](../docs/testes/formularios-acoes.md).
+- Horas registradas para esta etapa e para a correção de integridade anterior.
+- Próxima prioridade: calendário e percentuais dos alertas.
+
 ### Integridade das edições
 
 - Impedida a redução do odômetro pela edição de veículo, mantendo alterações

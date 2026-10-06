@@ -6,6 +6,7 @@ import { createOdometerSchema } from "../data/formSchemas.js";
 import VehicleRegistration from "../components/VehicleRegistration";
 import VehicleEdit from "../components/VehicleEdit";
 import MaintenanceManager from "../components/MaintenanceManager";
+import useActionFeedback from "../hooks/useActionFeedback";
 
 export default function GaragePage({
   vehicle,
@@ -23,6 +24,7 @@ export default function GaragePage({
 }) {
   const [feedback, setFeedback] = useState("");
   const [editingVehicle, setEditingVehicle] = useState(false);
+  const deactivation = useActionFeedback();
   const {
     register,
     handleSubmit,
@@ -34,7 +36,7 @@ export default function GaragePage({
     resolver: zodResolver(createOdometerSchema(vehicle?.currentKm ?? 0)),
     defaultValues: { currentKm: String(vehicle?.currentKm ?? "") },
   });
-  const busy = isSaving || isSubmitting;
+  const busy = isSaving || isSubmitting || deactivation.pending;
   useEffect(() => {
     reset({ currentKm: String(vehicle?.currentKm ?? "") });
   }, [vehicle?.currentKm, reset]);
@@ -50,6 +52,11 @@ export default function GaragePage({
     } catch (error) {
       setError("root.server", { message: error.message });
     }
+  }
+
+  async function deactivate() {
+    if (busy || !window.confirm("Inativar este veículo? O histórico será preservado.")) return;
+    await deactivation.run(() => onDeactivateVehicle(vehicle.id));
   }
 
   return (
@@ -156,26 +163,27 @@ export default function GaragePage({
             </form>
           </section>
           {!editingVehicle ? (
-            <section className="surface p-6">
-              <button className="secondary-button" type="button" onClick={() => setEditingVehicle(true)}>
+            <section className="surface p-6" aria-busy={deactivation.pending}>
+              {deactivation.error && <p className="field-error" role="alert">{deactivation.error}</p>}
+              <button className="secondary-button" type="button" disabled={busy} onClick={() => setEditingVehicle(true)}>
                 Editar veículo
               </button>
               <button
                 className="secondary-button"
                 type="button"
-                onClick={() => window.confirm("Inativar este veículo? O histórico será preservado.") && onDeactivateVehicle(vehicle.id)}
+                onClick={deactivate}
                 disabled={busy}
               >
-                Inativar veículo
+                {deactivation.pending ? "Inativando…" : "Inativar veículo"}
               </button>
             </section>
           ) : (
-            <VehicleEdit vehicle={vehicle} isSaving={isSaving} onSave={(input) => onUpdateVehicle(vehicle.id, input)} onCancel={() => setEditingVehicle(false)} />
+            <VehicleEdit vehicle={vehicle} isSaving={busy} onSave={(input) => onUpdateVehicle(vehicle.id, input)} onCancel={() => setEditingVehicle(false)} />
           )}
           <MaintenanceManager
             vehicle={vehicle}
             items={maintenanceItems}
-            isSaving={isSaving}
+            isSaving={busy}
             onCreate={(input) => onCreateMaintenanceItem(vehicle.id, input)}
             onUpdate={(id, input) => onUpdateMaintenanceItem(id, input)}
             onRemove={onRemoveMaintenanceItem}

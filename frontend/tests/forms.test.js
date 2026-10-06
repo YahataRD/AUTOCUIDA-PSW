@@ -5,6 +5,7 @@ import {
   createVehicleSchema,
   createOdometerSchema,
   createServiceSchema,
+  createMaintenanceItemSchema,
 } from "../src/data/formSchemas.js";
 
 const service = {
@@ -16,6 +17,30 @@ const service = {
   shop: " Oficina teste ",
 };
 const schema = createServiceSchema([{ id: "5" }], "2026-10-04");
+
+test("item aceita somente km ou meses, mas exige ao menos um intervalo positivo", () => {
+  const itemSchema = createMaintenanceItemSchema("2026-10-06");
+  const item = { name: "Óleo", intervalKm: "10000", intervalMonths: "", initialDate: "2026-10-01", initialKm: "0" };
+  assert.equal(itemSchema.parse(item).intervalMonths, 0);
+  assert.equal(itemSchema.parse({ ...item, intervalKm: " ", intervalMonths: "12" }).intervalKm, 0);
+  for (const patch of [
+    { intervalKm: "", intervalMonths: "" },
+    { intervalKm: "0", intervalMonths: "0" },
+    { intervalKm: "-1" }, { intervalMonths: "1.5" },
+    { intervalKm: "Infinity" }, { intervalMonths: "abc" },
+    { initialDate: "2026-10-07" }, { initialDate: "2026-02-30" },
+    { initialKm: "" },
+  ]) assert.equal(itemSchema.safeParse({ ...item, ...patch }).success, false);
+});
+
+test("resolver do item associa erros de intervalo e referências aos respectivos campos", async () => {
+  const result = await zodResolver(createMaintenanceItemSchema("2026-10-06"))(
+    { name: "", intervalKm: "-1", intervalMonths: "1.5", initialDate: "2026-10-07", initialKm: "" },
+    {}, { fields: {}, shouldUseNativeValidation: false },
+  );
+  assert.deepEqual(Object.keys(result.errors).sort(), ["initialDate", "initialKm", "intervalKm", "intervalMonths", "name"]);
+  assert.deepEqual(result.values, {});
+});
 
 test("resolver converte formulário de serviço em dados numéricos e texto normalizado", async () => {
   const result = await zodResolver(schema)(

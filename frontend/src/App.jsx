@@ -99,6 +99,7 @@ export default function App() {
       case "costs":
         return (
           <CostsPage
+            key={vehicle.id}
             serviceRecords={serviceRecords}
             maintenanceItems={maintenanceItems}
             isSaving={store.isSaving}

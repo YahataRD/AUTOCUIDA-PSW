@@ -3,9 +3,17 @@ import { formatCurrency } from "../utils/costs";
 import { formatDate, formatKm } from "../utils/maintenance";
 import StateMessage from "./StateMessage";
 import ServiceEditForm from "./ServiceEditForm";
+import useActionFeedback from "../hooks/useActionFeedback";
 
 export default function ServiceHistory({ records, items = [], onDelete, onUpdate, isSaving }) {
   const [editingId, setEditingId] = useState(null);
+  const deletion = useActionFeedback();
+  const busy = isSaving || deletion.pending;
+
+  async function remove(record) {
+    if (busy || !window.confirm(`Excluir o serviço de ${record.itemName}?`)) return;
+    await deletion.run(() => onDelete(record.id), "Serviço excluído. Os custos e alertas foram recalculados.");
+  }
   const orderedRecords = [...records].sort((first, second) =>
     second.serviceDate.localeCompare(first.serviceDate),
   );
@@ -19,7 +27,9 @@ export default function ServiceHistory({ records, items = [], onDelete, onUpdate
         <span className="history-count">{records.length} executados</span>
       </div>
 
-      <div className="surface overflow-hidden">
+      {deletion.error && <p className="field-error" role="alert">{deletion.error}</p>}
+      {deletion.feedback && <p className="form-feedback" role="status">{deletion.feedback}</p>}
+      <div className="surface overflow-hidden" aria-busy={busy}>
         {records.length === 0 && (
           <StateMessage title="Nenhum serviço registrado">
             Os serviços deste veículo aparecerão aqui após o primeiro registro.
@@ -28,7 +38,7 @@ export default function ServiceHistory({ records, items = [], onDelete, onUpdate
         {orderedRecords.map((record) => (
           <article className="history-item" key={record.id}>
             {editingId === record.id && onUpdate ? (
-              <ServiceEditForm record={record} items={items} isSaving={isSaving}
+              <ServiceEditForm record={record} items={items} isSaving={busy}
                 onSave={(input) => onUpdate(record.id, input)}
                 onCancel={() => setEditingId(null)} />
             ) : (
@@ -50,7 +60,7 @@ export default function ServiceHistory({ records, items = [], onDelete, onUpdate
                 <div>
                   <strong>{formatCurrency(record.amount)}</strong>
                   {onUpdate && (
-                    <button className="secondary-button compact-button" type="button" onClick={() => setEditingId(record.id)}>
+                    <button className="secondary-button compact-button" type="button" disabled={busy} onClick={() => setEditingId(record.id)}>
                       Editar
                     </button>
                   )}
@@ -58,9 +68,8 @@ export default function ServiceHistory({ records, items = [], onDelete, onUpdate
                     <button
                       className="secondary-button compact-button"
                       type="button"
-                      onClick={() => {
-                        if (window.confirm("Excluir este serviço?")) onDelete(record.id);
-                      }}
+                      disabled={busy}
+                      onClick={() => remove(record)}
                     >
                       Excluir
                     </button>

@@ -95,15 +95,23 @@ export function createServiceSchema(items, today = getToday()) {
   });
 }
 
-export function createMaintenanceItemSchema() {
+// Nos intervalos opcionais, vazio significa que esse critério está desativado.
+function intervalInput(message) {
+  return z.preprocess(
+    (value) => typeof value === "string" && value.trim() === "" ? 0 : value,
+    numericInput(message, isKm),
+  );
+}
+
+export function createMaintenanceItemSchema(today = getToday()) {
   return z.object({
     name: z.string().trim().min(1, "Informe o nome do item."),
-    intervalKm: numericInput("Informe um intervalo em km válido.", isKm),
-    intervalMonths: numericInput(
+    intervalKm: intervalInput("Informe um intervalo em km válido."),
+    intervalMonths: intervalInput(
       "Informe um intervalo em meses válido.",
-      isKm,
     ),
-    initialDate: z.string().refine(isDate, "Informe uma data válida."),
+    initialDate: z.string().refine(isDate, "Informe uma data válida.")
+      .refine((date) => date <= today, "A data de referência não pode estar no futuro."),
     initialKm: kmInput(),
   }).refine(
     (value) => value.intervalKm > 0 || value.intervalMonths > 0,
