@@ -39,5 +39,10 @@ export function updateVehicle(data, vehicleId, input, { currentYear }) {
     input,
     { id: vehicleId, currentYear },
   );
+  if (result.currentKm < vehicle.currentKm) {
+    const error = new Error("O odômetro não pode ser menor que a leitura atual.");
+    error.fields = { currentKm: error.message };
+    throw error;
+  }
   return { ...result, active: vehicle.active };
 }

@@ -9,6 +9,23 @@ Registre o esforço de cada participante em [horas-dev.md](horas-dev.md).
 O histórico anterior foi resumido a partir dos commits. Datas de commits não
 representam duração de trabalho, e implementação não significa aceite final.
 
+## 2026-10-06
+
+### Integridade das edições
+
+- Impedida a redução do odômetro pela edição de veículo, mantendo alterações
+  de modelo/placa/ano e leituras iguais ou maiores disponíveis.
+- Referências de itens incompatíveis com o histórico são rejeitadas antes de
+  gravar; API e demo compartilham a mesma validação.
+- A edição de serviço amplia o odômetro quando necessário, antes de salvar o
+  registro. Demo e cache do TanStack Query acompanham a atualização.
+- Falha parcial na gravação informa o usuário e mantém a base legível.
+- Validação: 45 testes aprovados, incluindo sete regressões novas, e build
+  de produção aprovado. Detalhes em [integridade das edições](../docs/testes/integridade-edicoes.md).
+- Próximas prioridades: erros/rótulos dos formulários e falhas das ações;
+  calendário e percentuais dos alertas; filtro por situação e serviços de itens
+  inativados; conferência final da entrega.
+
 ## 2026-10-05
 
 ### Correção da tabela de horas

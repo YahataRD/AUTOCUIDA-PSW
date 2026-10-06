@@ -119,6 +119,17 @@ export function createMaintenanceItem(data, vehicleId, input, { id }) {
   };
 }
 
+export function updateMaintenanceItem(data, itemId, input) {
+  const current = data.maintenanceItems.find((item) => item.id === itemId);
+  requireCondition(current, "Item de manutenção não encontrado.");
+  const item = createMaintenanceItem(data, current.vehicleId, input, { id: itemId });
+  validateChronology(
+    item.initialReference,
+    data.serviceRecords.filter((record) => record.maintenanceItemId === itemId),
+  );
+  return { ...item, active: current.active };
+}
+
 export function updateServiceRecord(data, serviceId, input, { today }) {
   const current = data.serviceRecords.find((record) => record.id === serviceId);
   requireCondition(current, "Serviço não encontrado.");
@@ -186,7 +197,17 @@ export function autoCuidaReducer(data, action) {
     case "maintenanceItemRemoved":
       return { ...data, maintenanceItems: data.maintenanceItems.map((item) => item.id === action.itemId ? { ...item, active: false } : item) };
     case "serviceUpdated":
-      return { ...data, serviceRecords: data.serviceRecords.map((record) => record.id === action.record.id ? action.record : record) };
+      return {
+        ...data,
+        vehicles: data.vehicles.map((vehicle) =>
+          vehicle.id === action.record.vehicleId
+            ? { ...vehicle, currentKm: Math.max(vehicle.currentKm, action.record.serviceKm) }
+            : vehicle,
+        ),
+        serviceRecords: data.serviceRecords.map((record) =>
+          record.id === action.record.id ? action.record : record,
+        ),
+      };
     case "serviceRemoved":
       return { ...data, serviceRecords: data.serviceRecords.filter((record) => record.id !== action.serviceId) };
     default:

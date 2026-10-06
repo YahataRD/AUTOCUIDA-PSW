@@ -37,6 +37,83 @@ const input = {
   shop: "Oficina teste",
 };
 
+test("edição rejeita odômetro menor e referência incompatível antes de qualquer escrita", async (t) => {
+  const writes = [];
+  const { api, url } = await setup(t, (req, res, next) => {
+    if (req.method !== "GET") writes.push(req.method);
+    next();
+  });
+  const before = await api.load();
+  await assert.rejects(
+    api.updateVehicle("1", { ...before.vehicles[0], currentKm: 0 }),
+    (error) => Boolean(error.fields?.currentKm),
+  );
+  await assert.rejects(api.updateMaintenanceItem("1", {
+    ...before.maintenanceItems[0], initialDate: "2026-10-02", initialKm: 10000,
+  }), /incompatível/);
+  assert.deepEqual(writes, []);
+  assert.deepEqual(await createApi(url).load(), before);
+  await api.updateVehicle("1", { ...before.vehicles[0], model: "Modelo corrigido" });
+  await api.updateMaintenanceItem("1", { ...before.maintenanceItems[0], intervalKm: 12000 });
+  const saved = await createApi(url).load();
+  assert.equal(saved.vehicles[0].model, "Modelo corrigido");
+  assert.equal(saved.maintenanceItems[0].intervalKm, 12000);
+  assert.deepEqual(saved.serviceRecords, before.serviceRecords);
+});
+
+test("edição de serviço persiste odômetro antes do registro e mantém nova sessão válida", async (t) => {
+  const writes = [];
+  const { api, url } = await setup(t, (req, res, next) => {
+    if (req.method !== "GET") writes.push(`${req.method} ${req.path}`);
+    next();
+  });
+  const before = await api.load();
+  const original = before.serviceRecords.find((record) => record.id === "2");
+  const edited = { ...original, serviceDate: "2026-10-02", serviceKm: 50000, amount: 400 };
+  await api.updateService(original.id, edited);
+  assert.deepEqual(writes, ["PATCH /vehicles/1", "PUT /serviceRecords/2"]);
+  const view = selectVehicleData(await createApi(url).load(), "1");
+  assert.equal(view.vehicle.currentKm, 50000);
+  assert.equal(view.maintenanceItems[0].lastServiceKm, 50000);
+  assert.equal(calculateCostSummary(view.serviceRecords).total, 2250);
+  await api.updateService(original.id, { ...edited, serviceKm: 49000 });
+  const saved = await createApi(url).load();
+  assert.equal(saved.vehicles[0].currentKm, 50000);
+  assert.deepEqual(saved.vehicles[1], before.vehicles[1]);
+  assert.equal(saved.serviceRecords.length, before.serviceRecords.length);
+});
+
+test("edição não envia PUT quando a atualização prévia do odômetro falha", async (t) => {
+  let puts = 0;
+  const { api } = await setup(t, (req, res, next) => {
+    if (req.method === "PATCH") return res.sendStatus(500);
+    if (req.method === "PUT") puts++;
+    next();
+  });
+  const before = await api.load();
+  const record = before.serviceRecords.find((entry) => entry.id === "2");
+  await assert.rejects(api.updateService(record.id, {
+    ...record, serviceDate: "2026-10-02", serviceKm: 50000,
+  }), /HTTP 500/);
+  assert.equal(puts, 0);
+  assert.deepEqual(await api.load(), before);
+});
+
+test("edição com PUT recusado informa falha parcial e preserva histórico válido", async (t) => {
+  const { api, url } = await setup(t, (req, res, next) => {
+    if (req.method === "PUT") return res.sendStatus(500);
+    next();
+  });
+  const before = await api.load();
+  const record = before.serviceRecords.find((entry) => entry.id === "2");
+  await assert.rejects(api.updateService(record.id, {
+    ...record, serviceDate: "2026-10-02", serviceKm: 50000,
+  }), /odômetro foi atualizado.*edição.*histórico/);
+  const saved = await createApi(url).load();
+  assert.equal(saved.vehicles[0].currentKm, 50000);
+  assert.deepEqual(saved.serviceRecords, before.serviceRecords);
+});
+
 test("cadastro persiste no arquivo, retorna ID string e uma nova sessão consulta o veículo", async (t) => {
   const { api, url, file } = await setup(t);
   const vehicle = await api.registerVehicle({

@@ -1,6 +1,12 @@
 import { validateData, getToday } from "./validation.js";
 import { createVehicle, updateVehicle } from "../state/vehicles.js";
-import { createMaintenanceItem, createServiceRecord, updateServiceRecord, validateOdometer } from "../state/autoCuida.js";
+import {
+  createMaintenanceItem,
+  updateMaintenanceItem,
+  createServiceRecord,
+  updateServiceRecord,
+  validateOdometer,
+} from "../state/autoCuida.js";
 
 export function createApi(baseUrl, fetcher = fetch) {
   const base = baseUrl.replace(/\/$/, "");
@@ -46,6 +52,32 @@ export function createApi(baseUrl, fetcher = fetch) {
       Object.fromEntries(keys.map((key, index) => [key, lists[index]])),
     );
   }
+
+  async function saveService(data, record, method) {
+    const vehicle = data.vehicles.find((entry) => entry.id === record.vehicleId);
+    // Sem transações no json-server: ampliar o odômetro antes do POST/PUT
+    // mantém a base legível mesmo se a gravação do serviço falhar.
+    const increasesKm = record.serviceKm > vehicle.currentKm;
+    if (increasesKm) {
+      await request(`vehicles/${encodeURIComponent(vehicle.id)}`, {
+        method: "PATCH",
+        body: { currentKm: record.serviceKm },
+      });
+    }
+    try {
+      const path = method === "PUT"
+        ? `serviceRecords/${encodeURIComponent(record.id)}`
+        : "serviceRecords";
+      return await request(path, { method, body: record });
+    } catch (error) {
+      const operation = method === "PUT" ? "a edição" : "o registro";
+      throw new Error(
+        `${increasesKm ? "O odômetro foi atualizado, mas " : ""}não foi possível confirmar ${operation} do serviço. Confira o histórico antes de tentar novamente. ${error.message}`,
+        { cause: error },
+      );
+    }
+  }
+
   return {
     load,
     async registerVehicle(input) {
@@ -78,10 +110,8 @@ export function createApi(baseUrl, fetcher = fetch) {
     },
     async updateMaintenanceItem(itemId, input) {
       const data = await load();
-      const current = data.maintenanceItems.find((item) => item.id === itemId);
-      if (!current) throw new Error("Item de manutenção não encontrado.");
-      const item = createMaintenanceItem(data, current.vehicleId, input, { id: itemId });
-      return request(`maintenanceItems/${encodeURIComponent(itemId)}`, { method: "PUT", body: { ...item, active: current.active } });
+      const item = updateMaintenanceItem(data, itemId, input);
+      return request(`maintenanceItems/${encodeURIComponent(itemId)}`, { method: "PUT", body: item });
     },
     async removeMaintenanceItem(itemId) {
       await request(`maintenanceItems/${encodeURIComponent(itemId)}`, { method: "PATCH", body: { active: false } });
@@ -93,32 +123,12 @@ export function createApi(baseUrl, fetcher = fetch) {
         id: crypto.randomUUID(),
         today: getToday(),
       });
-      const vehicle = data.vehicles.find((entry) => entry.id === vehicleId);
-      // JSON Server não oferece transações. O odômetro precisa comportar a km
-      // do serviço antes de persistir o registro, preservando dados válidos.
-      const increasesKm = record.serviceKm > vehicle.currentKm;
-      if (increasesKm) {
-        await request(`vehicles/${encodeURIComponent(vehicleId)}`, {
-          method: "PATCH",
-          body: { currentKm: record.serviceKm },
-        });
-      }
-      try {
-        return await request("serviceRecords", {
-          method: "POST",
-          body: record,
-        });
-      } catch (error) {
-        throw new Error(
-          `${increasesKm ? "O odômetro foi atualizado, mas " : ""}não foi possível confirmar o registro do serviço. Confira o histórico antes de tentar novamente. ${error.message}`,
-          { cause: error },
-        );
-      }
+      return saveService(data, record, "POST");
     },
     async updateService(serviceId, input) {
       const data = await load();
       const record = updateServiceRecord(data, serviceId, input, { today: getToday() });
-      return request(`serviceRecords/${encodeURIComponent(serviceId)}`, { method: "PUT", body: record });
+      return saveService(data, record, "PUT");
     },
     async removeService(serviceId) {
       await request(`serviceRecords/${encodeURIComponent(serviceId)}`, { method: "DELETE" });

@@ -184,8 +184,9 @@ No modo API, os dados persistem no mock. As validações ficam no frontend; o
 json-server não implementa autenticação, regras de negócio ou transações.
 Gravações simultâneas de vários clientes não têm garantia de exclusividade.
 
-Um serviço pode exigir PATCH do odômetro seguido de POST do registro. Se o POST
-falhar, o odômetro pode já ter sido atualizado. A interface orienta conferir o
+Cadastrar ou editar um serviço pode exigir PATCH do odômetro seguido de POST ou
+PUT do registro. Se a gravação do serviço falhar, o odômetro pode já ter sido
+atualizado. A interface orienta conferir o
 histórico antes de repetir; gravações não são repetidas automaticamente.
 Somente no modo demo os dados são restaurados ao recarregar a página.
 
@@ -197,3 +198,7 @@ começa sem itens ou serviços. Cancelar descarta apenas o formulário.
 Serviços retroativos coerentes não substituem uma referência mais recente e não
 diminuem o odômetro. A confirmação informa o recálculo, sem prometer que o alerta
 foi encerrado.
+
+A edição do veículo também impede reduzir a leitura atual. Alterações da
+referência inicial de um item são validadas contra seu histórico antes de salvar.
+Veja a [validação de integridade das edições](docs/testes/integridade-edicoes.md).

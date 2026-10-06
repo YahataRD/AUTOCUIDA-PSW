@@ -35,21 +35,15 @@ export function commandMutation(client, api) {
         if (command === "removeMaintenanceItem") {
           return { ...data, maintenanceItems: data.maintenanceItems.map((i) => i.id === result.id ? { ...i, active: false } : i) };
         }
-        if (command === "updateService") {
-          return { ...data, serviceRecords: data.serviceRecords.map((r) => r.id === result.id ? result : r) };
-        }
         if (command === "removeService") {
           return { ...data, serviceRecords: data.serviceRecords.filter((r) => r.id !== result.id) };
         }
-        if (command === "registerService") {
+        if (command === "registerService" || command === "updateService") {
           return {
             ...data,
-            serviceRecords: [
-              result,
-              ...data.serviceRecords.filter(
-                (record) => record.id !== result.id,
-              ),
-            ],
+            serviceRecords: command === "updateService"
+              ? data.serviceRecords.map((record) => record.id === result.id ? result : record)
+              : [result, ...data.serviceRecords.filter((record) => record.id !== result.id)],
             vehicles: data.vehicles.map((vehicle) =>
               vehicle.id === result.vehicleId
                 ? {

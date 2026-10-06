@@ -1,5 +1,11 @@
 import seed from "../../../mock/seed.json" with { type: "json" };
-import { autoCuidaReducer, createMaintenanceItem, createServiceRecord, updateServiceRecord } from "../state/autoCuida.js";
+import {
+  autoCuidaReducer,
+  createMaintenanceItem,
+  updateMaintenanceItem,
+  createServiceRecord,
+  updateServiceRecord,
+} from "../state/autoCuida.js";
 import { createVehicle, updateVehicle } from "../state/vehicles.js";
 import { getToday, validateData } from "./validation.js";
 
@@ -47,10 +53,7 @@ export function createDemoApi() {
       return item;
     },
     async updateMaintenanceItem(itemId, input) {
-      const current = data.maintenanceItems.find((item) => item.id === itemId);
-      if (!current) throw new Error("Item de manutenção não encontrado.");
-      const item = createMaintenanceItem(data, current.vehicleId, input, { id: itemId });
-      item.active = current.active;
+      const item = updateMaintenanceItem(data, itemId, input);
       data = autoCuidaReducer(data, { type: "maintenanceItemUpdated", item });
       return item;
     },

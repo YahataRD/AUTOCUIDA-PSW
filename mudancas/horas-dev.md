@@ -15,6 +15,7 @@
 | 2026-10-05 | Gabriel Felipe Martins da Silva | Gestão de veículos, itens e serviços | 4,50 | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
 | 2026-10-05 | Rafael Duarte Yahata | Migração para Tailwind CSS | 3,00 | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
 | 2026-10-05 | Rafael Duarte Yahata | Registro de mudanças e horas | 0,50 | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
+| 2026-10-06 | Rafael Duarte Yahata | Integridade das edições: odômetro, serviços, referências e testes | A preencher | Neste commit |
 | — | Rafael Voigt Villas Boas | Ainda sem commits | — | — |
 | — | **Rafael Duarte Yahata** | **Subtotal** | **28,00** | — |
 | — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
