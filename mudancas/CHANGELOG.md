@@ -11,6 +11,11 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-05
 
+### Correção da tabela de horas
+
+- Ajustada a linha de separação para as cinco colunas do cabeçalho, restaurando
+  a renderização Markdown sem alterar os valores ou os links.
+
 ### Simplificação do registro de horas
 
 - Consolidado o registro em uma tabela com entregas, commits e subtotais.

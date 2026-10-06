@@ -1,7 +1,7 @@
 # Registro de horas da equipe de desenvolvimento
 
 | Data do commit | Desenvolvedor | Entrega/etapa | Tempo | Commits |
-| --- | --- | --- | ---: | ---: | --- |
+| --- | --- | --- | ---: | --- |
 | 2026-09-23 | Rafael Duarte Yahata | Versão inicial | 6,00 | [b59f1ab](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b59f1ab) |
 | 2026-09-25 | Rafael Duarte Yahata | Organização da documentação | 2,50 | [d7e5b6f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d7e5b6f), [b75f7c2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b75f7c2), [81e55d3](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/81e55d3), [9db6516](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/9db6516) |
 | 2026-10-02 | Rafael Duarte Yahata | Base compartilhada | 4,00 | [f48f9a7](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/f48f9a7) |
