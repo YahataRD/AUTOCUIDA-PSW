@@ -70,7 +70,7 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
   }
 
   return (
-    <section className="surface state-message vehicle-registration">
+    <section className="surface p-6 mb-4 [&_form]:mt-4">
       <button
         disabled={busy}
         ref={opener}
@@ -85,20 +85,20 @@ export default function VehicleRegistration({ onRegister, isSaving }) {
       {open && (
         <form
           id="vehicle-registration-form"
-          className="service-form"
+          className="grid min-w-0 gap-4 md:grid-cols-2 [&_.primary-button]:mt-[0.2rem]"
           onSubmit={handleSubmit(submit)}
           onChange={() => clearErrors("root")}
           aria-busy={busy}
           noValidate
         >
-          <h2 className="form-title form-field-wide">Novo veículo</h2>
+          <h2 className="form-title md:col-span-2">Novo veículo</h2>
           {errors.root?.server && (
-            <p className="field-error form-field-wide" role="alert">
+            <p className="field-error md:col-span-2" role="alert">
               {errors.root?.server.message}
             </p>
           )}
           {fields.map((field, index) => (
-            <div className="form-field" key={field.name}>
+            <div className="min-w-0" key={field.name}>
               <label className="form-label" htmlFor={`vehicle-${field.name}`}>
                 {field.label}
               </label>

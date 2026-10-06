@@ -13,7 +13,7 @@ export default function MaintenanceCard({
   const progressWidth = Math.min(maintenance.wear, 100);
 
   return (
-    <article className="surface maintenance-card">
+    <article className="surface p-4 md:p-[1.4rem]">
       <div className="maintenance-card-header">
         <div>
           <h3 className="maintenance-title">{item.name}</h3>

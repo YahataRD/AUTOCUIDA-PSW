@@ -6,7 +6,7 @@ export default function VehicleSummary({
   const hasCriticalAlerts = criticalAlerts > 0;
 
   return (
-    <section className="surface vehicle-card" aria-label="Resumo do veículo">
+    <section className="surface vehicle-card p-5 md:p-[1.4rem]" aria-label="Resumo do veículo">
       <div>
         <h2 className="vehicle-model">{vehicle.model}</h2>
         <span className="vehicle-plate">{vehicle.plate}</span>

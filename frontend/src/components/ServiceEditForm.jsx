@@ -21,7 +21,7 @@ export default function ServiceEditForm({ record, items, isSaving, onSave, onCan
     catch (error) { setError("root.server", { message: error.message }); }
   }
   return (
-    <form className="service-form" onSubmit={handleSubmit(submit)} noValidate>
+    <form className="grid w-full min-w-0 gap-4 md:grid-cols-2 [&_.primary-button]:mt-[0.2rem]" onSubmit={handleSubmit(submit)} noValidate>
       {errors.root?.server && <p className="field-error" role="alert">{errors.root.server.message}</p>}
       <select className="form-control" disabled={busy} {...register("maintenanceItemId")}>
         {items.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}

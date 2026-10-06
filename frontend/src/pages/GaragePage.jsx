@@ -53,7 +53,7 @@ export default function GaragePage({
   }
 
   return (
-    <main className="page-content">
+    <main className="grid gap-[1.35rem] px-5 md:px-10">
       {justRegistered && (
         <p className="form-feedback" role="status">
           Veículo cadastrado e selecionado.
@@ -61,9 +61,9 @@ export default function GaragePage({
       )}
       <VehicleRegistration onRegister={onRegisterVehicle} isSaving={busy} />
       {vehicle && (
-        <div className="garage-grid">
+        <div className="grid items-start gap-4 md:grid-cols-2">
           <section
-            className="surface vehicle-identity"
+            className="surface p-5 md:p-[1.4rem]"
             aria-labelledby="vehicle-data-title"
           >
             <p className="identity-label" id="vehicle-data-title">
@@ -71,7 +71,7 @@ export default function GaragePage({
             </p>
             <h2 className="identity-value">{vehicle.model}</h2>
 
-            <div className="identity-details">
+            <div className="mt-4 grid grid-cols-2 gap-[0.8rem]">
               <div className="identity-detail">
                 <span>Placa</span>
                 <strong>{vehicle.plate}</strong>
@@ -91,7 +91,7 @@ export default function GaragePage({
             </div>
           </section>
 
-          <section className="surface odometer-form-card">
+          <section className="surface p-5 md:p-[1.4rem]">
             <h2 className="form-title">Atualizar odômetro</h2>
             <p className="form-help">
               A nova leitura será usada para recalcular automaticamente o
@@ -156,7 +156,7 @@ export default function GaragePage({
             </form>
           </section>
           {!editingVehicle ? (
-            <section className="surface state-message">
+            <section className="surface p-6">
               <button className="secondary-button" type="button" onClick={() => setEditingVehicle(true)}>
                 Editar veículo
               </button>

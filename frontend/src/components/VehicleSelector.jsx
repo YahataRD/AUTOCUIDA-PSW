@@ -5,7 +5,7 @@ export default function VehicleSelector({
   disabled,
 }) {
   return (
-    <div className="vehicle-selector">
+    <div className="max-w-xl px-5 pb-4 md:px-10">
       <label className="form-label" htmlFor="active-vehicle">
         Veículo selecionado
       </label>

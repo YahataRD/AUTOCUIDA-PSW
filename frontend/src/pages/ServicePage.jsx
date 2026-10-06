@@ -69,7 +69,7 @@ export default function ServicePage({
 
   if (maintenanceItems.length === 0) {
     return (
-      <main className="page-content">
+      <main className="grid gap-[1.35rem] px-5 md:px-10">
         <StateMessage
           title="Nenhum item disponível"
           onAction={() => onNavigate("dashboard")}
@@ -83,9 +83,9 @@ export default function ServicePage({
   }
 
   return (
-    <main className="page-content">
+    <main className="grid gap-[1.35rem] px-5 md:px-10">
       {confirmation && (
-        <section className="surface confirmation-card" role="status">
+        <section className="surface confirmation-card grid grid-cols-[auto_minmax(0,1fr)] gap-[0.85rem] p-[1.1rem] md:p-[1.4rem]" role="status">
           <span className="confirmation-icon" aria-hidden="true">
             ✓
           </span>
@@ -99,7 +99,7 @@ export default function ServicePage({
               Lançamento: {formatCurrency(confirmation.amount)}
             </p>
           </div>
-          <div className="confirmation-actions">
+          <div className="col-span-full grid grid-cols-2 gap-[0.65rem]">
             <button
               className="primary-button compact-button"
               type="button"
@@ -118,9 +118,9 @@ export default function ServicePage({
         </section>
       )}
 
-      <section className="surface service-form-card">
+      <section className="surface p-5 md:p-[1.4rem]">
         <div
-          className="segmented-control"
+          className="mb-5 grid grid-cols-2 gap-[0.3rem] rounded-[0.8rem] bg-surface-soft p-[0.3rem]"
           role="group"
           aria-label="Tipo de manutenção"
         >
@@ -145,7 +145,7 @@ export default function ServicePage({
         </div>
 
         <form
-          className="service-form"
+          className="grid min-w-0 gap-4 md:grid-cols-2 [&_.primary-button]:mt-[0.2rem]"
           onSubmit={handleSubmit(submit, () => setConfirmation(null))}
           aria-busy={busy}
           onChange={() => {
@@ -155,11 +155,11 @@ export default function ServicePage({
           noValidate
         >
           {errors.root?.server && (
-            <p className="field-error form-field-wide" role="alert">
+            <p className="field-error md:col-span-2" role="alert">
               {errors.root?.server.message}
             </p>
           )}
-          <div className="form-field form-field-wide">
+          <div className="min-w-0 md:col-span-2">
             <label className="form-label" htmlFor="maintenance-item">
               Item de manutenção
             </label>
@@ -186,7 +186,7 @@ export default function ServicePage({
             )}
           </div>
 
-          <div className="form-field">
+          <div className="min-w-0">
             <label className="form-label" htmlFor="service-km">
               Quilometragem no serviço
             </label>
@@ -211,7 +211,7 @@ export default function ServicePage({
             )}
           </div>
 
-          <div className="form-field">
+          <div className="min-w-0">
             <label className="form-label" htmlFor="service-date">
               Data do serviço
             </label>
@@ -234,7 +234,7 @@ export default function ServicePage({
             )}
           </div>
 
-          <div className="form-field">
+          <div className="min-w-0">
             <label className="form-label" htmlFor="service-amount">
               Valor gasto
             </label>
@@ -256,7 +256,7 @@ export default function ServicePage({
             )}
           </div>
 
-          <div className="form-field">
+          <div className="min-w-0">
             <label className="form-label" htmlFor="service-shop">
               Oficina ou mecânico
             </label>
@@ -278,7 +278,7 @@ export default function ServicePage({
           </div>
 
           <button
-            className="primary-button form-field-wide"
+            className="primary-button md:col-span-2"
             type="submit"
             disabled={busy}
           >

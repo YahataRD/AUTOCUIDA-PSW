@@ -38,7 +38,7 @@ tentativa e as telas orientam quando não há veículos, itens ou serviços.
 
 A primeira entrega está prevista para **6 de outubro de 2026**, com o front-end
 integrado ao backend mockado com json-server, sem backend real ou banco de dados.
-TanStack Query, React Hook Form, Zod e Bootstrap 5 estão integrados.
+TanStack Query, React Hook Form, Zod e Tailwind CSS 4 estão integrados.
 
 Os fluxos de gestão previstos no cronograma devem ser conferidos no roteiro de
 aceite e nos testes automatizados antes da entrega.
@@ -48,7 +48,7 @@ As etapas e datas estão no [cronograma](docs/cronograma.md).
 ## Tecnologias
 
 React 18, Vite 8, JavaScript ES6+, TanStack Query 5, React Hook Form 7, Zod 4,
-Bootstrap 5 e json-server 0.17.4. Os formulários usam schemas Zod por meio de
+Tailwind CSS 4 e json-server 0.17.4. Os formulários usam schemas Zod por meio de
 `@hookform/resolvers`. O CSS próprio contém somente a identidade visual e os
 ajustes específicos do produto.
 
@@ -151,7 +151,12 @@ em `docs/` e o workflow de publicação em `.github/workflows/` na raiz do repos
 - `src/data/formSchemas.js`: schemas de cadastro, odômetro e serviço; conversão de campos.
 - `../mock/seed.json`: fonte única dos dados iniciais da API e do demo.
 - `src/utils/`: cálculos de manutenção, custos e formatação.
-- `style.css`: estilos da aplicação.
+- `style.css`: tema e componentes visuais compostos com utilidades do Tailwind CSS.
+  Os layouts usam variantes responsivas no JSX (`xs:` a partir de 368px, `md:`
+  a partir de 704px e `lg:` a partir de 1024px), sem media queries próprias.
+  A [conferência visual](docs/testes/tailwind.md) registra os tamanhos e fluxos testados.
+  A integração com Vite segue
+  a [documentação oficial](https://tailwindcss.com/docs/installation/using-vite).
 
 Os arquivos `manutencoes.html`, `registro.html` e `veiculo.html` em `frontend/` são
 referências do protótipo anterior. A aplicação React usa `index.html` como

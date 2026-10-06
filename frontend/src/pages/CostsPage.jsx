@@ -16,7 +16,7 @@ export default function CostsPage({ serviceRecords, maintenanceItems, onDeleteSe
   );
 
   return (
-    <main className="page-content">
+    <main className="grid gap-[1.35rem] px-5 md:px-10">
       <CostSummary
         total={summary.total}
         monthlyAverage={lastSixMonthsTotal / 6}
@@ -25,7 +25,7 @@ export default function CostsPage({ serviceRecords, maintenanceItems, onDeleteSe
 
       <ExpenseChart months={monthlyExpenses} />
 
-      <section className="surface cost-breakdown" aria-labelledby="breakdown-title">
+      <section className="surface p-[1.1rem] md:p-[1.4rem] [&_.section-title]:mb-3" aria-labelledby="breakdown-title">
         <h2 className="section-title" id="breakdown-title">
           Distribuição por tipo
         </h2>

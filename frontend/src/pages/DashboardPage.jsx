@@ -20,7 +20,7 @@ export default function DashboardPage({
   ).length;
 
   return (
-    <main className="page-content">
+    <main className="grid gap-[1.35rem] px-5 md:px-10">
       <VehicleSummary
         vehicle={vehicle}
         criticalAlerts={criticalAlerts}
@@ -37,7 +37,7 @@ export default function DashboardPage({
           </span>
         </div>
 
-        <div className="maintenance-list">
+        <div className="grid gap-[0.8rem] md:grid-cols-2">
           {maintenanceItems.length === 0 && (
             <StateMessage title="Nenhum item de manutenção">
               Este veículo ainda não possui itens no plano de manutenção.
