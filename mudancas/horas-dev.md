@@ -1,21 +1,21 @@
 # Registro de horas da equipe de desenvolvimento
 
-| Data do commit | Desenvolvedor | Entrega/etapa | Tempo estimado (h) | Tempo confirmado (h) | Commits |
+| Data do commit | Desenvolvedor | Entrega/etapa | Tempo | Commits |
 | --- | --- | --- | ---: | ---: | --- |
-| 2026-09-23 | Rafael Duarte Yahata | Versão inicial | 6,00 | — | [b59f1ab](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b59f1ab) |
-| 2026-09-25 | Rafael Duarte Yahata | Organização da documentação | 2,50 | — | [d7e5b6f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d7e5b6f), [b75f7c2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b75f7c2), [81e55d3](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/81e55d3), [9db6516](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/9db6516) |
-| 2026-10-02 | Rafael Duarte Yahata | Base compartilhada | 4,00 | — | [f48f9a7](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/f48f9a7) |
-| 2026-10-02 | Rafael Duarte Yahata | Documentação da base compartilhada | 1,00 | — | [e65bcd2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/e65bcd2) |
-| 2026-10-02 | Rafael Duarte Yahata | Publicação no GitHub Pages | 1,00 | — | [e87b48a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/e87b48a) |
-| 2026-10-02 | Rafael Duarte Yahata | Cadastro de veículos | 2,50 | — | [255a20f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/255a20f) |
-| 2026-10-04 | Rafael Duarte Yahata | Organização do frontend | 0,50 | — | [409ec2e](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/409ec2e) |
-| 2026-10-04 | Rafael Duarte Yahata | Integração com json-server e TanStack Query | 4,00 | — | [0195f64](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0195f64) |
-| 2026-10-04 | Rafael Duarte Yahata | Comandos unificados | 0,50 | — | [0711ffd](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0711ffd) |
-| 2026-10-04 | Rafael Duarte Yahata | Formulários com React Hook Form e Zod | 2,50 | — | [56efc1e](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/56efc1e) |
-| 2026-10-05 | Gabriel Felipe Martins da Silva | Gestão de veículos, itens e serviços | 4,50 | — | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
-| 2026-10-05 | Rafael Duarte Yahata | Migração para Tailwind CSS | 3,00 | — | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
-| 2026-10-05 | Rafael Duarte Yahata | Registro de mudanças e horas | 0,50 | — | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
-| — | Rafael Voigt Villas Boas | Ainda sem commits | — | — | — |
-| — | **Rafael Duarte Yahata** | **Subtotal** | **28,00** | — | — |
-| — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — | — |
-| — | **Equipe** | **Subtotal das contribuições identificadas** | **32,50** | — | — |
+| 2026-09-23 | Rafael Duarte Yahata | Versão inicial | 6,00 | [b59f1ab](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b59f1ab) |
+| 2026-09-25 | Rafael Duarte Yahata | Organização da documentação | 2,50 | [d7e5b6f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d7e5b6f), [b75f7c2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b75f7c2), [81e55d3](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/81e55d3), [9db6516](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/9db6516) |
+| 2026-10-02 | Rafael Duarte Yahata | Base compartilhada | 4,00 | [f48f9a7](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/f48f9a7) |
+| 2026-10-02 | Rafael Duarte Yahata | Documentação da base compartilhada | 1,00 | [e65bcd2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/e65bcd2) |
+| 2026-10-02 | Rafael Duarte Yahata | Publicação no GitHub Pages | 1,00 | [e87b48a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/e87b48a) |
+| 2026-10-02 | Rafael Duarte Yahata | Cadastro de veículos | 2,50 | [255a20f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/255a20f) |
+| 2026-10-04 | Rafael Duarte Yahata | Organização do frontend | 0,50 | [409ec2e](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/409ec2e) |
+| 2026-10-04 | Rafael Duarte Yahata | Integração com json-server e TanStack Query | 4,00 | [0195f64](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0195f64) |
+| 2026-10-04 | Rafael Duarte Yahata | Comandos unificados | 0,50 | [0711ffd](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0711ffd) |
+| 2026-10-04 | Rafael Duarte Yahata | Formulários com React Hook Form e Zod | 2,50 | [56efc1e](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/56efc1e) |
+| 2026-10-05 | Gabriel Felipe Martins da Silva | Gestão de veículos, itens e serviços | 4,50 | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 2026-10-05 | Rafael Duarte Yahata | Migração para Tailwind CSS | 3,00 | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
+| 2026-10-05 | Rafael Duarte Yahata | Registro de mudanças e horas | 0,50 | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
+| — | Rafael Voigt Villas Boas | Ainda sem commits | — | — |
+| — | **Rafael Duarte Yahata** | **Subtotal** | **28,00** | — |
+| — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
+| — | **Equipe** | **Subtotal das contribuições identificadas** | **32,50** | — |
