@@ -1,49 +1,54 @@
-# Manual de operação
+# Manual de operação — AutoCUIDA
 
-## Iniciar o ambiente
+Revisão: 06/10/2026. Destinado à pessoa que inicia o ambiente e conduz a avaliação. Para ações nas telas, consulte o [manual do usuário](manual-usuario.md).
 
-1. Instale o projeto conforme o [manual de instalação](manual-instalacao.md).
-2. Execute `npm start` na raiz.
-3. Confirme que o Vite e o json-server iniciaram sem mensagens de erro.
-4. Abra a URL do Vite no navegador.
+## Iniciar e encerrar
 
-## Fluxo recomendado para demonstração
+1. Instale conforme o [manual de instalação](manual-instalacao.md).
+2. Na raiz do repositório, execute npm start (ou npm.cmd start no PowerShell com scripts bloqueados).
+3. Confirme logs de Vite e json-server e abra http://localhost:5173/AUTOCUIDA-PSW/ ou a URL impressa pelo Vite.
+4. Confira que o modo é API local e que os veículos da seed aparecem. O Pages usa demo em memória e não serve para demonstrar persistência HTTP.
+5. Use Ctrl+C no terminal para encerrar os dois processos. Pare a execução de desenvolvimento antes de usar npm run preview.
 
-1. No **Painel**, selecione um dos veículos iniciais.
-2. Consulte os cards de manutenção e identifique um item próximo ou vencido.
-3. Abra **Garagem** e atualize o odômetro com uma quilometragem maior.
-4. Abra **Serviço**, escolha o item e informe tipo, data, quilometragem, valor
-   e oficina.
-5. Confirme o registro e consulte **Custos** e o histórico.
-6. Troque o veículo no seletor e confirme que seus dados não foram misturados.
+## Preservar ou restaurar dados
 
-## Operação dos dados
+As operações são gravadas em mock/db.json. Para backup, pare o ambiente e copie esse arquivo para um local identificado. Para restaurar o backup, com os processos parados, copie-o de volta para mock/db.json. Mantenha a estrutura das três coleções e confira os vínculos; o frontend rejeita uma base inválida.
 
-- A API persiste alterações em `mock/db.json`.
-- A seed não deve ser editada para registrar uso diário.
-- Use `npm run reset` somente quando precisar recomeçar a demonstração.
-- Não execute dois mocks na mesma porta.
-- Se a API cair, reinicie `npm start`; a interface exibirá uma ação de nova
-  tentativa.
+Para descartar as alterações e usar os exemplos oficiais, execute npm run reset com os serviços parados. A seed [mock/seed.json](../mock/seed.json) permanece intacta. Não rode duas instâncias na porta 3001.
 
-## Estados e falhas
+## Roteiro reproduzível de demonstração
 
-- **Carregando:** aguarde a primeira consulta.
-- **Dados indisponíveis:** verifique o json-server e tente novamente.
-- **Nenhum veículo/item/serviço:** cadastre ou use a seed restaurada.
-- **Falha ao salvar:** leia a mensagem do formulário e confira o histórico
-  antes de repetir uma operação.
-- **Demonstração:** indica que o Pages está usando dados em memória, sem
-  persistência.
+Os valores seguintes usam a seed e a data **06/10/2026**. Em outras datas, use a data real do serviço e considere a janela móvel de seis meses.
 
-## Conferência antes da entrega
+1. Abra Custos do Golf: total R$ 2.200,00, quatro serviços, preventivas R$ 950,00 e corretivas R$ 1.250,00. A média da janela maio–outubro é R$ 20,00.
+2. Selecione Onix: apenas um item e nenhum serviço/custo. Volte ao Golf para demonstrar isolamento.
+3. Na Garagem, atualize o odômetro do Golf de 48.250 para **50.000 km**. O Filtro de Ar chega a 100% por km e fica Vencido. O Óleo também continua vencido.
+4. Em Serviço, registre manutenção preventiva do **Filtro de Ar**, data **06/10/2026**, km **50.000**, valor **100,00**, oficina **Oficina de demonstração**.
+5. Consulte Custos: total R$ 2.300,00, cinco registros e preventivas R$ 1.050,00. No Painel, o filtro passa a usar o novo serviço como referência; não prometa que todo o veículo ficou sem alertas.
+6. Edite o valor desse serviço para 150,00: total R$ 2.350,00. Cancele uma tentativa de exclusão para demonstrar preservação; depois confirme a exclusão do mesmo registro: total volta a R$ 2.200,00 e odômetro permanece 50.000 km.
+7. Demonstre cadastro de outro veículo válido, seu estado sem itens, inclusão de item e validação de campo vazio. Use somente dados de demonstração.
+8. Mostre a [matriz de pendências](entrega-avaliacao.md), a [verificação](testes/verificacao-final.md) e os [commits reais](historico-contribuicoes.md).
 
-```powershell
+Este roteiro é instrução para apresentação; não é declaração de que todos os passos foram reexecutados manualmente nesta revisão. A evidência efetivamente obtida está no registro de verificação.
+
+## Falhas e recuperação
+
+| Sinal | Procedimento |
+| --- | --- |
+| Carregando | Aguarde a consulta inicial. |
+| Dados indisponíveis | Verifique o mock e a URL da API, reinicie os serviços se necessário e use Tentar novamente. |
+| Nenhum veículo/item/serviço | Cadastre o recurso ou restaure a seed se a intenção for reiniciar a demonstração. |
+| Campo inválido | Corrija o campo indicado; não apague o JSON para contornar validação. |
+| Falha ao salvar | Confira mensagem, odômetro e histórico antes de reenviar. Um PATCH pode ter sido concluído antes de um POST/PUT falhar. |
+| Edição de serviço de item removido bloqueada | Registre a limitação P03; não reassocie o serviço a outro item para aparentar correção. |
+| Alerta temporal discordante | Apresente P02 como limitação conhecida. |
+
+## Conferência técnica
+
+~~~bash
 npm test
 npm run build
-git --no-pager status
-git --no-pager log --oneline --decorate -20
-```
+npm run preview
+~~~
 
-O diretório `frontend/dist` é gerado pelo build e não precisa ser commitado.
-
+O build vai para frontend/dist/; a prévia serve esse build junto ao mock, normalmente na porta 4173. Não versione dist, node_modules ou db.json. Os testes HTTP usam arquivo temporário e não modificam a base de uso. O relatório de 06/10 registra 47 testes aprovados e build aprovado; isso não substitui o aceite completo T01–T23.

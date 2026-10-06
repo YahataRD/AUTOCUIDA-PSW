@@ -1,59 +1,19 @@
-# Cronograma do AutoCUIDA
+# Cronograma e situação de entrega — AutoCUIDA
 
-**Entrega: 6 de outubro de 2026.** Concluir o front-end com dados simulados,
-incluindo gestão de veículos, itens de manutenção, serviços, alertas e custos.
-O [README](../README.md) descreve o que já está implementado.
+Entrega prevista: **06/10/2026**. Situação conferida na base **8133fd6**. Datas abaixo são as metas originais; não representam a data efetiva de conclusão nem homologação. A revisão substitui as marcações gerais de “Concluída” que não distinguiam implementação e aceite.
 
-## Etapas
-
-| Data | Entrega prevista | Situação |
+| Meta | Etapa | Situação observada em 06/10 |
 | --- | --- | --- |
-| 25/09 | Organizar a documentação e definir o cronograma | Concluída |
-| 26/09 | Escolher o kit visual, configurar o tema e adaptar cabeçalho, navegação e Painel | Concluída |
-| 27/09 | Organizar os dados por veículo; preparar carregamento local, estados de erro/vazio e navegação por URL | Concluída |
-| 28/09 | Completar cadastro, seleção, edição e inativação de veículos | Concluída |
-| 29/09 | Implementar cadastro, consulta, edição e remoção de itens de manutenção | Concluída |
-| 30/09 | Completar edição e exclusão de serviços, com confirmação e recálculo dos dados | Concluída |
-| 01/10 | Revisar alertas por tempo/km, serviços retroativos e mensagens de confirmação | Concluída |
-| 02/10 | Integrar custos e histórico por veículo; concluir a adaptação visual das telas | Concluída |
-| 03/10 | Revisar responsividade, acessibilidade, formulários e estados vazios | Concluída |
-| 04/10 | Testar o fluxo completo e fechar as funcionalidades da entrega | Concluída |
-| 06/10 | Conferir a versão final e realizar a entrega | Próxima |
+| 25/09 | Documentação e cronograma | Revisados para entrega; análise consolidada em entrega-avaliacao.md |
+| 26/09 | Kit visual, tema, navegação e Painel | Tailwind presente; dimensões inline e percentuais ainda divergem do refinamento planejado |
+| 27/09 | Dados por veículo, carga, estados e URLs | Implementados; hoje a carga usa API mockada, não JSON estático |
+| 28/09 | Veículos e odômetro | Implementados, com testes de validação e persistência |
+| 29/09 | Gestão de itens | Implementada; impacto na edição de serviço de item removido permanece |
+| 30/09 | Edição e exclusão de serviços | Implementadas para itens ativos; ressalva P03 |
+| 01/10 | Alertas, tempo/km, retroatividade | Parcial: limites por km conferidos, calendário divergente e filtro ausente |
+| 02/10 | Custos e histórico | Implementados por veículo; totais da seed conferidos |
+| 03/10 | Responsividade, acessibilidade e formulários | Há registros anteriores e inspeção atual limitada; teclado/zoom completos não homologados |
+| 04/10 | Aceite integral e congelamento | Não comprovado integralmente; há correções no histórico em 06/10 e pendências abertas |
+| 06/10 | Verificação final e entrega | Verificação/documentação por Rafael Voigt; envio ao Teams não realizado por esta revisão |
 
-
-### Atualização do desenvolvimento — 02/10
-
-A etapa de base compartilhada foi implementada com dois veículos de demonstração,
-ações centralizadas, vínculos por `vehicleId`, referências iniciais preservadas,
-carga de JSON validada, nova tentativa, estados vazios e URLs com seleção de veículo.
-O [contrato técnico](base-compartilhada.md) e a [validação executada](testes/base-compartilhada.md)
-orientam as próximas contribuições. A implementação aguarda revisão de um colega;
-isso não aprova os cadastros ou os demais fluxos ainda planejados.
-
-Esta atualização se limita ao desenvolvimento. Os documentos de `docs/GPTI/`
-pertencem ao grupo de gestão e não foram alterados.
-
-## Pontos a resolver durante a implementação
-
-- Manter Tailwind CSS 4 como o kit visual responsivo adotado nesta entrega.
-- Manter itens, serviços, alertas e custos vinculados ao veículo correto.
-- Ao editar ou excluir serviços, recalcular a referência de manutenção e os
-  custos; preservar o histórico ao inativar veículos ou remover itens do plano.
-- Conferir vencimentos por calendário, limites dos percentuais e serviços
-  retroativos para que os alertas e as mensagens correspondam aos dados.
-- Validar cada etapa antes de avançar e registrar as mudanças em commits
-  separados por funcionalidade.
-
-## Conferência final
-
-- [x] Cadastrar um veículo e configurar seus itens de manutenção.
-- [x] Atualizar o odômetro, observar um alerta e registrar o serviço.
-- [x] Editar e excluir serviços, conferindo o efeito nos alertas e custos.
-- [x] Alternar veículos sem misturar dados e testar confirmações e cancelamentos.
-- [x] Verificar campos inválidos, carregamento, erro e listas vazias.
-- [x] Usar todas as telas no celular, no computador e pelo teclado.
-- [x] Instalar o projeto seguindo o README e gerar o build sem erros.
-- [x] Conferir no GitHub os commits que compõem a versão entregue.
-
-Até a entrega, a prioridade é concluir esses fluxos. Back-end, banco de dados,
-autenticação e persistência ficam para uma etapa posterior.
+Consulte [aderência e pendências](entrega-avaliacao.md), [registro de verificação](testes/verificacao-final.md) e [roteiro de aceite](testes/aceite-front-end.md). A evolução real consta no [changelog](../mudancas/CHANGELOG.md). Documentos de GPTI permanecem como histórico do grupo de gestão.

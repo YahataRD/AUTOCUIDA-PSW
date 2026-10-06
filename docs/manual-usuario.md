@@ -1,9 +1,11 @@
 # Manual do usuário
 
+Revisado em 06/10/2026. Não há login nesta versão acadêmica. Para preservar alterações, use a execução local com json-server; o site de demonstração restaura os dados ao recarregar.
+
 ## Conhecendo a tela
 
 - **Painel:** mostra a situação dos itens de manutenção e os alertas.
-- **Garagem:** permite consultar veículos e atualizar o odômetro.
+- **Garagem:** permite cadastrar, consultar, editar e inativar veículos, atualizar o odômetro e gerenciar itens.
 - **Serviço:** registra uma manutenção preventiva ou corretiva.
 - **Custos:** mostra total, distribuição, gráfico e histórico.
 - **Seletor de veículo:** aparece no topo e vale para todas as telas.
@@ -26,18 +28,18 @@ O cálculo considera o maior percentual entre tempo e quilometragem.
 3. Preencha placa, modelo, ano e quilometragem inicial.
 4. Selecione **Salvar veículo**.
 
-A placa é normalizada e não pode duplicar outra placa cadastrada.
+A placa é normalizada e não pode duplicar outra placa cadastrada, inclusive inativa. Informe modelo, ano entre 1886 e o próximo ano, e km inteira não negativa. O novo veículo começa sem itens ou serviços; adicione seu plano na Garagem.
 
 Na Garagem também é possível editar os dados do veículo ou inativá-lo. A
 inativação mantém o histórico, mas remove o veículo do seletor de veículos
-ativos.
+ativos. Não há ação de reativação na interface.
 
 ## Gerenciar itens de manutenção
 
 Na Garagem, use o formulário de itens para informar nome, intervalo em
 quilômetros, intervalo em meses e a referência inicial. Pelo menos um dos dois
 intervalos deve ser positivo. Itens podem ser editados ou removidos do plano;
-remover um item preserva os serviços históricos associados.
+remover um item preserva os serviços históricos associados e os custos. A data inicial não pode ser futura e a km inicial não pode superar o odômetro. A edição da referência precisa ser coerente com o histórico. Confirme a remoção somente se quiser tirar o item do plano ativo.
 
 ## Atualizar o odômetro
 
@@ -57,6 +59,8 @@ remover um item preserva os serviços históricos associados.
 A data não pode ser futura. Serviços retroativos são aceitos somente quando
 mantêm a ordem coerente de datas e quilometragens do histórico.
 
+O valor deve ser maior que zero (exemplo: 350,00) e a oficina é obrigatória. Durante a gravação, aguarde o retorno. Se a operação informar falha parcial, confira os dados antes de repetir.
+
 No histórico da tela de Custos, use **Editar** para corrigir um serviço ou
 **Excluir** para removê-lo após a confirmação. Os alertas, a referência do item
 e os custos são recalculados depois da operação.
@@ -72,3 +76,14 @@ para consultar outra base.
 O layout é responsivo. No teclado, use `Tab` para avançar entre controles,
 `Shift+Tab` para voltar e `Enter` ou `Espaço` para ativar botões. Mensagens de
 erro aparecem junto do campo que precisa de correção.
+
+## Limitações que afetam a utilização
+
+- Não há filtro de alertas por situação: percorra os cards do Painel.
+- O vencimento por tempo usa uma aproximação que pode discordar da data exibida, principalmente em fevereiro e no fim do mês. Não se baseie apenas na cor/classe para decidir o prazo real.
+- Alguns percentuais aparecem com muitas casas decimais.
+- Um serviço de item removido continua no histórico, mas sua edição mantendo o item original pode ser bloqueada. Não mude o item só para contornar essa limitação.
+- Inativar um veículo preserva dados no mock, mas o retira das telas ativas; não há tela de consulta dos inativos.
+- O mock não possui login nem controle de acesso e não é um backend de produção.
+
+Essas condições estão registradas na [matriz de entrega](entrega-avaliacao.md).

@@ -6,6 +6,10 @@ manutenção, considerando o tempo e a quilometragem percorrida.
 
 Projeto desenvolvido para a disciplina de Programação de Software Web.
 
+## Entrega de 06/10/2026
+
+A [análise de aderência aos oito critérios](docs/entrega-avaliacao.md) registra o que foi entregue e as pendências. Na base 8133fd6 passaram **47 testes e o build**. O escopo não está integralmente concluído: faltam filtro por situação, consistência temporal por calendário e edição de serviços de itens removidos. A revisão final, sob responsabilidade de Rafael Voigt, ajusta somente documentação e registro de horas.
+
 ## Demonstração online
 
 [Abrir o AutoCUIDA](https://YahataRD.github.io/AUTOCUIDA-PSW/).
@@ -21,9 +25,9 @@ em memória, restaurados ao recarregar. A integração com json-server roda loca
 | Tela | Funcionalidades |
 | --- | --- |
 | Painel | Situação dos itens de manutenção, percentuais de desgaste e alertas próximos ou vencidos |
-| Garagem | Cadastro, seleção do veículo, consulta dos dados e atualização do odômetro |
+| Garagem | Cadastro, seleção, edição/inativação de veículos, odômetro e gestão de itens |
 | Registro de serviço | Lançamento de manutenção preventiva ou corretiva, com item, data, quilometragem, valor e oficina |
-| Custos | Total gasto, distribuição por tipo de manutenção, gráfico dos últimos seis meses e histórico de serviços |
+| Custos | Total, tipos, gráfico dos últimos seis meses, histórico e edição/exclusão de serviços de itens ativos |
 
 Atualizar o odômetro recalcula os alertas. Registrar um serviço atualiza o
 histórico, os custos e a referência de manutenção do item escolhido.
@@ -49,8 +53,7 @@ As etapas e datas estão no [cronograma](docs/cronograma.md).
 
 React 18, Vite 8, JavaScript ES6+, TanStack Query 5, React Hook Form 7, Zod 4,
 Tailwind CSS 4 e json-server 0.17.4. Os formulários usam schemas Zod por meio de
-`@hookform/resolvers`. O CSS próprio contém somente a identidade visual e os
-ajustes específicos do produto.
+`@hookform/resolvers`. O CSS próprio contém a identidade visual e ajustes específicos; barras de desgaste e gráfico ainda usam dimensões inline, ressalva registrada na matriz da entrega.
 
 ## Documentação da entrega
 
@@ -62,6 +65,10 @@ ajustes específicos do produto.
 - [Manual de operação](docs/manual-operacao.md)
 - [Manual do usuário](docs/manual-usuario.md)
 - [Histórico de contribuições](docs/historico-contribuicoes.md)
+- [Aderência aos critérios e pendências](docs/entrega-avaliacao.md)
+- [Dados iniciais do json-server](docs/dados-iniciais.md)
+- [Verificação final](docs/testes/verificacao-final.md)
+- [Roteiro de aceite T01–T23](docs/testes/aceite-front-end.md)
 
 Ao concluir uma etapa, registre as mudanças no changelog e o tempo efetivamente
 trabalhado por cada participante na tabela de horas. Os arquivos ficam em

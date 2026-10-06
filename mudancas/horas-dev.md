@@ -16,8 +16,9 @@
 | 2026-10-05 | Rafael Duarte Yahata | Migração para Tailwind CSS | 3,00 | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
 | 2026-10-05 | Rafael Duarte Yahata | Registro de mudanças e horas | 0,50 | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
 | 2026-10-06 | Rafael Duarte Yahata | Integridade das edições: odômetro, serviços, referências e testes | 2,00 | [598b1a2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/598b1a2) |
-| 2026-10-06 | Rafael Duarte Yahata | Formulários, acessibilidade e tratamento de falhas | 2,50 | Neste commit |
-| — | Rafael Voigt Villas Boas | Ainda sem commits | — | — |
+| 2026-10-06 | Rafael Duarte Yahata | Formulários, acessibilidade e tratamento de falhas | 2,50 | [8133fd6](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/8133fd6) |
+| 2026-10-06 | Rafael Voigt Villas Boas | Verificação final: análise de escopo/código, testes, build e revisão da documentação de entrega | 2,00 | Revisão documental desta entrega; [registro](../docs/testes/verificacao-final.md) |
 | — | **Rafael Duarte Yahata** | **Subtotal** | **32,50** | — |
 | — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
-| — | **Equipe** | **Subtotal das contribuições identificadas** | **37,00** | — |
+| — | **Rafael Voigt Villas Boas** | **Subtotal** | **2,00** | — |
+| — | **Equipe** | **Subtotal das contribuições identificadas** | **39,00** | — |

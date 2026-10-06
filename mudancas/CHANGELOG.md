@@ -11,6 +11,16 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-06
 
+### Preparação documental para avaliação
+
+- Revisados prototipagem, refinamento e três manuais para refletir React/Tailwind/json-server e as limitações atuais.
+- Criados relatório de aderência aos oito critérios, histórico de contribuições, guia da seed e registro final de verificação; recuperada a rastreabilidade T01–T23.
+- Corrigidas marcações de conclusão do cronograma, separando implementação, pendência e aceite.
+- Registradas 2,00 horas de Rafael Voigt na verificação final, conforme indicação da equipe.
+- Validação da base 8133fd6: 37 testes frontend + 10 HTTP aprovados; build API aprovado; exemplos de calendário e bloqueio de edição de item removido reproduzidos.
+- Nenhum código funcional, dependência, teste existente ou dado inicial foi alterado.
+
+
 ### Formulários e tratamento de falhas
 
 - Campos de itens, edição de serviços e veículos com rótulos e mensagens

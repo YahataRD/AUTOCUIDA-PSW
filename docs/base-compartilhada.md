@@ -1,5 +1,7 @@
 # Contrato da base compartilhada
 
+Nota de entrega (06/10/2026): o framework atual é Tailwind CSS 4. O filtro por situação não foi implementado. Consulte [a matriz atual](entrega-avaliacao.md) para limites de calendário e edição de itens inativos. As seções históricas abaixo não são um manual operacional vigente.
+
 Atualizado em 04/10/2026: a integração atual usa json-server e TanStack Query.
 Consulte [integração e validação](testes/integracao-mock.md) e o README para executar.
 A seed fica em `mock/seed.json`; `mock/db.json` é a cópia persistente local.
@@ -148,8 +150,8 @@ diff revisado e commit. Enviar a branch e abrir PR para revisão de um colega;
 integrar antes de os demais iniciarem trabalho dependente.
 
 Os fluxos de edição/inativação de veículos, gestão de itens e edição/exclusão de
-serviços estão disponíveis nas camadas de API, demo e interface. Bootstrap 5
-foi adotado para o grid e os utilitários responsivos; os estilos próprios ficam
+serviços estão disponíveis nas camadas de API, demo e interface, com as ressalvas da matriz atual. Tailwind CSS 4
+substituiu o Bootstrap no grid e nos utilitários responsivos; os estilos próprios ficam
 restritos à identidade visual. O filtro por situação permanece fora da
 interface atual, embora os cards já apresentem a classificação de cada item.
 
