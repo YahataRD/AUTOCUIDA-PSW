@@ -35,7 +35,7 @@ pertencem ao grupo de gestão e não foram alterados.
 
 ## Pontos a resolver durante a implementação
 
-- Manter Bootstrap 5 como o kit visual responsivo adotado nesta entrega.
+- Manter Tailwind CSS 4 como o kit visual responsivo adotado nesta entrega.
 - Manter itens, serviços, alertas e custos vinculados ao veículo correto.
 - Ao editar ou excluir serviços, recalcular a referência de manutenção e os
   custos; preservar o histórico ao inativar veículos ou remover itens do plano.

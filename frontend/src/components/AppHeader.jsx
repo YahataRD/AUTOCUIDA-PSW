@@ -29,7 +29,7 @@ export default function AppHeader({ page, currentKm }) {
   const isDashboard = page === "dashboard";
 
   return (
-    <header className="screen-header">
+    <header className="flex flex-wrap items-start justify-between gap-4 px-5 pt-8 pb-5 md:px-10 md:pt-[2.6rem] md:pb-[1.6rem]">
       <div>
         <p className="eyebrow">{pageContent.eyebrow}</p>
         <h1 className="screen-title">{pageContent.title}</h1>

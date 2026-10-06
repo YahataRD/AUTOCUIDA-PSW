@@ -7,7 +7,7 @@ export default function StateMessage({
 }) {
   return (
     <section
-      className="surface state-message"
+      className="surface p-6"
       role={error ? "alert" : "status"}
     >
       <h2 className="form-title">{title}</h2>

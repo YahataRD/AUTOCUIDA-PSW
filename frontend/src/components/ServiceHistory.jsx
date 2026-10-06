@@ -19,7 +19,7 @@ export default function ServiceHistory({ records, items = [], onDelete, onUpdate
         <span className="history-count">{records.length} executados</span>
       </div>
 
-      <div className="surface history-list">
+      <div className="surface overflow-hidden">
         {records.length === 0 && (
           <StateMessage title="Nenhum serviço registrado">
             Os serviços deste veículo aparecerão aqui após o primeiro registro.

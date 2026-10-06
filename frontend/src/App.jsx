@@ -22,7 +22,7 @@ export default function App() {
   function renderActivePage() {
     if (store.status === "loading") {
       return (
-        <main className="page-content" aria-busy="true">
+        <main className="grid gap-[1.35rem] px-5 md:px-10" aria-busy="true">
           <StateMessage title="Carregando veículos">
             Aguarde enquanto os dados são carregados.
           </StateMessage>
@@ -31,7 +31,7 @@ export default function App() {
     }
     if (store.status === "error") {
       return (
-        <main className="page-content">
+        <main className="grid gap-[1.35rem] px-5 md:px-10">
           <StateMessage
             title="Dados indisponíveis"
             error
@@ -45,7 +45,7 @@ export default function App() {
     }
     if (!vehicle && route.page !== "garage") {
       return (
-        <main className="page-content">
+        <main className="grid gap-[1.35rem] px-5 md:px-10">
           <StateMessage
             title="Nenhum veículo ativo"
             onAction={() => route.navigate("garage")}
@@ -120,10 +120,10 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell container-fluid px-0">
+    <div className="mx-auto min-h-screen w-full max-w-6xl pb-[6.25rem] lg:pb-7">
       <AppHeader page={route.page} currentKm={vehicle?.currentKm} />
       {store.isDemo && (
-        <p className="surface state-message" role="status">
+        <p className="surface p-6" role="status">
           Demonstração: alterações ficam apenas nesta sessão e são descartadas
           ao recarregar.
         </p>
@@ -139,7 +139,7 @@ export default function App() {
         </StateMessage>
       )}
       {store.isSaving && (
-        <p className="state-message" role="status">
+        <p className="p-6" role="status">
           Salvando alterações…
         </p>
       )}

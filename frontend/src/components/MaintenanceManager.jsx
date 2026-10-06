@@ -26,23 +26,23 @@ export default function MaintenanceManager({ vehicle, items, isSaving, onCreate,
   }
 
   return (
-    <section className="surface">
-      <h2 className="form-title">{editing ? "Editar item de manutenção" : "Adicionar item de manutenção"}</h2>
-      <form className="service-form" onSubmit={handleSubmit(submit)} noValidate>
+    <section className="surface p-5 md:p-[1.4rem]">
+      <h2 className="form-title mb-4">{editing ? "Editar item de manutenção" : "Adicionar item de manutenção"}</h2>
+      <form className="grid min-w-0 gap-4 lg:grid-cols-2 [&_.primary-button]:mt-[0.2rem]" onSubmit={handleSubmit(submit)} noValidate>
         {errors.root?.server && <p className="field-error" role="alert">{errors.root.server.message}</p>}
-        <div className="form-field"><label className="form-label" htmlFor="maintenance-name">Nome</label>
+        <div className="min-w-0"><label className="form-label" htmlFor="maintenance-name">Nome</label>
           <input id="maintenance-name" className="form-control" disabled={busy} {...register("name")} />
           {errors.name && <p className="field-error" role="alert">{errors.name.message}</p>}</div>
-        <div className="form-field"><label className="form-label" htmlFor="maintenance-km">Intervalo em km</label>
+        <div className="min-w-0"><label className="form-label" htmlFor="maintenance-km">Intervalo em km</label>
           <input id="maintenance-km" className="form-control" type="number" min="0" disabled={busy} {...register("intervalKm")} /></div>
-        <div className="form-field"><label className="form-label" htmlFor="maintenance-months">Intervalo em meses</label>
+        <div className="min-w-0"><label className="form-label" htmlFor="maintenance-months">Intervalo em meses</label>
           <input id="maintenance-months" className="form-control" type="number" min="0" disabled={busy} {...register("intervalMonths")} /></div>
-        <div className="form-field"><label className="form-label" htmlFor="maintenance-date">Referência de data</label>
+        <div className="min-w-0"><label className="form-label" htmlFor="maintenance-date">Referência de data</label>
           <input id="maintenance-date" className="form-control" type="date" disabled={busy} {...register("initialDate")} /></div>
-        <div className="form-field"><label className="form-label" htmlFor="maintenance-reference-km">Referência em km</label>
+        <div className="min-w-0"><label className="form-label" htmlFor="maintenance-reference-km">Referência em km</label>
           <input id="maintenance-reference-km" className="form-control" type="number" min="0" disabled={busy} {...register("initialKm")} /></div>
-        <button className="primary-button" disabled={busy}>{editing ? "Salvar item" : "Adicionar item"}</button>
-        {editing && <button className="secondary-button" type="button" onClick={cancel} disabled={busy}>Cancelar</button>}
+        <button className="primary-button lg:col-span-2" disabled={busy}>{editing ? "Salvar item" : "Adicionar item"}</button>
+        {editing && <button className="secondary-button lg:col-span-2" type="button" onClick={cancel} disabled={busy}>Cancelar</button>}
       </form>
       {items.map((item) => (
         <div className="breakdown-row" key={item.id}>
