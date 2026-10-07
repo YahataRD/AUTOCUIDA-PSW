@@ -17,8 +17,9 @@
 | 2026-10-05 | Rafael Duarte Yahata | Registro de mudanças e horas | 0,50 | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
 | 2026-10-06 | Rafael Duarte Yahata | Integridade das edições: odômetro, serviços, referências e testes | 2,00 | [598b1a2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/598b1a2) |
 | 2026-10-06 | Rafael Duarte Yahata | Formulários, acessibilidade e tratamento de falhas | 2,50 | [8133fd6](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/8133fd6) |
-| 2026-10-06 | Rafael Voigt Villas Boas | Verificação final: análise de escopo/código, testes, build e revisão da documentação de entrega | 2,00 | Revisão documental desta entrega; [registro](../docs/testes/verificacao-final.md) |
-| — | **Rafael Duarte Yahata** | **Subtotal** | **32,50** | — |
+| 2026-10-06 | Rafael Voigt Villas Boas | Verificação final: análise de escopo/código, testes, build e revisão da documentação de entrega | 2,00 | [0c66171](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0c66171); [registro](../docs/testes/verificacao-final.md) |
+| 2026-10-06 | Rafael Duarte Yahata | Calendário dos alertas, percentuais e atualização da documentação de entrega | 1,50 | Neste commit |
+| — | **Rafael Duarte Yahata** | **Subtotal** | **34,00** | — |
 | — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
 | — | **Rafael Voigt Villas Boas** | **Subtotal** | **2,00** | — |
-| — | **Equipe** | **Subtotal das contribuições identificadas** | **39,00** | — |
+| — | **Equipe** | **Subtotal das contribuições identificadas** | **40,50** | — |

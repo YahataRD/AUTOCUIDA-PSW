@@ -2,6 +2,7 @@ import {
   calculateMaintenance,
   formatDate,
   formatKm,
+  formatWear,
 } from "../utils/maintenance";
 
 export default function MaintenanceCard({
@@ -40,7 +41,7 @@ export default function MaintenanceCard({
           )}
         </span>
         <strong className={`wear-percentage status-${maintenance.status}`}>
-          {maintenance.wear}% de desgaste
+          {formatWear(maintenance.wear)} de desgaste
         </strong>
       </div>
 

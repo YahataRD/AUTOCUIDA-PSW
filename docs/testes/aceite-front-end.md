@@ -21,7 +21,7 @@ Fonte: [roteiro original de 25/09/2026](https://github.com/YahataRD/AUTOCUIDA-PS
 | T13 | Editar data/km/valor/tipo e cancelar | Parcial com limitação: testes de edição passam; serviço de item inativo é bloqueado (P03) |
 | T14 | Excluir serviço, confirmar/cancelar e recalcular | Parcial: regra de referência e exclusão em demo; todos os cenários visuais não reexecutados |
 | T15 | 79,9/80/99,9/100% e filtro de situação | Reprovado como conjunto: quatro limites por km corretos; filtro ausente (P01) |
-| T16 | Antes/no/depois do vencimento, fevereiro/fim de mês | Reprovado: mês médio e setUTCMonth divergem do calendário (P02) |
+| T16 | Antes/no/depois do vencimento, fevereiro/fim de mês | Corrigido após a revisão: regressões automatizadas aprovadas, incluindo ano bissexto e dia local. Ver calendario-alertas.md; não equivale a novo aceite manual independente. |
 | T17 | Serviço atual/retroativo e cronologia consistente | Parcial: regras e integração aprovadas; sequência visual não repetida |
 | T18 | R$ 100 + R$ 50, média R$ 25 e recálculo | Parcial: custos da seed conferidos e funções inspecionadas; fixture exata 100/50 não executada no navegador |
 | T19 | Todas as telas em 360, 768 e 1280 px | Parcial: inspeção móvel limitada; registro histórico tailwind.md não equivale a repetir todas as larguras |

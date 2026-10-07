@@ -19,6 +19,7 @@ A versão inicial já continha páginas React e referências HTML estáticas. O 
 | Responsividade | Tailwind CSS 4 substitui Bootstrap | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
 | Integridade | Proteção do odômetro e das referências, tratamento de gravação parcial | [598b1a2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/598b1a2) |
 | Feedback | Rótulos, erros associados aos campos e falhas de ações | [8133fd6](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/8133fd6) |
+| Alertas | Calendário com fim de mês/anos bissextos e percentual legível sem antecipar limites | Nesta etapa; [validação](testes/calendario-alertas.md) |
 
 ## Arquitetura e tecnologias na versão entregue
 
@@ -44,6 +45,6 @@ A versão inicial já continha páginas React e referências HTML estáticas. O 
 
 Na revisão final, passaram 37 testes de frontend e 10 testes de integração HTTP, além do build com API. Foram reproduzidos os limites de km (79,9/80/99,9/100%) e a falha de calendário. A inspeção das telas confirma as funções descritas nos manuais, sem representar homologação completa de acessibilidade.
 
-O refinamento **não está integralmente concluído**: falta filtro de situação; calendário pode divergir; percentuais têm casas decimais excessivas; serviços de itens inativos não podem ser editados mantendo o vínculo; gráficos e barras ainda usam dimensão inline, divergindo da EAP. A [matriz de pendências](entrega-avaliacao.md) explica impacto, evidência e ausência de justificativa aprovada para dispensar requisitos essenciais.
+Após essa revisão, o calendário e a apresentação dos percentuais foram corrigidos, com 53 testes e builds API/demo aprovados. O refinamento **não está integralmente concluído**: falta filtro de situação; serviços de itens inativos não podem ser editados mantendo o vínculo; gráficos e barras ainda usam dimensão inline, divergindo da EAP. A [matriz de pendências](entrega-avaliacao.md) explica impacto e evidência. O registro anterior permanece como histórico, sem atribuir os novos testes à revisão de Rafael Voigt.
 
 Nesta preparação da entrega foram ajustados somente documentos e registro de horas. Nenhuma dessas pendências foi corrigida nem marcada como funcional por essa revisão.

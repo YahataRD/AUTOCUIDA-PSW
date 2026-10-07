@@ -21,6 +21,12 @@ pela data de referência:
 
 O cálculo considera o maior percentual entre tempo e quilometragem.
 
+O prazo em meses respeita o calendário. Quando o mês de destino não contém o
+mesmo dia, vale seu último dia: por exemplo, 31/01/2026 + um mês = 28/02/2026.
+Nesse dia o desgaste por tempo atinge 100%. O percentual é exibido com até uma
+casa decimal, truncada para não mostrar 80% ou 100% antes de atingir o limite.
+Ao deixar a tela aberta de um dia para o outro, recarregue para atualizar a data.
+
 ## Cadastrar um veículo
 
 1. Abra **Garagem**.
@@ -80,8 +86,6 @@ erro aparecem junto do campo que precisa de correção.
 ## Limitações que afetam a utilização
 
 - Não há filtro de alertas por situação: percorra os cards do Painel.
-- O vencimento por tempo usa uma aproximação que pode discordar da data exibida, principalmente em fevereiro e no fim do mês. Não se baseie apenas na cor/classe para decidir o prazo real.
-- Alguns percentuais aparecem com muitas casas decimais.
 - Um serviço de item removido continua no histórico, mas sua edição mantendo o item original pode ser bloqueada. Não mude o item só para contornar essa limitação.
 - Inativar um veículo preserva dados no mock, mas o retira das telas ativas; não há tela de consulta dos inativos.
 - O mock não possui login nem controle de acesso e não é um backend de produção.

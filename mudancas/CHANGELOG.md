@@ -11,6 +11,19 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-06
 
+### Calendário e percentuais dos alertas
+
+- Integrada a revisão documental realizada na faculdade (0c66171), preservando
+  o registro de verificação e as 2,00 h de Rafael Voigt.
+- Corrigido o vencimento por meses, usando o último dia disponível do mês de
+  destino quando necessário; o desgaste temporal atinge 100% no prazo exibido.
+- Dia local normalizado para evitar diferenças por horário; percentuais em
+  português com até uma casa decimal, sem antecipar as faixas de classificação.
+- Validação: 53 testes, builds API/demo e inspeção do Painel em 390 e 1366 px.
+  Testes de calendário repetidos nos fusos de São Paulo e Auckland.
+- Documentação corrente e horas atualizadas (1,50 h nesta etapa). Permanecem
+  filtro por situação, edição de serviços de itens removidos e aceite completo.
+
 ### Preparação documental para avaliação
 
 - Revisados prototipagem, refinamento e três manuais para refletir React/Tailwind/json-server e as limitações atuais.

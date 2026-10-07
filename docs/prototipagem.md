@@ -43,7 +43,7 @@ A navegação principal tem quatro seções; o seletor de veículo aparece em to
 ## Regras e critérios de aceite planejados
 
 - Desgaste: maior valor entre tempo e km; Em dia abaixo de 80%, Próximo de 80% a menos de 100%, Vencido a partir de 100%. Classificar antes de arredondar para exibição.
-- Tempo: respeitar vencimento por calendário, inclusive fim de mês e fevereiro. **Implementação atual tem divergências**, detalhadas em P02.
+- Tempo: respeitar vencimento por calendário, inclusive fim de mês e fevereiro. P02 foi corrigida após a revisão documental; veja a [validação dos alertas](testes/calendario-alertas.md).
 - Odômetro só avança; placa é única após normalização; serviço não aceita data futura, valor zero ou campos obrigatórios vazios.
 - Referência inicial do item e histórico determinam a referência mais recente. Serviço retroativo coerente não reduz odômetro nem substitui a referência mais recente.
 - Inativar veículo/remover item preserva o histórico. Excluir um serviço recalcula os custos e a referência sem diminuir odômetro.

@@ -1,5 +1,9 @@
 # Verificação final — 06/10/2026
 
+**Registro histórico da base 8133fd6.** Os achados de calendário e casas decimais
+foram corrigidos em etapa posterior: [calendário e percentuais](calendario-alertas.md).
+Os resultados abaixo preservam o que foi observado na revisão de Rafael Voigt.
+
 Código analisado: **8133fd61e5b0b6dfe901d1c033dbf43147319d1b** (main ao iniciar a revisão).
 Responsável informado pela equipe: **Rafael Voigt Villas Boas**. Atividade: comparação do escopo, verificação técnica e preparação documental para avaliação; **2,00 horas** no registro de atividades.
 Inspeção e execução assistidas por Codex. Este documento não é aprovação formal do professor nem prova de revisão independente de todos os cenários da EAP.

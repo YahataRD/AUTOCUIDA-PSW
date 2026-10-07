@@ -8,7 +8,7 @@ Projeto desenvolvido para a disciplina de Programação de Software Web.
 
 ## Entrega de 06/10/2026
 
-A [análise de aderência aos oito critérios](docs/entrega-avaliacao.md) registra o que foi entregue e as pendências. Na base 8133fd6 passaram **47 testes e o build**. O escopo não está integralmente concluído: faltam filtro por situação, consistência temporal por calendário e edição de serviços de itens removidos. A revisão final, sob responsabilidade de Rafael Voigt, ajusta somente documentação e registro de horas.
+A [análise de aderência aos oito critérios](docs/entrega-avaliacao.md) registra o que foi entregue e as pendências. Após a revisão documental de Rafael Voigt, foram corrigidos o calendário e a apresentação dos percentuais: **53 testes e builds API/demo aprovados**. O escopo ainda possui duas pendências funcionais: filtro por situação e edição de serviços de itens removidos. Veja a [validação dos alertas](docs/testes/calendario-alertas.md).
 
 ## Demonstração online
 
@@ -181,6 +181,12 @@ Cada item possui uma referência de último serviço e intervalos por distância
 e tempo. O sistema usa o maior desgaste entre os dois, sem arredondar antes da
 classificação: abaixo de 80% indica **Em dia**, de 80% a menos de 100% indica
 **Próximo** e a partir de 100% indica **Vencido**.
+
+O prazo em meses respeita o calendário e limita o dia ao último dia do mês de
+destino (31/01 + um mês resulta em 28/02 ou 29/02). O desgaste temporal usa a
+fração de dias entre a referência e esse prazo, atingindo 100% no vencimento.
+O percentual exibido é truncado para uma casa decimal; a classificação mantém
+a precisão original. A data considerada é o dia local ao renderizar o Painel.
 
 O total de custos considera todos os serviços registrados. O gráfico e a média
 mensal consideram o mês atual e os cinco anteriores, incluindo meses sem gastos.

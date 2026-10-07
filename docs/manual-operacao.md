@@ -41,7 +41,7 @@ Este roteiro é instrução para apresentação; não é declaração de que tod
 | Campo inválido | Corrija o campo indicado; não apague o JSON para contornar validação. |
 | Falha ao salvar | Confira mensagem, odômetro e histórico antes de reenviar. Um PATCH pode ter sido concluído antes de um POST/PUT falhar. |
 | Edição de serviço de item removido bloqueada | Registre a limitação P03; não reassocie o serviço a outro item para aparentar correção. |
-| Alerta temporal discordante | Apresente P02 como limitação conhecida. |
+| Painel aberto desde o dia anterior | Recarregue a página para recalcular com o dia local atual. O calendário foi corrigido; não há atualização automática à meia-noite. |
 
 ## Conferência técnica
 
@@ -51,4 +51,4 @@ npm run build
 npm run preview
 ~~~
 
-O build vai para frontend/dist/; a prévia serve esse build junto ao mock, normalmente na porta 4173. Não versione dist, node_modules ou db.json. Os testes HTTP usam arquivo temporário e não modificam a base de uso. O relatório de 06/10 registra 47 testes aprovados e build aprovado; isso não substitui o aceite completo T01–T23.
+O build vai para frontend/dist/; a prévia serve esse build junto ao mock, normalmente na porta 4173. Não versione dist, node_modules ou db.json. Os testes HTTP usam arquivo temporário e não modificam a base de uso. Após a correção dos alertas, passaram 53 testes e os builds API/demo; isso não substitui o aceite completo T01–T23. Veja [calendário e percentuais](testes/calendario-alertas.md).
