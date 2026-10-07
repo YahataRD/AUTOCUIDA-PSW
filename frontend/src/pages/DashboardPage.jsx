@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MaintenanceCard from "../components/MaintenanceCard";
 import VehicleSummary from "../components/VehicleSummary";
 import StateMessage from "../components/StateMessage";
@@ -8,6 +9,7 @@ export default function DashboardPage({
   maintenanceItems,
   onRegisterService,
 }) {
+  const [status, setStatus] = useState("all");
   const maintenanceWithStatus = maintenanceItems.map((item) => ({
     ...item,
     calculation: calculateMaintenance(item, vehicle.currentKm),
@@ -18,6 +20,9 @@ export default function DashboardPage({
   const pendingAlerts = maintenanceWithStatus.filter(
     (item) => item.calculation.status !== "current",
   ).length;
+  const visibleItems = maintenanceWithStatus.filter((item) =>
+    status === "all" || item.calculation.status === status,
+  );
 
   return (
     <main className="grid gap-[1.35rem] px-5 md:px-10">
@@ -37,13 +42,34 @@ export default function DashboardPage({
           </span>
         </div>
 
+        {maintenanceItems.length > 0 && (
+          <div className="mb-4 grid gap-2 md:max-w-xs">
+            <label className="form-label" htmlFor="maintenance-status">Filtrar por situação</label>
+            <select id="maintenance-status" className="form-control" value={status}
+              onChange={(event) => setStatus(event.target.value)}>
+              <option value="all">Todos</option>
+              <option value="current">Em dia</option>
+              <option value="soon">Próximo</option>
+              <option value="overdue">Vencido</option>
+            </select>
+            <p className="form-help mb-0" role="status">
+              {visibleItems.length} de {maintenanceItems.length} itens exibidos
+            </p>
+          </div>
+        )}
         <div className="grid gap-[0.8rem] md:grid-cols-2">
           {maintenanceItems.length === 0 && (
             <StateMessage title="Nenhum item de manutenção">
               Este veículo ainda não possui itens no plano de manutenção.
             </StateMessage>
           )}
-          {maintenanceItems.map((item) => (
+          {maintenanceItems.length > 0 && visibleItems.length === 0 && (
+            <StateMessage title="Nenhum item nesta situação"
+              onAction={() => setStatus("all")} actionLabel="Mostrar todos">
+              Escolha outra situação para consultar os itens do veículo.
+            </StateMessage>
+          )}
+          {visibleItems.map((item) => (
             <MaintenanceCard
               key={item.id}
               item={item}

@@ -18,16 +18,16 @@ Fonte: [roteiro original de 25/09/2026](https://github.com/YahataRD/AUTOCUIDA-PS
 | T10 | Cancelar/confirmar remoção preservando histórico | Parcial: regra de preservação testada; confirmação manual não refeita |
 | T11 | Serviços preventivo e corretivo, sem duplicação | Parcial: regras e integração existentes aprovadas; ciclo visual dos dois tipos não refeito |
 | T12 | Campos inválidos e nenhuma gravação indevida | Parcial: schemas e cenários HTTP aprovados; não confundir com falhas de rede após PATCH, que podem ser parciais |
-| T13 | Editar data/km/valor/tipo e cancelar | Parcial com limitação: testes de edição passam; serviço de item inativo é bloqueado (P03) |
+| T13 | Editar data/km/valor/tipo e cancelar | Regressões de edição aprovadas; valor de serviço de item removido editado e persistido via UI/API nesta rodada. Aceite de todas as combinações continua parcial. |
 | T14 | Excluir serviço, confirmar/cancelar e recalcular | Parcial: regra de referência e exclusão em demo; todos os cenários visuais não reexecutados |
-| T15 | 79,9/80/99,9/100% e filtro de situação | Reprovado como conjunto: quatro limites por km corretos; filtro ausente (P01) |
+| T15 | 79,9/80/99,9/100% e filtro de situação | Limites automatizados aprovados; quatro opções, contagem, teclado e troca de veículo conferidos no navegador. P01 corrigida. |
 | T16 | Antes/no/depois do vencimento, fevereiro/fim de mês | Corrigido após a revisão: regressões automatizadas aprovadas, incluindo ano bissexto e dia local. Ver calendario-alertas.md; não equivale a novo aceite manual independente. |
 | T17 | Serviço atual/retroativo e cronologia consistente | Parcial: regras e integração aprovadas; sequência visual não repetida |
 | T18 | R$ 100 + R$ 50, média R$ 25 e recálculo | Parcial: custos da seed conferidos e funções inspecionadas; fixture exata 100/50 não executada no navegador |
 | T19 | Todas as telas em 360, 768 e 1280 px | Parcial: inspeção móvel limitada; registro histórico tailwind.md não equivale a repetir todas as larguras |
 | T20 | Teclado, foco, erros, zoom 200% | Pendente de execução completa; existem rótulos e erros associados, sem homologação integral |
 | T21 | Fluxo completo sem exceções/avisos e UI sincronizada | Parcial: suíte e navegação consultada sem avisos retornados; fluxo completo não reexecutado manualmente |
-| T22 | Zero veículos/itens/serviços e filtro sem resultado | Parcial: estados básicos no código/testes; filtro inexistente impede seu estado sem resultado |
+| T22 | Zero veículos/itens/serviços e filtro sem resultado | Filtro vazio e Mostrar todos conferidos nesta rodada. Estados básicos anteriores continuam cobertos; conjunto manual completo não reexecutado. |
 | T23 | README em outra cópia, commits, ensaio e entrega | Parcial: clone/testes/build e histórico conferidos; ensaio coletivo e envio ao Teams não realizados nesta revisão |
 
 ## Como completar o aceite

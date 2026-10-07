@@ -11,6 +11,18 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-06
 
+### Filtro e histórico de itens removidos
+
+- Painel com filtro Todos/Em dia/Próximo/Vencido, contador, estado sem resultados
+  e retorno à lista completa; troca de veículo restaura Todos.
+- Edição de serviço permite manter seu item original removido, sem reativá-lo.
+  Novos serviços e transferência para outro item inativo continuam bloqueados.
+- 56 testes aprovados (45 frontend + 11 HTTP), builds API/demo e conferência
+  em celular/desktop. Edição via API preservada após recarregar, com custos atualizados.
+- Documentos e tabela de horas atualizados: 2,00 h nesta etapa. P01–P03 resolvidas;
+  aceite completo, evidência individual e ressalva de estilos da EAP permanecem.
+- Evidências em [filtro e histórico](../docs/testes/filtro-historico.md).
+
 ### Calendário e percentuais dos alertas
 
 - Integrada a revisão documental realizada na faculdade (0c66171), preservando

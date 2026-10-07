@@ -11,9 +11,12 @@ const fields = [
 ];
 
 export default function ServiceEditForm({ record, items, isSaving, onSave, onCancel }) {
+  const availableItems = items.filter((item) =>
+    item.active || item.id === record.maintenanceItemId,
+  );
   const { register, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } =
     useForm({
-      resolver: zodResolver(createServiceSchema(items)),
+      resolver: zodResolver(createServiceSchema(availableItems)),
       defaultValues: {
         maintenanceType: record.maintenanceType,
         maintenanceItemId: record.maintenanceItemId,
@@ -39,7 +42,7 @@ export default function ServiceEditForm({ record, items, isSaving, onSave, onCan
       <h3 className="form-title md:col-span-2">Editar serviço</h3>
       {errors.root?.server && <p className="field-error md:col-span-2" role="alert">{errors.root.server.message}</p>}
       {[
-        { name: "maintenanceItemId", label: "Item de manutenção", options: items.map((item) => [item.id, item.name]) },
+        { name: "maintenanceItemId", label: "Item de manutenção", options: availableItems.map((item) => [item.id, item.active ? item.name : `${item.name} (removido do plano)`]) },
         { name: "maintenanceType", label: "Tipo de manutenção", options: [["preventive", "Preventiva"], ["corrective", "Corretiva"]] },
       ].map(({ name, label, options }) => (
         <div className="min-w-0" key={name}>

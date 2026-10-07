@@ -11,9 +11,9 @@ Atualização após 0c66171: calendário e percentuais corrigidos conforme
 | 26/09 | Kit visual, tema, navegação e Painel | Tailwind presente; percentuais corrigidos; dimensões inline ainda divergem da EAP |
 | 27/09 | Dados por veículo, carga, estados e URLs | Implementados; hoje a carga usa API mockada, não JSON estático |
 | 28/09 | Veículos e odômetro | Implementados, com testes de validação e persistência |
-| 29/09 | Gestão de itens | Implementada; impacto na edição de serviço de item removido permanece |
-| 30/09 | Edição e exclusão de serviços | Implementadas para itens ativos; ressalva P03 |
-| 01/10 | Alertas, tempo/km, retroatividade | Calendário e percentuais corrigidos após a revisão documental; filtro ainda ausente |
+| 29/09 | Gestão de itens | Implementada; remover preserva histórico, custos e edição do serviço original |
+| 30/09 | Edição e exclusão de serviços | Implementadas, inclusive edição mantendo item removido; P03 corrigida |
+| 01/10 | Alertas, tempo/km, retroatividade | Calendário, percentuais e filtro implementados e validados nas rodadas finais |
 | 02/10 | Custos e histórico | Implementados por veículo; totais da seed conferidos |
 | 03/10 | Responsividade, acessibilidade e formulários | Há registros anteriores e inspeção atual limitada; teclado/zoom completos não homologados |
 | 04/10 | Aceite integral e congelamento | Não comprovado integralmente; há correções no histórico em 06/10 e pendências abertas |

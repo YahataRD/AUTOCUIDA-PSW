@@ -62,6 +62,10 @@ export function validateOdometer(data, vehicleId, currentKm) {
 }
 
 export function createServiceRecord(data, vehicleId, input, { id, today }) {
+  return buildServiceRecord(data, vehicleId, input, { id, today });
+}
+
+function buildServiceRecord(data, vehicleId, input, { id, today }, originalItemId) {
   const vehicle = data.vehicles.find(
     (entry) => entry.id === vehicleId && entry.active,
   );
@@ -69,7 +73,7 @@ export function createServiceRecord(data, vehicleId, input, { id, today }) {
     (entry) =>
       entry.id === input.maintenanceItemId &&
       entry.vehicleId === vehicleId &&
-      entry.active,
+      (entry.active || entry.id === originalItemId),
   );
   requireCondition(vehicle && item, "Selecione um item ativo deste veículo.");
   requireCondition(
@@ -134,11 +138,14 @@ export function updateServiceRecord(data, serviceId, input, { today }) {
   const current = data.serviceRecords.find((record) => record.id === serviceId);
   requireCondition(current, "Serviço não encontrado.");
   const records = data.serviceRecords.filter((record) => record.id !== serviceId);
-  const next = createServiceRecord(
+  // Um serviço existente pode manter seu item removido, mas nunca ser
+  // transferido para outro item inativo. Novos serviços continuam exigindo ativo.
+  const next = buildServiceRecord(
     { ...data, serviceRecords: records },
     current.vehicleId,
     input,
     { id: serviceId, today },
+    current.maintenanceItemId,
   );
   validateChronology(
     data.maintenanceItems.find((item) => item.id === next.maintenanceItemId).initialReference,

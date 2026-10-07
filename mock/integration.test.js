@@ -37,6 +37,30 @@ const input = {
   shop: "Oficina teste",
 };
 
+test("serviço de item removido é editado e persiste sem permitir novos vínculos inativos", async (t) => {
+  const writes = [];
+  const { api, url, file } = await setup(t, (req, res, next) => {
+    if (req.method !== "GET") writes.push(`${req.method} ${req.path}`);
+    next();
+  });
+  const original = (await api.load()).serviceRecords.find((record) => record.maintenanceItemId === "2");
+  await api.removeMaintenanceItem("2");
+  await api.removeMaintenanceItem("3");
+  writes.length = 0;
+  await api.updateService(original.id, { ...original, amount: 150 });
+  assert.deepEqual(writes, [`PUT /serviceRecords/${original.id}`]);
+  const saved = await createApi(url).load();
+  assert.deepEqual(JSON.parse(await readFile(file, "utf8")), saved);
+  assert.equal(saved.maintenanceItems.find((item) => item.id === "2").active, false);
+  assert.equal(saved.serviceRecords.find((record) => record.id === original.id).maintenanceItemId, "2");
+  assert.equal(calculateCostSummary(selectVehicleData(saved, "1").serviceRecords).total, 2230);
+  writes.length = 0;
+  await assert.rejects(api.registerService("1", original), /item ativo/);
+  await assert.rejects(api.updateService(original.id, { ...original, maintenanceItemId: "3" }), /item ativo/);
+  assert.deepEqual(writes, []);
+  assert.deepEqual(await api.load(), saved);
+});
+
 test("edição rejeita odômetro menor e referência incompatível antes de qualquer escrita", async (t) => {
   const writes = [];
   const { api, url } = await setup(t, (req, res, next) => {

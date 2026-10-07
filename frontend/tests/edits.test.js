@@ -4,6 +4,41 @@ import { MutationObserver, QueryClient } from "@tanstack/react-query";
 import { createDemoApi } from "../src/data/demo.js";
 import { commandMutation, dataKey } from "../src/data/queries.js";
 import { validateData } from "../src/data/validation.js";
+import { selectVehicleData } from "../src/state/autoCuida.js";
+import { calculateCostSummary } from "../src/utils/costs.js";
+
+test("edição mantém item removido sem reativá-lo e preserva custos e isolamento", async () => {
+  const api = createDemoApi();
+  const before = await api.load();
+  const original = before.serviceRecords.find((record) => record.maintenanceItemId === "2");
+  await api.removeMaintenanceItem("2");
+  await api.updateService(original.id, { ...original, amount: 150, shop: "Oficina corrigida" });
+  const saved = validateData(await api.load());
+  const record = saved.serviceRecords.find((entry) => entry.id === original.id);
+  assert.equal(record.maintenanceItemId, "2");
+  assert.equal(record.amount, 150);
+  assert.equal(record.shop, "Oficina corrigida");
+  assert.equal(saved.maintenanceItems.find((item) => item.id === "2").active, false);
+  assert.equal(selectVehicleData(saved, "1").maintenanceItems.some((item) => item.id === "2"), false);
+  assert.equal(calculateCostSummary(selectVehicleData(saved, "1").serviceRecords).total, 2230);
+  assert.deepEqual(selectVehicleData(saved, "2"), selectVehicleData(before, "2"));
+});
+
+test("item removido só é permitido no vínculo original, com cronologia e veículo válidos", async () => {
+  const api = createDemoApi();
+  const original = (await api.load()).serviceRecords.find((record) => record.maintenanceItemId === "2");
+  await api.removeMaintenanceItem("2");
+  await api.removeMaintenanceItem("3");
+  const before = await api.load();
+  await assert.rejects(api.registerService("1", original), /item ativo/);
+  for (const maintenanceItemId of ["3", "5", "missing"]) {
+    await assert.rejects(api.updateService(original.id, { ...original, maintenanceItemId }), /item ativo/);
+  }
+  await assert.rejects(api.updateService(original.id, { ...original, serviceKm: 100 }), /incompatível/);
+  assert.deepEqual(await api.load(), before);
+  await api.deactivateVehicle("1");
+  await assert.rejects(api.updateService(original.id, original), /item ativo/);
+});
 
 test("demo rejeita redução do odômetro pela edição e aceita a leitura atual", async () => {
   const api = createDemoApi();

@@ -40,7 +40,7 @@ Este roteiro é instrução para apresentação; não é declaração de que tod
 | Nenhum veículo/item/serviço | Cadastre o recurso ou restaure a seed se a intenção for reiniciar a demonstração. |
 | Campo inválido | Corrija o campo indicado; não apague o JSON para contornar validação. |
 | Falha ao salvar | Confira mensagem, odômetro e histórico antes de reenviar. Um PATCH pode ter sido concluído antes de um POST/PUT falhar. |
-| Edição de serviço de item removido bloqueada | Registre a limitação P03; não reassocie o serviço a outro item para aparentar correção. |
+| Serviço de item removido | Edite normalmente mantendo o item identificado como removido do plano. Isso não o reativa; não selecione outro item para contornar erro de cronologia. |
 | Painel aberto desde o dia anterior | Recarregue a página para recalcular com o dia local atual. O calendário foi corrigido; não há atualização automática à meia-noite. |
 
 ## Conferência técnica
@@ -51,4 +51,4 @@ npm run build
 npm run preview
 ~~~
 
-O build vai para frontend/dist/; a prévia serve esse build junto ao mock, normalmente na porta 4173. Não versione dist, node_modules ou db.json. Os testes HTTP usam arquivo temporário e não modificam a base de uso. Após a correção dos alertas, passaram 53 testes e os builds API/demo; isso não substitui o aceite completo T01–T23. Veja [calendário e percentuais](testes/calendario-alertas.md).
+O build vai para frontend/dist/; a prévia serve o build e o mock, normalmente na porta 4173. Não versione dist, node_modules ou db.json. Os testes HTTP usam base temporária. A rodada final passou em 56 testes e builds API/demo; consulte [filtro e histórico](testes/filtro-historico.md). O aceite completo T01–T23 continua separado.

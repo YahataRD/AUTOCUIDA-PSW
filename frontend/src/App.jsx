@@ -101,7 +101,7 @@ export default function App() {
           <CostsPage
             key={vehicle.id}
             serviceRecords={serviceRecords}
-            maintenanceItems={maintenanceItems}
+            maintenanceItems={store.data.maintenanceItems.filter((item) => item.vehicleId === vehicle.id)}
             isSaving={store.isSaving}
             onDeleteService={(id) => store.removeService(id)}
             onUpdateService={store.updateService}
@@ -110,6 +110,7 @@ export default function App() {
       default:
         return (
           <DashboardPage
+            key={vehicle.id}
             vehicle={vehicle}
             maintenanceItems={maintenanceItems}
             onRegisterService={(itemId) =>

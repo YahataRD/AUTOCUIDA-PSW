@@ -21,6 +21,11 @@ pela data de referência:
 
 O cálculo considera o maior percentual entre tempo e quilometragem.
 
+Use **Filtrar por situação** para mostrar Todos, Em dia, Próximo ou Vencido.
+O contador informa quantos itens correspondem à seleção. Se a lista estiver
+vazia, **Mostrar todos** restaura a consulta. Trocar de veículo também restaura
+Todos. O resumo de alertas no topo sempre considera o plano inteiro do veículo.
+
 O prazo em meses respeita o calendário. Quando o mês de destino não contém o
 mesmo dia, vale seu último dia: por exemplo, 31/01/2026 + um mês = 28/02/2026.
 Nesse dia o desgaste por tempo atinge 100%. O percentual é exibido com até uma
@@ -71,6 +76,10 @@ No histórico da tela de Custos, use **Editar** para corrigir um serviço ou
 **Excluir** para removê-lo após a confirmação. Os alertas, a referência do item
 e os custos são recalculados depois da operação.
 
+Serviços de itens removidos também podem ser editados. O item original aparece
+como **removido do plano**; mantê-lo no registro não o reativa. Para novos
+serviços, somente itens ativos ficam disponíveis.
+
 ## Consultar custos e histórico
 
 Abra **Custos** para consultar o total gasto, a divisão por tipo, os últimos
@@ -85,8 +94,6 @@ erro aparecem junto do campo que precisa de correção.
 
 ## Limitações que afetam a utilização
 
-- Não há filtro de alertas por situação: percorra os cards do Painel.
-- Um serviço de item removido continua no histórico, mas sua edição mantendo o item original pode ser bloqueada. Não mude o item só para contornar essa limitação.
 - Inativar um veículo preserva dados no mock, mas o retira das telas ativas; não há tela de consulta dos inativos.
 - O mock não possui login nem controle de acesso e não é um backend de produção.
 

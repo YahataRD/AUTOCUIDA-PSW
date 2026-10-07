@@ -52,6 +52,6 @@ A navegação principal tem quatro seções; o seletor de veículo aparece em to
 
 ## Limites e resultado da prototipagem
 
-Não foram prometidos na AV1 autenticação real, notificações externas, integração com oficinas, banco de produção ou sincronização. Exportação de relatório e filtros financeiros avançados eram opcionais. O filtro por situação do Painel foi previsto e continua faltando.
+Não foram prometidos na AV1 autenticação real, notificações externas, integração com oficinas, banco de produção ou sincronização. Exportação e filtros financeiros avançados eram opcionais. O filtro por situação do Painel, previsto como essencial, foi implementado na [rodada final](testes/filtro-historico.md).
 
 A maior parte dos fluxos evoluiu para React com API mockada. A [matriz de entrega](entrega-avaliacao.md) compara os 16 casos de uso e explicita limitações. A presença de uma tela ou um protótipo não é evidência suficiente de aceite funcional; consulte o [refinamento](refinamento-prototipagem.md) e a [verificação final](testes/verificacao-final.md).

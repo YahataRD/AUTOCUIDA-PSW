@@ -8,7 +8,7 @@ Projeto desenvolvido para a disciplina de Programação de Software Web.
 
 ## Entrega de 06/10/2026
 
-A [análise de aderência aos oito critérios](docs/entrega-avaliacao.md) registra o que foi entregue e as pendências. Após a revisão documental de Rafael Voigt, foram corrigidos o calendário e a apresentação dos percentuais: **53 testes e builds API/demo aprovados**. O escopo ainda possui duas pendências funcionais: filtro por situação e edição de serviços de itens removidos. Veja a [validação dos alertas](docs/testes/calendario-alertas.md).
+A [análise de aderência aos oito critérios](docs/entrega-avaliacao.md) registra a entrega e suas ressalvas. Calendário, percentuais, filtro por situação e edição de serviços de itens removidos estão implementados: **56 testes e builds API/demo aprovados**. Permanecem o aceite completo, a comprovação individual de atribuições e a ressalva da EAP sobre dimensões inline. Veja a [validação desta rodada](docs/testes/filtro-historico.md).
 
 ## Demonstração online
 

@@ -36,7 +36,7 @@ A versão inicial já continha páginas React e referências HTML estáticas. O 
 | --- | --- | --- |
 | URL com seção e veículo | Link restaurável e navegação Voltar/Avançar | Normalização de rota não é autenticação |
 | Filtrar dados por vehicleId | Painel, histórico e custos correspondem ao selecionado | Inativos não têm consulta pela interface ativa |
-| Referências derivadas do histórico | Editar/excluir serviço recalcula o ciclo sem apagar referência inicial | Edição de serviço de item removido ainda é bloqueada |
+| Referências derivadas do histórico | Editar/excluir serviço recalcula o ciclo sem apagar referência inicial; edição pode manter item removido | Novos serviços exigem item ativo; remover item não o reativa |
 | Validação no frontend | Erros junto aos campos e rejeição de datas/valores inválidos | Escrita direta na API pode contornar regras |
 | Reconsulta após mutação | Interface acompanha dados do mock e informa falhas | Sem transação entre odômetro e serviço |
 | API local e demo separados | API persiste entre sessões; Pages permite demonstração em memória | Pages não comprova integração com json-server |
@@ -45,6 +45,6 @@ A versão inicial já continha páginas React e referências HTML estáticas. O 
 
 Na revisão final, passaram 37 testes de frontend e 10 testes de integração HTTP, além do build com API. Foram reproduzidos os limites de km (79,9/80/99,9/100%) e a falha de calendário. A inspeção das telas confirma as funções descritas nos manuais, sem representar homologação completa de acessibilidade.
 
-Após essa revisão, o calendário e a apresentação dos percentuais foram corrigidos, com 53 testes e builds API/demo aprovados. O refinamento **não está integralmente concluído**: falta filtro de situação; serviços de itens inativos não podem ser editados mantendo o vínculo; gráficos e barras ainda usam dimensão inline, divergindo da EAP. A [matriz de pendências](entrega-avaliacao.md) explica impacto e evidência. O registro anterior permanece como histórico, sem atribuir os novos testes à revisão de Rafael Voigt.
+Após essa revisão, foram corrigidos calendário, percentuais, filtro e edição de serviços de itens removidos, com 56 testes e builds API/demo aprovados. Permanecem o aceite completo, a evidência individual das atribuições e dimensões inline que divergem da EAP. Veja [matriz atual](entrega-avaliacao.md) e [validação da rodada final](testes/filtro-historico.md). Os registros anteriores permanecem históricos.
 
 Nesta preparação da entrega foram ajustados somente documentos e registro de horas. Nenhuma dessas pendências foi corrigida nem marcada como funcional por essa revisão.

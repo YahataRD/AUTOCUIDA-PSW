@@ -1,6 +1,6 @@
 # Contrato da base compartilhada
 
-Nota de entrega (06/10/2026): o framework atual é Tailwind CSS 4. O filtro por situação não foi implementado. Consulte [a matriz atual](entrega-avaliacao.md) para limites de calendário e edição de itens inativos. As seções históricas abaixo não são um manual operacional vigente.
+Nota de entrega (06/10/2026): framework atual Tailwind CSS 4. Calendário, filtro por situação e edição de serviços de itens removidos corrigidos. Consulte [a matriz atual](entrega-avaliacao.md) e [validação](testes/filtro-historico.md). As seções históricas abaixo não substituem os manuais atuais.
 
 Atualizado em 04/10/2026: a integração atual usa json-server e TanStack Query.
 Consulte [integração e validação](testes/integracao-mock.md) e o README para executar.
