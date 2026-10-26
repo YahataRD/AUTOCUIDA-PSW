@@ -2,13 +2,13 @@
 
 Repositório: https://github.com/YahataRD/AUTOCUIDA-PSW
 
-A nota de cada aluno é a parte comum do grupo mais a qualidade individual. Sem autoria efetiva na própria parte, a AV1 fica 0. A parte comum vale 60 pontos: stack da disciplina (30) e escopo funcionando (30). Os 40 restantes avaliam a qualidade do que o próprio aluno fez.
+A nota de cada aluno é a parte comum do grupo mais a qualidade individual. Quem não tem commit no repositório recebe a parte comum do grupo, sem a parte individual. A parte comum vale 60 pontos: stack da disciplina (30) e escopo funcionando (30). Os 40 restantes avaliam a qualidade do que o próprio aluno fez.
 
 | Aluno | Nota |
 | --- | ---: |
 | Gabriel Felipe Martins da Silva | 100 |
 | Rafael Duarte Yahata | 98 |
-| Rafael Voigt Villas Boas | 0 |
+| Rafael Voigt Villas Boas | 60 |
 
 ## Parte comum — 60/60
 
@@ -47,6 +47,6 @@ Desconto na parte individual:
 
 `frontend/src/data/api.js` só segue em frente quando a resposta vem com sucesso. O filtro, a placa e a preservação do histórico na remoção do item funcionaram na tela.
 
-## Rafael Voigt Villas Boas — 0
+## Rafael Voigt Villas Boas — 60
 
-Não há commit no nome dele. O refinamento e o histórico de contribuições atribuem a ele o kit visual, os serviços e a verificação final, com 2 horas registradas pela equipe. O Tailwind e os serviços estão nos commits de Rafael Duarte Yahata e de Gabriel Felipe Martins da Silva. O commit `0c66171`, de autor Codex, registra a revisão documental e diz que não alterou o código funcional. Sem commit próprio, a AV1 fica 0.
+Não há commit no nome dele. O refinamento e o histórico de contribuições atribuem a ele o kit visual, os serviços e a verificação final, com 2 horas registradas pela equipe. O Tailwind e os serviços estão nos commits de Rafael Duarte Yahata e de Gabriel Felipe Martins da Silva. O commit `0c66171`, de autor Codex, registra a revisão documental e diz que não alterou o código funcional. A nota é a parte comum do grupo, 60 pontos. Sem commit, não há parte individual a avaliar.
