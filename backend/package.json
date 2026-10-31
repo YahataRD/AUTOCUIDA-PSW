@@ -14,7 +14,8 @@
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.1.0",
-    "mongoose": "^9.11.4"
+    "mongoose": "^9.11.4",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "mongodb-memory-server": "^11.3.0"

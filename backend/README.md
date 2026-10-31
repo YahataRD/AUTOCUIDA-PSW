@@ -1,4 +1,4 @@
-# API Express — etapa 2: conexão MongoDB
+# API Express — etapa 3: modelo de veículo e validação
 
 Base para os módulos de veículos, itens, serviços e autenticação. O processo conecta
 ao MongoDB por Mongoose antes de abrir a porta HTTP. Ainda não há rotas de negócio.
@@ -74,7 +74,7 @@ Se a porta estiver ocupada, a conexão com o banco também é liberada.
 
 A suíte usa `mongodb-memory-server` para iniciar um processo MongoDB real e
 temporário. Ela não lê `MONGO_URL` do ambiente e não altera o banco de ninguém.
-Na primeira execução, o binário MongoDB é baixado; é preciso acesso à internet
+Na primeira instalação ou execução, o binário MongoDB é baixado; é preciso acesso à internet
 e espaço para o cache (o pacote Windows pode ocupar centenas de MB). As execuções
 seguintes reutilizam o binário. `MONGOMS_DOWNLOAD_DIR` permite escolher a pasta
 de cache. O processo e seus dados temporários são removidos ao terminar a suíte.
@@ -87,7 +87,18 @@ O MongoDB temporário de testes não é banco de desenvolvimento nem prova supor
 a transações. Para a próxima etapa de serviços, provisionar replica set e testar
 as transações nesse ambiente. Nenhuma seed/reset é executada na inicialização.
 
-Próxima etapa desta frente: modelos e endpoints de veículos/odômetro, coordenados
+## Modelo de veículo
+
+O módulo `src/modules/vehicles/` contém o modelo Mongoose, schemas Zod de cadastro,
+edição, odômetro e inativação. Placa é normalizada e única globalmente, inclusive
+para veículos inativos; proprietário é obrigatório e imutável. O JSON público
+preserva o formato do frontend, com `id` texto e sem campos internos.
+
+Ainda não há rotas desse módulo nem alterações no Atlas compartilhado. As próximas
+rotas precisarão do middleware JWT e de atualização atômica do odômetro.
+Interfaces, regras e limites estão no [guia de veículos](../docs/backend-veiculos.md).
+
+Próxima etapa desta frente: repositório/endpoints de veículos e odômetro, coordenados
 com a interface JWT; depois, seed com vínculos preservados.
 
 Referências: [tratamento de erros Express](https://expressjs.com/en/guide/error-handling/)

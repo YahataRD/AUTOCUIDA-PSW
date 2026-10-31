@@ -85,6 +85,9 @@ negócio. `npm start` mantém frontend/json-server; pare o mock antes de usar a 
 porta. Os testes incluem MongoDB real temporário, baixado automaticamente na
 primeira execução, sem exigir um banco pessoal ou compartilhado.
 
+O [modelo de veículos e suas validações](docs/backend-veiculos.md) já estão
+definidos no backend. As rotas de negócio ainda dependem da integração com JWT.
+
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 
 Execute na raiz do repositório, em um único terminal:

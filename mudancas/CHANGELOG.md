@@ -11,6 +11,26 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-31
 
+### Etapa 3 — modelo de veículo e validações
+
+- Criado módulo `backend/src/modules/vehicles/` com modelo Mongoose, normalização
+  de placa e schemas Zod de cadastro, edição, odômetro e inativação.
+- Proprietário obrigatório e imutável, JSON público com `id` texto sem campos
+  internos e índice global de placa única, incluindo veículos inativos.
+- Entrada JSON recusa identidade/proprietário/ativação indevidos, campos extras
+  e números inválidos. Ano respeita o calendário de São Paulo; edição aceita
+  manter km, atualização específica exige aumento e não há reativação por PATCH.
+- Índice testado com inserções simultâneas de placa equivalente e proprietários
+  distintos em MongoDB real temporário. Inativação preserva a unicidade.
+- Adicionado guia `docs/backend-veiculos.md` com interfaces e limites para os colegas.
+  As futuras rotas precisam de JWT e condição atômica para impedir regressão de km;
+  validar uma leitura anterior, sozinho, não garante concorrência.
+- Adicionado Zod a partir de 4.6.7, com correção do alerta da versão anterior.
+- Validação: `npm ci --prefix backend`, `npm test` (77 aprovados: 45 frontend,
+  11 mock e 21 backend), audit do backend sem alertas e `git diff --check`.
+- Registrada 1,50 h de Rafael Duarte Yahata. Sem novas rotas, seed ou alteração de
+  dados/índices do Atlas compartilhado; frontend e arquivos de GPTI preservados.
+
 ### Etapa 2 — conexão MongoDB/Mongoose
 
 - `MONGO_URL` obrigatória no processo, timeout configurável e conexão confirmada
