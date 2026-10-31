@@ -11,6 +11,19 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-31
 
+### Etapa 4 — serviços e concorrência de veículos
+
+- Repositório com consultas por proprietário, cadastro, edição, odômetro e
+  inativação. Serviços validam identidade, corpo e vínculo antes de gravar.
+- Condições atômicas de km/versão/ativação impedem redução de odômetro por leituras
+  antigas e alterações após inativação. Inativação repetida preserva o documento.
+- Erros previstos têm status/código/campos; duplicidade de placa retorna conflito
+  genérico, veículo alheio é 403 e inexistente é 404, conforme a atividade da aula 11.
+- Verificação: 7 testes de serviços e concorrência em MongoDB real isolado,
+  incluindo todas as mutações por usuário alheio, edição antiga e maior km final.
+- Registradas 2,00 h de Rafael Duarte Yahata. Rotas/JWT ainda não registrados;
+  não houve alteração no Atlas compartilhado ou em documentos GPTI.
+
 ### Etapa 3 — modelo de veículo e validações
 
 - Criado módulo `backend/src/modules/vehicles/` com modelo Mongoose, normalização

@@ -1,8 +1,8 @@
 # Backend de veículos — modelo e validações
 
-Etapa 3, 31/10/2026. Responsável: Rafael Duarte Yahata.
+Etapas 3–4, 31/10/2026. Responsável: Rafael Duarte Yahata.
 
-Este incremento define persistência e validação. **Ainda não registra rotas HTTP
+Este módulo define persistência, validação e serviços. **Ainda não registra rotas HTTP
 de veículos**, não migra a seed nem altera o frontend. O banco Atlas compartilhado
 não recebe dados ou índices por esta entrega; os testes usam MongoDB temporário.
 
@@ -16,6 +16,23 @@ não recebe dados ou índices por esta entrega; os testes usam MongoDB temporár
 | `schemas.js` | `createOdometerSchema(currentKm)` para atualização exclusiva de km |
 | `schemas.js` | `deactivateVehicleSchema` para `{ active: false }` |
 | `rules.js` | Normalização de placa, formato, ano de São Paulo e regras de números |
+| `repository.js` | `vehicleRepository`: consultas com proprietário, criação e atualizações atômicas |
+| `service.js` | `vehicleService`: `list`, `get`, `create`, `update`, `updateOdometer`, `deactivate` |
+
+Todos os serviços recebem `ownerId` texto como primeiro argumento. Os comandos
+individuais recebem o ID do veículo em seguida; criação/alterações recebem o
+corpo JSON como último argumento. `ownerId` deve vir da autenticação. As listas
+incluem veículos inativos do próprio usuário, necessários para histórico.
+
+Os serviços lançam `HttpError` (`backend/src/errors.js`) com `status`, `code`,
+`message` e `fields` opcional. ID malformado retorna 400; identidade inválida,
+401; veículo alheio, 403; inexistente, 404; placa duplicada ou conflito, 409.
+O middleware HTTP ainda deverá tratar essa classe de erro na etapa das rotas.
+
+Edição completa usa versão (`__v`) e limite de km na condição da escrita; aumento
+de km usa condição `$lt`. Todas as alterações incrementam a versão, e apenas
+veículos ativos são alterados. Assim uma leitura antiga não desfaz um aumento
+ou uma inativação já confirmados. Inativação repetida é idempotente.
 
 Os schemas são Zod e suportam `safeParse`. A validação no servidor recebe o JSON
 já convertido pelo frontend: ano e quilometragem devem ser números. Strings
@@ -77,9 +94,9 @@ usuários diferentes e para veículos inativos. Isso preserva a regra anterior.
 A proteção é do MongoDB: duas inserções simultâneas não podem gravar a mesma
 placa. `unique` não gera `ValidationError`; a duplicidade retorna código `11000`.
 
-A futura camada HTTP deverá traduzir esse código para 409 com mensagem genérica
-e erro do campo `plate`, sem revelar o proprietário existente. Esta tradução
-ainda não foi adicionada ao middleware global, pois não há rotas de veículo.
+O serviço traduz esse código para `HttpError` 409 com mensagem genérica e erro
+do campo `plate`, sem revelar o proprietário existente. Erros imprevistos do
+driver não são publicados; a futura camada HTTP deve tratá-los como 500 genérico.
 
 Antes de disponibilizar as rotas, aguardar `Vehicle.init()` para confirmar a
 criação dos índices. Não usar `syncIndexes`, apagar índices ou resetar o Atlas
@@ -114,11 +131,9 @@ o modelo ou validar o corpo.
 
 1. Alinhar `req.user.id` e middleware JWT com a frente de autenticação.
 2. Criar rotas/serviços e responder erros no contrato compartilhado.
-3. Garantir odômetro monotônico **na escrita atômica**, não apenas validando uma
-   leitura anterior. Um `findByIdAndUpdate` genérico pode sobrescrever km nova com
-   leitura antiga, mesmo com `runValidators: true`.
-4. Usar validators nas atualizações Mongoose e preservar proprietário/ativação
-   em PUT; inativação tem comando próprio.
+3. Reutilizar os serviços e suas condições atômicas. Um `findByIdAndUpdate` genérico
+   pode sobrescrever km nova com leitura antiga, mesmo com `runValidators: true`.
+4. Preservar os comandos separados de edição, odômetro e inativação.
 5. Verificar isolamento com dois usuários em chamadas HTTP reais.
 6. Migrar seed e integrar frontend somente em incrementos posteriores.
 
