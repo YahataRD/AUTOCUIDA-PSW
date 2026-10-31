@@ -1,9 +1,10 @@
 # Backend de veículos — modelo e validações
 
-Etapas 3–4, 31/10/2026. Responsável: Rafael Duarte Yahata.
+Etapas 3–5, 31/10/2026. Responsável: Rafael Duarte Yahata.
 
-Este módulo define persistência, validação e serviços. **Ainda não registra rotas HTTP
-de veículos**, não migra a seed nem altera o frontend. O banco Atlas compartilhado
+Este módulo define persistência, validação, serviços e uma factory de rotas.
+**As rotas ainda não estão montadas na aplicação**: aguardam o middleware JWT.
+O módulo não migra a seed nem altera o frontend. O banco Atlas compartilhado
 não recebe dados ou índices por esta entrega; os testes usam MongoDB temporário.
 
 ## Arquivos e interfaces para a equipe
@@ -18,6 +19,7 @@ não recebe dados ou índices por esta entrega; os testes usam MongoDB temporár
 | `rules.js` | Normalização de placa, formato, ano de São Paulo e regras de números |
 | `repository.js` | `vehicleRepository`: consultas com proprietário, criação e atualizações atômicas |
 | `service.js` | `vehicleService`: `list`, `get`, `create`, `update`, `updateOdometer`, `deactivate` |
+| `router.js` | `createVehicleRouter({ authenticate })`, exige middleware explícito |
 
 Todos os serviços recebem `ownerId` texto como primeiro argumento. Os comandos
 individuais recebem o ID do veículo em seguida; criação/alterações recebem o
@@ -27,12 +29,54 @@ incluem veículos inativos do próprio usuário, necessários para histórico.
 Os serviços lançam `HttpError` (`backend/src/errors.js`) com `status`, `code`,
 `message` e `fields` opcional. ID malformado retorna 400; identidade inválida,
 401; veículo alheio, 403; inexistente, 404; placa duplicada ou conflito, 409.
-O middleware HTTP ainda deverá tratar essa classe de erro na etapa das rotas.
+O middleware HTTP já publica essa classe no contrato JSON compartilhado; erros
+desconhecidos continuam sendo 500 genérico, mesmo que tenham propriedade `status`.
 
 Edição completa usa versão (`__v`) e limite de km na condição da escrita; aumento
 de km usa condição `$lt`. Todas as alterações incrementam a versão, e apenas
 veículos ativos são alterados. Assim uma leitura antiga não desfaz um aumento
 ou uma inativação já confirmados. Inativação repetida é idempotente.
+Outros módulos que atualizarem o odômetro também devem incrementar `__v` e manter
+a condição monotônica, além da transação dos serviços. Não gravar uma leitura
+antiga com `$set` sem condição.
+
+## Integração das rotas pela frente de autenticação
+
+O router exige `authenticate` e confere `req.user.id` após o middleware. O ID deve
+ser texto ObjectId de 24 caracteres hexadecimais proveniente da identidade
+verificada. Não extrair o proprietário do corpo nem de cabeçalho de usuário.
+Criar o router sem middleware lança erro; um middleware que não preencha uma
+identidade válida resulta em 401. Não existe opção de ambiente para ignorar JWT.
+
+Após implementar o JWT, Rafael Voigt deve:
+
+1. Passar o middleware real na montagem em `src/app.js`, antes de `notFound`.
+2. Após conectar o banco e antes de `listen`, aguardar
+   `vehicleRepository.initialize()` em `src/runtime.js`.
+3. Usar `HttpError` ou responder no contrato JSON em falhas de autenticação.
+4. Executar os testes de veículos e adicionar testes com tokens JWT reais.
+
+Montagem esperada, após importar o middleware real:
+
+```js
+app.use("/vehicles", createVehicleRouter({ authenticate: exigeJwt }));
+```
+
+| Método | Caminho relativo à montagem `/vehicles` | Resultado |
+| --- | --- | --- |
+| GET | `/` | 200, array do próprio usuário, incluindo inativos |
+| GET | `/:id` | 200, objeto individual |
+| POST | `/` | 201, objeto criado |
+| PUT | `/:id` | 200, edição completa confirmada |
+| PATCH | `/:id` | 200, aumento de km OU inativação |
+
+PATCH recebe `{ currentKm: numero }` ou `{ active: false }`; misturar comandos,
+reativar ou enviar campos extras retorna 400. Não há DELETE físico de veículo.
+
+Os testes HTTP usam identidades fixas exclusivamente em fixture isolada. Isso
+testa o contrato/autorização do módulo e **não comprova a validação JWT**, que
+pertence à outra frente. A aplicação iniciada hoje continua retornando 404 para
+`/vehicles`, até ocorrer a integração descrita acima.
 
 Os schemas são Zod e suportam `safeParse`. A validação no servidor recebe o JSON
 já convertido pelo frontend: ano e quilometragem devem ser números. Strings
@@ -127,14 +171,14 @@ As futuras consultas devem filtrar pelo proprietário autenticado. Para a polít
 nunca devolver o documento alheio. Nenhuma autorização é oferecida só por importar
 o modelo ou validar o corpo.
 
-## Próximo incremento: repositório e rotas protegidas
+## Pendências de integração
 
 1. Alinhar `req.user.id` e middleware JWT com a frente de autenticação.
-2. Criar rotas/serviços e responder erros no contrato compartilhado.
+2. Montar o router com JWT real e aguardar os índices antes de abrir HTTP.
 3. Reutilizar os serviços e suas condições atômicas. Um `findByIdAndUpdate` genérico
    pode sobrescrever km nova com leitura antiga, mesmo com `runValidators: true`.
 4. Preservar os comandos separados de edição, odômetro e inativação.
-5. Verificar isolamento com dois usuários em chamadas HTTP reais.
+5. Repetir o isolamento com tokens JWT reais, além das fixtures HTTP existentes.
 6. Migrar seed e integrar frontend somente em incrementos posteriores.
 
 ## Verificação desta etapa

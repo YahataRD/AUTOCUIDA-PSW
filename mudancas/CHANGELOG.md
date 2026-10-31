@@ -11,6 +11,19 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-31
 
+### Etapa 5 — router de veículos preparado para JWT
+
+- Factory de rotas GET/lista, GET/individual, POST, PUT e PATCH que exige middleware
+  explícito e identidade válida. Não foi montada sem JWT na aplicação padrão.
+- Middleware publica apenas os erros previstos (`HttpError`); driver e erros
+  inesperados continuam sem expor detalhes internos.
+- Verificação: 9 testes HTTP em banco temporário, com identidades exclusivamente
+  de teste; 401/403/404, duplicidade, campos, inativação e concorrência conferidos.
+  Fixtures não implementam ou comprovam JWT real.
+- Documentada a integração para Voigt: `req.user.id`, montagem autenticada e
+  inicialização dos índices antes de abrir HTTP.
+- Registrada 1,50 h de Rafael Duarte Yahata. Sem seed ou gravações no Atlas.
+
 ### Etapa 4 — serviços e concorrência de veículos
 
 - Repositório com consultas por proprietário, cadastro, edição, odômetro e

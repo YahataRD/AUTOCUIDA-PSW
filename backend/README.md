@@ -1,4 +1,4 @@
-# API Express — etapa 3: modelo de veículo e validação
+# API Express — veículos preparados para integração JWT
 
 Base para os módulos de veículos, itens, serviços e autenticação. O processo conecta
 ao MongoDB por Mongoose antes de abrir a porta HTTP. Ainda não há rotas de negócio.
@@ -94,12 +94,13 @@ edição, odômetro e inativação. Placa é normalizada e única globalmente, i
 para veículos inativos; proprietário é obrigatório e imutável. O JSON público
 preserva o formato do frontend, com `id` texto e sem campos internos.
 
-Ainda não há rotas desse módulo nem alterações no Atlas compartilhado. As próximas
-rotas precisarão do middleware JWT e de atualização atômica do odômetro.
+O módulo já tem serviços, repositório e router que exige middleware de autenticação.
+As rotas ainda não estão montadas na aplicação, aguardando JWT real. Atualizações
+do odômetro usam condições atômicas; consultas e alterações isolam proprietários.
 Interfaces, regras e limites estão no [guia de veículos](../docs/backend-veiculos.md).
 
-Próxima etapa desta frente: repositório/endpoints de veículos e odômetro, coordenados
-com a interface JWT; depois, seed com vínculos preservados.
+Próximas integrações: montagem do router após JWT, inicialização dos índices antes
+de `listen`, testes com tokens reais e seed com vínculos/usuários preservados.
 
 Referências: [tratamento de erros Express](https://expressjs.com/en/guide/error-handling/)
 e [CORS](https://expressjs.com/en/resources/middleware/cors/),

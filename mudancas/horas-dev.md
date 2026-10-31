@@ -23,8 +23,9 @@
 | 2026-10-31 | Rafael Duarte Yahata | Base HTTP Express: configuração, health, erros JSON, CORS, testes e documentação | 1,00 | [c86a9b1](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/c86a9b1) |
 | 2026-10-31 | Rafael Duarte Yahata | Conexão MongoDB/Mongoose, readiness, encerramento e testes de integração com banco real temporário | 1,50 | [d3c7d0f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d3c7d0f) |
 | 2026-10-31 | Rafael Duarte Yahata | Modelo de veículo, validações Zod, índice único de placa e testes de persistência/concorrência | 1,50 | [cba6a02](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/cba6a02) |
-| 2026-10-31 | Rafael Duarte Yahata | Repositório e serviços de veículos, isolamento por proprietário e atualização atômica do odômetro | 2,00 | Neste commit |
-| — | **Rafael Duarte Yahata** | **Subtotal** | **42,00** | — |
+| 2026-10-31 | Rafael Duarte Yahata | Repositório e serviços de veículos, isolamento por proprietário e atualização atômica do odômetro | 2,00 | [902f82d](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/902f82d) |
+| 2026-10-31 | Rafael Duarte Yahata | Router de veículos com autenticação obrigatória por interface e testes HTTP de autorização/concorrência | 1,50 | Neste commit |
+| — | **Rafael Duarte Yahata** | **Subtotal** | **43,50** | — |
 | — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
 | — | **Rafael Voigt Villas Boas** | **Subtotal** | **2,00** | — |
-| — | **Equipe** | **Subtotal das contribuições identificadas** | **48,50** | — |
+| — | **Equipe** | **Subtotal das contribuições identificadas** | **50,00** | — |
