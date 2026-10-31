@@ -27,6 +27,7 @@ jobs:
             package-lock.json
             frontend/package-lock.json
             mock/package-lock.json
+            backend/package-lock.json
       - name: Instalar dependências
         run: npm ci
       - name: Executar testes

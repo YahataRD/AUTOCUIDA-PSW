@@ -2,12 +2,15 @@
   "name": "autocuida-projeto",
   "private": true,
   "scripts": {
-    "postinstall": "npm ci --prefix frontend && npm ci --prefix mock",
+    "postinstall": "npm ci --prefix frontend && npm ci --prefix mock && npm ci --prefix backend",
     "start": "concurrently --kill-others --names mock,frontend \"npm --prefix mock start\" \"npm --prefix frontend run dev\"",
     "dev": "npm start",
     "build": "npm --prefix frontend run build",
     "preview": "concurrently --kill-others --names mock,frontend \"npm --prefix mock start\" \"npm --prefix frontend run preview\"",
-    "test": "npm --prefix frontend test && npm --prefix mock test",
+    "test": "npm --prefix frontend test && npm --prefix mock test && npm run test:backend",
+    "start:backend": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "test:backend": "npm --prefix backend test",
     "reset": "npm --prefix mock run reset"
   },
   "devDependencies": {
