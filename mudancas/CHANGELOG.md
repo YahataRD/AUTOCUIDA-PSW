@@ -9,6 +9,26 @@ Registre o esforço de cada participante em [horas-dev.md](horas-dev.md).
 O histórico anterior foi resumido a partir dos commits. Datas de commits não
 representam duração de trabalho, e implementação não significa aceite final.
 
+## 2026-10-31
+
+### Etapa 1 — base HTTP do backend Express
+
+- Criado `backend/` com Express, configuração por ambiente, CORS para Vite/preview,
+  `GET /health` e erros JSON para rota ausente, JSON inválido, corpo excessivo e falha interna.
+- Separados `createApp` e inicialização HTTP; documentados os pontos de integração
+  dos módulos. MongoDB, autenticação e CRUD ficam nas próximas etapas.
+- Adicionados comandos `start:backend`, `dev:backend` e `test:backend`;
+  instalação/testes da raiz e cache do workflow incluem o backend.
+- `npm start` mantém frontend e mock; o Express deve ser iniciado separadamente
+  enquanto não houver rotas de negócio, evitando disputar a porta 3001.
+- Validação: instalação `npm ci` com lockfiles; 62 testes aprovados
+  (45 frontend + 11 mock HTTP + 6 backend), builds API/demo e `git diff --check`.
+- `npm audit`: backend sem alertas; pacotes anteriores apresentam 2 alertas críticos
+  na raiz (concurrently/shell-quote), 3 altos no frontend (source-map-js/vite/zod)
+  e 1 alto + 1 moderado no mock (body-parser/qs). Triagem/correção em etapa separada;
+  nenhum `audit fix` automático executado nesta entrega.
+- Registrada 1,00 h de Rafael Duarte Yahata. Documentos de GPTI preservados.
+
 ## 2026-10-06
 
 ### Filtro e histórico de itens removidos

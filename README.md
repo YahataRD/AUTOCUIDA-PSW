@@ -76,6 +76,14 @@ trabalhado por cada participante na tabela de horas. Os arquivos ficam em
 
 ## Como executar
 
+### Evolução do backend — Express
+
+A base HTTP da próxima etapa está em [backend/](backend/README.md). Após `npm ci`,
+use `npm run start:backend` e consulte `/health`. Ainda não há banco ou rotas de
+negócio no Express. `npm start` continua executando o frontend com json-server;
+pare o mock antes de iniciar o Express na mesma porta. Os testes da raiz incluem
+a nova suíte do backend, sem exigir MongoDB nesta etapa.
+
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 
 Execute na raiz do repositório, em um único terminal:

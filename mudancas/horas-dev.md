@@ -20,7 +20,8 @@
 | 2026-10-06 | Rafael Voigt Villas Boas | Verificação final: análise de escopo/código, testes, build e revisão da documentação de entrega | 2,00 | [0c66171](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0c66171); [registro](../docs/testes/verificacao-final.md) |
 | 2026-10-06 | Rafael Duarte Yahata | Calendário dos alertas, percentuais e atualização da documentação de entrega | 1,50 | [d6f0755](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/d6f0755) |
 | 2026-10-06 | Rafael Duarte Yahata | Filtro de alertas, edição de histórico de itens removidos e validação final | 2,00 | Neste commit |
-| — | **Rafael Duarte Yahata** | **Subtotal** | **36,00** | — |
+| 2026-10-31 | Rafael Duarte Yahata | Base HTTP Express: configuração, health, erros JSON, CORS, testes e documentação | 1,00 | Neste commit |
+| — | **Rafael Duarte Yahata** | **Subtotal** | **37,00** | — |
 | — | **Gabriel Felipe Martins da Silva** | **Subtotal** | **4,50** | — |
 | — | **Rafael Voigt Villas Boas** | **Subtotal** | **2,00** | — |
-| — | **Equipe** | **Subtotal das contribuições identificadas** | **42,50** | — |
+| — | **Equipe** | **Subtotal das contribuições identificadas** | **43,50** | — |
