@@ -78,11 +78,12 @@ trabalhado por cada participante na tabela de horas. Os arquivos ficam em
 
 ### Evolução do backend — Express
 
-A base HTTP da próxima etapa está em [backend/](backend/README.md). Após `npm ci`,
-use `npm run start:backend` e consulte `/health`. Ainda não há banco ou rotas de
-negócio no Express. `npm start` continua executando o frontend com json-server;
-pare o mock antes de iniciar o Express na mesma porta. Os testes da raiz incluem
-a nova suíte do backend, sem exigir MongoDB nesta etapa.
+A API em evolução está em [backend/](backend/README.md). Após `npm ci`, configure
+`MONGO_URL` em `backend/.env`, execute `npm run start:backend` e consulte `/health`
+e `/ready`. A conexão MongoDB é exigida antes de abrir HTTP; ainda não há rotas de
+negócio. `npm start` mantém frontend/json-server; pare o mock antes de usar a mesma
+porta. Os testes incluem MongoDB real temporário, baixado automaticamente na
+primeira execução, sem exigir um banco pessoal ou compartilhado.
 
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 
@@ -95,7 +96,7 @@ npm ci
 npm start
 ```
 
-`npm ci` instala as dependências da raiz, do frontend e do mock. `npm start`
+`npm ci` instala as dependências da raiz, do frontend, do mock e do backend. `npm start`
 inicia os dois serviços juntos, com logs identificados. Abra o endereço exibido
 pelo Vite, normalmente `http://localhost:5173/AUTOCUIDA-PSW/`. Ctrl+C encerra ambos.
 Se um serviço encerrar, o outro também é encerrado.

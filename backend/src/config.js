@@ -28,3 +28,16 @@ export function readConfig(env = process.env) {
   }
   return { port, host, origins: [...new Set(origins)] };
 }
+
+export function readDatabaseConfig(env = process.env) {
+  const mongoUrl = env.MONGO_URL?.trim();
+  if (!mongoUrl || !/^mongodb(?:\+srv)?:\/\//.test(mongoUrl)) {
+    throw new Error("Configure MONGO_URL com uma URI mongodb:// ou mongodb+srv:// no ambiente.");
+  }
+  const timeoutText = env.MONGO_TIMEOUT_MS ?? "5000";
+  const timeout = Number(timeoutText);
+  if (!/^\d+$/.test(timeoutText) || !Number.isInteger(timeout) || timeout < 100 || timeout > 60000) {
+    throw new Error("MONGO_TIMEOUT_MS deve ser um inteiro entre 100 e 60000.");
+  }
+  return { mongoUrl, mongoTimeoutMs: timeout };
+}

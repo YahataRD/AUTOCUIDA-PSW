@@ -11,6 +11,23 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-31
 
+### Etapa 2 — conexão MongoDB/Mongoose
+
+- `MONGO_URL` obrigatória no processo, timeout configurável e conexão confirmada
+  antes da abertura HTTP. Falha inicial encerra com código 1 e mensagem sem URI/credenciais.
+- `GET /ready` faz ping no banco e responde 503 se indisponível; `/health` permanece
+  como verificação de processo HTTP. Encerramento SIGINT/SIGTERM fecha HTTP e MongoDB;
+  falha de porta ocupada também libera a conexão.
+- Mongoose usa conexão padrão por processo, sem buffering de operações desconectadas.
+- Integração com `mongodb-memory-server` executa MongoDB real isolado, sem ler
+  o banco de desenvolvimento. Testes comprovam escrita/reconexão, readiness,
+  falha inicial, porta ocupada e encerramento idempotente.
+- Validação: `npm ci --prefix backend`, `npm test` (65 aprovados: 45 frontend,
+  11 mock e 9 backend) e `git diff --check`. Backend sem alertas no audit da instalação.
+- Documentação atualizada para configuração obrigatória e download/cache do MongoDB
+  de testes. Ainda não há banco de desenvolvimento provisionado, modelos ou CRUD.
+- Registrada 1,50 h de Rafael Duarte Yahata. Documentos de GPTI preservados.
+
 ### Etapa 1 — base HTTP do backend Express
 
 - Criado `backend/` com Express, configuração por ambiente, CORS para Vite/preview,

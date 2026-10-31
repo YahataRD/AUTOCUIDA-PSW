@@ -1,20 +1,17 @@
-import { createApp } from "./app.js";
-import { readConfig } from "./config.js";
+import { readConfig, readDatabaseConfig } from "./config.js";
+import { startServer } from "./runtime.js";
 
 try {
-  const config = readConfig();
-  const app = createApp(config);
-  const server = app.listen(config.port, config.host, () => {
-    console.log(`AutoCUIDA API em http://${config.host}:${config.port}`);
-  });
-  server.on("error", (error) => {
-    console.error(error.code === "EADDRINUSE"
-      ? `Porta ${config.port} ocupada. Encerre o mock ou configure outra PORT.`
-      : "Não foi possível iniciar o servidor HTTP.");
-    process.exitCode = 1;
-  });
+  const config = { ...readConfig(), ...readDatabaseConfig() };
+  const runtime = await startServer(config);
+  console.log(`AutoCUIDA API em http://${config.host}:${config.port}`);
   for (const signal of ["SIGINT", "SIGTERM"]) {
-    process.once(signal, () => server.close());
+    process.once(signal, () => {
+      runtime.close().catch(() => {
+        console.error("Não foi possível encerrar a API corretamente.");
+        process.exitCode = 1;
+      });
+    });
   }
 } catch (error) {
   console.error(error.message);

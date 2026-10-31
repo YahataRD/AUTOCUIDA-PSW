@@ -1,8 +1,9 @@
-# API Express — etapa 1
+# API Express — etapa 2: conexão MongoDB
 
-Base HTTP para os módulos de veículos, itens, serviços e autenticação. Esta etapa
-oferece somente `GET /health`; ainda não há MongoDB ou rotas de negócio. `health`
-confirma o processo HTTP, não a disponibilidade de persistência.
+Base para os módulos de veículos, itens, serviços e autenticação. O processo conecta
+ao MongoDB por Mongoose antes de abrir a porta HTTP. Ainda não há rotas de negócio.
+`GET /health` confirma o processo HTTP; `GET /ready` faz ping no banco e retorna
+200 quando disponível ou 503 com `DATABASE_UNAVAILABLE` quando indisponível.
 
 ## Instalação e execução
 
@@ -10,6 +11,12 @@ Node.js 22.12+ com npm. Na raiz do repositório:
 
 ```bash
 npm ci
+```
+
+Configure um MongoDB de desenvolvimento e copie `backend/.env.example` para
+`backend/.env`, ajustando `MONGO_URL` em um editor local. Então execute:
+
+```bash
 npm run start:backend
 ```
 
@@ -20,13 +27,22 @@ Abra `http://127.0.0.1:3001/health`. Resposta esperada:
 ```
 
 `npm run dev:backend` reinicia o processo quando o código mudar.
-`npm run test:backend` executa testes HTTP em portas temporárias, sem banco.
+`npm run test:backend` executa testes HTTP e integração com MongoDB temporário.
 No PowerShell com scripts bloqueados, use `npm.cmd`.
 
 Para personalizar, copie `backend/.env.example` para `backend/.env`. `PORT` define
 a porta (1–65535), `HOST` o endereço de escuta e `CORS_ORIGINS` uma lista de origens
-sem caminho, separadas por vírgula. O arquivo `.env` é opcional nesta etapa e
-ignorado pelo Git. Os comandos do pacote carregam o `.env` da pasta `backend`.
+sem caminho, separadas por vírgula. `MONGO_URL` é obrigatória e pode vir do `.env`
+ou do ambiente do processo. `MONGO_TIMEOUT_MS` limita a seleção/conexão e o tempo
+de inatividade de socket (padrão 5000, entre 100 e 60000 ms). Não equivale a um
+prazo total para qualquer operação. Os comandos carregam o `.env` de `backend`.
+Sem configuração válida ou sem conexão inicial, o processo encerra com código 1
+sem abrir HTTP. A URI e os erros brutos do driver não são impressos.
+
+O exemplo local pressupõe MongoDB já disponível; copiar o arquivo não instala
+o banco. Uma URI Atlas também é aceita (`mongodb+srv://...`). Configure usuário,
+permissões e acesso de rede no provedor antes de usar. Não envie credenciais
+no chat nem faça commit do `.env`.
 
 O mock usa a mesma porta 3001: pare-o antes de iniciar o Express ou configure
 outra porta, por exemplo `PORT=3002`. `npm start` e `npm run preview` na raiz
@@ -37,6 +53,10 @@ nesta etapa fará as consultas de negócio retornarem 404; a migração virá de
 
 - `src/app.js` exporta `createApp`, sem abrir porta ou conectar ao banco.
 - `src/server.js` lê configuração e inicia o processo HTTP.
+- `src/runtime.js` conecta antes de escutar e exporta encerramento aguardável.
+- `src/database.js` gerencia a conexão padrão Mongoose. Modelos podem usar
+  `mongoose.model()`; não abrir outra conexão em cada rota. O buffering está
+  desativado para não enfileirar silenciosamente operações sem conexão.
 - Registrar routers de módulos antes de `notFound` e `errorHandler` em `app.js`.
 - Padrão de erro: `{ "error": { "code": "...", "message": "..." } }`.
   Erros de campo e identidade serão implementados com seus módulos.
@@ -46,9 +66,30 @@ nesta etapa fará as consultas de negócio retornarem 404; a migração virá de
   autorização. O preflight aceita os métodos/cabeçalhos usados pelo cliente.
 - Não criar rotas de negócio desprotegidas para contornar a integração JWT.
 
-Próxima etapa desta frente: conexão Mongoose antes de `listen`, configuração de
-banco e testes isolados; depois, veículos/odômetro e seed com vínculos preservados.
-Os contratos funcionais serão coordenados com os responsáveis por JWT e serviços.
+SIGINT/SIGTERM interrompem a aceitação de requisições e fecham a conexão MongoDB.
+Após 5 s, conexões HTTP remanescentes são encerradas para permitir a finalização.
+Se a porta estiver ocupada, a conexão com o banco também é liberada.
+
+## Testes com banco isolado
+
+A suíte usa `mongodb-memory-server` para iniciar um processo MongoDB real e
+temporário. Ela não lê `MONGO_URL` do ambiente e não altera o banco de ninguém.
+Na primeira execução, o binário MongoDB é baixado; é preciso acesso à internet
+e espaço para o cache (o pacote Windows pode ocupar centenas de MB). As execuções
+seguintes reutilizam o binário. `MONGOMS_DOWNLOAD_DIR` permite escolher a pasta
+de cache. O processo e seus dados temporários são removidos ao terminar a suíte.
+
+Os testes verificam escrita/leitura após reconectar, readiness com o banco
+desconectado, falha inicial, liberação da conexão após porta ocupada e encerramento
+idempotente. Isso comprova a integração de conexão, não os futuros CRUDs.
+
+O MongoDB temporário de testes não é banco de desenvolvimento nem prova suporte
+a transações. Para a próxima etapa de serviços, provisionar replica set e testar
+as transações nesse ambiente. Nenhuma seed/reset é executada na inicialização.
+
+Próxima etapa desta frente: modelos e endpoints de veículos/odômetro, coordenados
+com a interface JWT; depois, seed com vínculos preservados.
 
 Referências: [tratamento de erros Express](https://expressjs.com/en/guide/error-handling/)
-e [CORS](https://expressjs.com/en/resources/middleware/cors/).
+e [CORS](https://expressjs.com/en/resources/middleware/cors/),
+[conexões Mongoose](https://mongoosejs.com/docs/connections.html).
