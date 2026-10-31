@@ -11,6 +11,19 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-10-31
 
+### Etapa 6 — dependências e regressão completa
+
+- Lockfiles atualizados dentro das faixas existentes: concurrently/shell-quote,
+  body-parser/qs e Vite/Zod/source-map-js com suas dependências compatíveis.
+- Resolvidos os alertas conhecidos registrados na primeira etapa; instalação
+  completa com `npm ci` e audit sem alertas nas quatro áreas.
+- Validação: 93 testes aprovados (45 frontend + 11 mock + 37 backend), builds
+  API/demo, inicialização conjunta `npm start` com HTTP 200 no frontend/mock
+  e conferência de espaços no diff.
+- Evidências e limites em `docs/testes/backend-veiculos.md`; faltam JWT real,
+  seed integrada e aceite visual completo, conforme frentes da equipe.
+- Registrada 1,00 h de Rafael Duarte Yahata. Telas, credenciais e GPTI preservados.
+
 ### Etapa 5 — router de veículos preparado para JWT
 
 - Factory de rotas GET/lista, GET/individual, POST, PUT e PATCH que exige middleware
