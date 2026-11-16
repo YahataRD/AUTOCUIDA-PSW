@@ -1,8 +1,19 @@
 export const dataKey = ["autocuida"];
 
-export function dataQuery(api) {
+// Com usuário autenticado o cache é separado por conta; sem usuário (demo)
+// mantém a chave antiga.
+export const dataKeyFor = (userId) => (userId ? [...dataKey, userId] : dataKey);
+
+// Ao sair ou trocar de conta: cancela consultas em andamento e apaga o cache,
+// para que respostas da sessão anterior não preencham a nova.
+export async function resetSessionData(client) {
+  await client.cancelQueries();
+  client.clear();
+}
+
+export function dataQuery(api, userId) {
   return {
-    queryKey: dataKey,
+    queryKey: dataKeyFor(userId),
     queryFn: ({ signal }) => api.load({ signal }),
     retry: false,
     // localhost continua acessível quando o navegador se considera offline.
@@ -11,14 +22,15 @@ export function dataQuery(api) {
   };
 }
 
-export function commandMutation(client, api) {
+export function commandMutation(client, api, userId) {
+  const key = dataKeyFor(userId);
   return {
     mutationFn: ({ command, args }) => api[command](...args),
     retry: false,
     networkMode: "always",
-    onMutate: () => client.cancelQueries({ queryKey: dataKey }),
+    onMutate: () => client.cancelQueries({ queryKey: key }),
     onSuccess: (result, { command }) => {
-      client.setQueryData(dataKey, (data) => {
+      client.setQueryData(key, (data) => {
         if (!data) return data;
         if (command === "updateVehicle") {
           return { ...data, vehicles: data.vehicles.map((v) => v.id === result.id ? result : v) };
@@ -72,6 +84,6 @@ export function commandMutation(client, api) {
     },
     // Reconsultar inclusive em falhas: a escrita pode chegar ao servidor antes
     // de a conexão cair. Não inventamos um estado local após a operação.
-    onSettled: () => client.invalidateQueries({ queryKey: dataKey }),
+    onSettled: () => client.invalidateQueries({ queryKey: key }),
   };
 }

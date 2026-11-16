@@ -1,3 +1,4 @@
+import { createHttpClient } from "./http.js";
 import { validateData, getToday } from "./validation.js";
 import { createVehicle, updateVehicle } from "../state/vehicles.js";
 import {
@@ -8,41 +9,9 @@ import {
   validateOdometer,
 } from "../state/autoCuida.js";
 
-export function createApi(baseUrl, fetcher = fetch) {
-  const base = baseUrl.replace(/\/$/, "");
-  async function request(path, { signal, method = "GET", body } = {}) {
-    let response;
-    try {
-      response = await fetcher(`${base}/${path}`, {
-        method,
-        signal,
-        cache: "no-store",
-        ...(body === undefined
-          ? {}
-          : {
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }),
-      });
-    } catch (error) {
-      if (signal?.aborted) throw error;
-      throw new Error(
-        "Não foi possível acessar o servidor. Verifique se o mock está em execução.",
-        { cause: error },
-      );
-    }
-    if (!response.ok)
-      throw new Error(
-        `O servidor recusou a operação (HTTP ${response.status}).`,
-      );
-    try {
-      return await response.json();
-    } catch (error) {
-      throw new Error("O servidor retornou uma resposta inválida.", {
-        cause: error,
-      });
-    }
-  }
+export function createApi(baseUrl, fetcher = fetch, options = {}) {
+  // options: { getToken, onUnauthorized } — repassados ao cliente HTTP.
+  const request = createHttpClient(baseUrl, { fetcher, ...options });
   async function load({ signal } = {}) {
     const keys = ["vehicles", "maintenanceItems", "serviceRecords"];
     const lists = await Promise.all(
