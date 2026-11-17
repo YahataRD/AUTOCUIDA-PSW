@@ -12,6 +12,19 @@ export class ApiError extends Error {
 
 async function readPayload(response) {
   if (response.status === 204) return null;
+  // Respostas reais do fetch sempre têm text(). Implementações mínimas só com
+  // json() (como fetchers simulados em testes) seguem o ramo abaixo.
+  if (typeof response.text !== "function") {
+    try {
+      return await response.json();
+    } catch (cause) {
+      if (!response.ok) return null;
+      throw new ApiError("O servidor retornou uma resposta inválida.", {
+        status: response.status,
+        cause,
+      });
+    }
+  }
   const text = await response.text();
   if (text.trim() === "") return null;
   try {
