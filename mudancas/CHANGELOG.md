@@ -11,6 +11,23 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-11-23
 
+### M2.2 — Rotas de itens de manutenção e serviços
+
+- O Express passou a listar, consultar, cadastrar e editar itens e serviços
+  com Bearer JWT. Itens são inativados para preservar o histórico. Serviços
+  podem ser excluídos. As operações usam o proprietário do veículo e mantêm
+  os vínculos entre veículos, itens e registros.
+- O MongoDB grava o histórico e o odômetro juntos no documento do veículo.
+  A API valida datas, intervalos, cronologia e quilometragem. Edições e
+  exclusões de serviços preservam a maior leitura já registrada.
+- Os testes com Ana e Bia em MongoDB temporário verificaram o isolamento de
+  leituras e escritas, os vínculos inválidos, a edição de serviços de itens
+  inativados e a consistência durante gravações concorrentes. A suíte completa
+  passou com 111 testes (45 frontend, 11 mock e 55 backend).
+- O [contrato da API](../backend/README.md#itens-de-manutenção-e-serviços) está
+  documentado. A integração dessas telas ao modo Express segue pendente.
+  Horas [a confirmar](horas-dev.md).
+
 ### M2.5 — Login e sessão do frontend
 
 - O modo `backend` conecta o cadastro de conta, o login e a garagem ao Express.

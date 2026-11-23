@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { readConfig } from "./config.js";
 import { errorHandler, notFound } from "./middleware/errors.js";
+import { createMaintenanceItemRouter, createServiceRecordRouter } from "./modules/maintenance/router.js";
 import { createVehicleRouter } from "./modules/vehicles/router.js";
 
 export function createApp({
@@ -30,6 +31,8 @@ export function createApp({
   if (auth) {
     app.use(auth.router);
     app.use("/vehicles", createVehicleRouter({ authenticate: auth.authenticate }));
+    app.use("/maintenanceItems", createMaintenanceItemRouter(auth.authenticate));
+    app.use("/serviceRecords", createServiceRecordRouter(auth.authenticate));
   }
 
   app.use(notFound);

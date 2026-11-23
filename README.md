@@ -78,7 +78,8 @@ trabalhado por cada participante na tabela de horas. Os arquivos ficam em
 
 ### Evolução do backend — Express
 
-A [API Express](backend/README.md) oferece cadastro, login e rotas de veículos.
+A [API Express](backend/README.md) oferece cadastro, login e rotas de veículos,
+itens de manutenção e serviços.
 Após `npm ci`, configure `MONGO_URL` e `JWT_SECRET` em `backend/.env` e execute
 `npm run start:backend`. `/health` e `/ready` verificam a API e o banco.
 Obtenha o token em `POST /login` e envie `Authorization: Bearer <token>` nas
@@ -91,8 +92,9 @@ endereço exibido pelo Vite. Crie uma conta pela interface e entre para cadastra
 ou gerenciar os veículos da conta. Sair, recarregar a página ou receber uma
 recusa da API por sessão expirada exige novo login.
 
-O modo `backend` oferece as funções da garagem. Para usar o fluxo da Entrega 1
-com itens, serviços, alertas e custos, use `VITE_DATA_MODE=api` e `npm start`.
+O modo `backend` oferece as funções da garagem. As telas de itens, serviços,
+alertas e custos ainda usam o fluxo da Entrega 1. Para acessá-las, use
+`VITE_DATA_MODE=api` e `npm start`.
 Se executar o mock e o Express ao mesmo tempo, configure portas diferentes.
 Os testes usam MongoDB temporário.
 

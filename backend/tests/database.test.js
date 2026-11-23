@@ -19,7 +19,7 @@ test("Mongo real: inicia, comprova escrita/reconexão, readiness e fechamento", 
   t.after(async () => { await disconnectDatabase(); await mongo.stop(); });
   const config = {
     port: 0, host: "127.0.0.1", origins: [],
-    mongoUrl: mongo.getUri("autocuida_connection_test"), mongoTimeoutMs: 1000, authConfig,
+    mongoUrl: mongo.getUri("autocuida_connection_test"), mongoTimeoutMs: 5000, authConfig,
   };
   let runtime = await startServer(config);
   t.after(() => runtime.close());

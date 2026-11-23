@@ -87,9 +87,9 @@ desconectado, falha inicial, liberação da conexão após porta ocupada e encer
 idempotente. O teste `vehicles-jwt.test.js` usa a aplicação principal com dois
 usuários, tokens reais e MongoDB temporário para verificar o isolamento.
 
-O MongoDB temporário de testes não é banco de desenvolvimento nem prova suporte
-a transações. Para a próxima etapa de serviços, provisionar replica set e testar
-as transações nesse ambiente. Nenhuma seed/reset é executada na inicialização.
+O teste `maintenance-jwt.test.js` cobre itens e serviços de duas contas, vínculos
+inválidos, manutenção do histórico e gravações concorrentes no mesmo veículo.
+Nenhuma seed/reset é executada na inicialização.
 
 ## Modelo de veículo
 
@@ -102,6 +102,36 @@ Cadastre a conta em `POST /usuarios` com nome, e-mail e senha. Obtenha o token
 em `POST /login` com e-mail e senha. Envie `Authorization: Bearer <token>` nas
 rotas `/vehicles`. As operações usam o proprietário autenticado e as gravações
 de odômetro são atômicas. Veja o [guia de veículos](../docs/backend-veiculos.md).
+
+## Itens de manutenção e serviços
+
+Envie o Bearer JWT em todas as operações de `/maintenanceItems` e
+`/serviceRecords`. A listagem pode ser filtrada por `?vehicleId=<id>` e
+inclui o histórico dos veículos inativos da conta. Uma busca direta por
+um recurso ausente ou de outra conta retorna `404`.
+
+| Método | Rota | Corpo ou resultado |
+| --- | --- | --- |
+| GET | `/maintenanceItems`, `/serviceRecords` | Lista da conta |
+| GET | `/maintenanceItems/:id`, `/serviceRecords/:id` | Registro da conta |
+| POST | `/maintenanceItems` | `vehicleId`, `name`, `intervalKm`, `intervalMonths` e `initialReference` com `date` e `km` |
+| PUT | `/maintenanceItems/:id` | Campos do cadastro, exceto `vehicleId` |
+| PATCH | `/maintenanceItems/:id` | `{"active":false}` inativa o item e preserva o histórico |
+| POST | `/serviceRecords` | `vehicleId`, `maintenanceItemId`, `maintenanceType` (`preventive` ou `corrective`), `serviceDate`, `serviceKm`, `amount` e `shop` |
+| PUT | `/serviceRecords/:id` | Campos do cadastro, exceto `vehicleId` |
+| DELETE | `/serviceRecords/:id` | Exclui o registro e retorna `204` |
+
+Os IDs são strings. Envie datas em `AAAA-MM-DD` e valores numéricos como números
+JSON. Serviços só podem usar itens do mesmo veículo. Um serviço existente pode
+manter seu vínculo com um item que foi inativado. O nome do item é registrado
+junto ao serviço e permanece no histórico após uma renomeação. O veículo
+inativo mantém o histórico disponível para consulta.
+
+O MongoDB armazena itens e serviços no documento do veículo. Registrar ou
+editar um serviço atualiza o histórico e o odômetro em uma única gravação.
+Editar ou excluir um serviço nunca reduz o odômetro. Se outra gravação alterar
+o veículo antes de concluir a operação, a API pode retornar `409` com
+`CONCURRENT_UPDATE`. Recarregue os dados antes de tentar novamente.
 
 Referências: [tratamento de erros Express](https://expressjs.com/en/guide/error-handling/)
 e [CORS](https://expressjs.com/en/resources/middleware/cors/),
