@@ -47,9 +47,9 @@ permissões e acesso de rede no provedor antes de usar. Não envie credenciais
 no chat nem faça commit do `.env`.
 
 O mock usa a mesma porta 3001: pare-o antes de iniciar o Express ou configure
-outra porta, por exemplo `PORT=3002`. `npm start` e `npm run preview` na raiz
-continuam executando o frontend com o mock. A migração depende da sessão na
-interface e das rotas de itens e serviços.
+outra porta, por exemplo `PORT=3002`. Para usar o Express com a interface de
+login e garagem, siga a [configuração do frontend](../README.md#evolução-do-backend--express).
+Para o fluxo do mock, mantenha o frontend no modo `api`.
 
 ## Como os colegas podem integrar seus módulos
 

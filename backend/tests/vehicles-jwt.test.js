@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import request from "supertest";
 import { startServer } from "../src/runtime.js";
+import { createAuthClient } from "../../frontend/src/data/authClient.js";
+import { createVehicleApi } from "../../frontend/src/data/vehicleApi.js";
 
 test("API principal protege veículos com JWT real e isola dois usuários", { timeout: 240000 }, async (t) => {
   const mongo = await MongoMemoryServer.create();
@@ -25,15 +27,17 @@ test("API principal protege veículos com JWT real e isola dois usuários", { ti
     authConfig,
   });
   const api = request(runtime.server);
+  const baseUrl = `http://127.0.0.1:${runtime.server.address().port}`;
+  const authClient = createAuthClient(baseUrl);
   const vehicle = { plate: "ABC1D23", model: "Onix", year: 2022, currentKm: 10000 };
 
   async function registerAndLogin(name, email) {
     const password = "senha-de-teste-123";
     const registered = await api.post("/usuarios").send({ name, email, password }).expect(201);
     assert.deepEqual(Object.keys(registered.body).sort(), ["email", "id", "name"]);
-    const login = await api.post("/login").send({ email, password }).expect(200);
-    assert.deepEqual(login.body.user, registered.body);
-    return login.body;
+    const login = await authClient.login({ email, password });
+    assert.deepEqual(login.user, registered.body);
+    return login;
   }
 
   await api.get("/ready").expect(200);
@@ -68,20 +72,21 @@ test("API principal protege veículos com JWT real e isola dois usuários", { ti
 
   const asAna = (req) => req.auth(ana.token, { type: "bearer" });
   const asBia = (req) => req.auth(bia.token, { type: "bearer" });
+  const anaVehicles = createVehicleApi(baseUrl, { getToken: () => ana.token });
+  const biaVehicles = createVehicleApi(baseUrl, { getToken: () => bia.token });
   const forgedOwner = await asAna(api.post("/vehicles"))
     .send({ ...vehicle, ownerId: bia.user.id }).expect(400);
   assert.equal(forgedOwner.body.error.code, "VALIDATION_ERROR");
 
-  const first = (await asAna(api.post("/vehicles")).send(vehicle).expect(201)).body;
-  const second = (await asBia(api.post("/vehicles"))
-    .send({ ...vehicle, plate: "BCD2E34" }).expect(201)).body;
+  const first = await anaVehicles.registerVehicle({ ...vehicle, active: false, ownerId: bia.user.id });
+  const second = await biaVehicles.registerVehicle({ ...vehicle, plate: "BCD2E34" });
   assert.deepEqual(first, { ...vehicle, id: first.id, active: true });
   const path = `/vehicles/${first.id}`;
   await api.get(path).expect(401);
   await api.put(path).send(vehicle).expect(401);
   await api.patch(path).send({ active: false }).expect(401);
-  assert.deepEqual((await asAna(api.get("/vehicles")).expect(200)).body, [first]);
-  assert.deepEqual((await asBia(api.get("/vehicles")).expect(200)).body, [second]);
+  assert.deepEqual((await anaVehicles.load()).vehicles, [first]);
+  assert.deepEqual((await biaVehicles.load()).vehicles, [second]);
 
   for (const req of [
     api.get(path),
@@ -92,11 +97,19 @@ test("API principal protege veículos com JWT real e isola dois usuários", { ti
     assert.equal((await asBia(req).expect(403)).body.error.code, "FORBIDDEN");
   }
   assert.deepEqual((await asAna(api.get(path)).expect(200)).body, first);
-  const edited = await asAna(api.put(path)).send({ ...vehicle, model: "Onix LT" }).expect(200);
-  assert.equal(edited.body.model, "Onix LT");
-  const odometer = await asAna(api.patch(path)).send({ currentKm: 12000 }).expect(200);
-  assert.equal(odometer.body.currentKm, 12000);
-  const deactivated = await asAna(api.patch(path)).send({ active: false }).expect(200);
-  assert.deepEqual(deactivated.body, { ...first, model: "Onix LT", currentKm: 12000, active: false });
-  assert.deepEqual((await asBia(api.get("/vehicles")).expect(200)).body, [second]);
+  const edited = await anaVehicles.updateVehicle(first.id, { ...first, model: "Onix LT" });
+  assert.equal(edited.model, "Onix LT");
+  const odometer = await anaVehicles.updateOdometer(first.id, 12000);
+  assert.equal(odometer.currentKm, 12000);
+  const deactivated = await anaVehicles.deactivateVehicle(first.id);
+  assert.deepEqual(deactivated, { ...first, model: "Onix LT", currentKm: 12000, active: false });
+  assert.deepEqual((await biaVehicles.load()).vehicles, [second]);
+
+  const codes = [];
+  const expiredSession = createVehicleApi(baseUrl, {
+    getToken: () => expired,
+    onUnauthorized: (code) => codes.push(code),
+  });
+  await assert.rejects(expiredSession.load(), { status: 401, code: "TOKEN_EXPIRED" });
+  assert.deepEqual(codes, ["TOKEN_EXPIRED"]);
 });

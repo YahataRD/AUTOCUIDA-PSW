@@ -46,11 +46,13 @@ export default function GaragePage({
     setFeedback("");
     try {
       await onUpdateOdometer(currentKm);
-      setFeedback(
-        `Odômetro atualizado para ${formatKm(currentKm)}. Os alertas foram recalculados.`,
-      );
+      const updated = `Odômetro atualizado para ${formatKm(currentKm)}.`;
+      setFeedback(onBackToDashboard ? `${updated} Os alertas foram recalculados.` : updated);
     } catch (error) {
-      setError("root.server", { message: error.message });
+      const fieldMessage = error.fields?.currentKm;
+      setError(fieldMessage ? "currentKm" : "root.server", {
+        message: fieldMessage || error.message,
+      });
     }
   }
 
@@ -100,10 +102,12 @@ export default function GaragePage({
 
           <section className="surface p-5 md:p-[1.4rem]">
             <h2 className="form-title">Atualizar odômetro</h2>
-            <p className="form-help">
-              A nova leitura será usada para recalcular automaticamente o
-              desgaste dos itens de manutenção.
-            </p>
+            {onBackToDashboard && (
+              <p className="form-help">
+                A nova leitura será usada para recalcular automaticamente o
+                desgaste dos itens de manutenção.
+              </p>
+            )}
 
             <form
               onSubmit={handleSubmit(submit)}
@@ -151,7 +155,7 @@ export default function GaragePage({
               <button className="primary-button" type="submit" disabled={busy}>
                 {busy ? "Salvando…" : "Atualizar quilometragem"}
               </button>
-              {feedback && (
+              {feedback && onBackToDashboard && (
                 <button
                   className="secondary-button"
                   type="button"
@@ -180,14 +184,16 @@ export default function GaragePage({
           ) : (
             <VehicleEdit vehicle={vehicle} isSaving={busy} onSave={(input) => onUpdateVehicle(vehicle.id, input)} onCancel={() => setEditingVehicle(false)} />
           )}
-          <MaintenanceManager
-            vehicle={vehicle}
-            items={maintenanceItems}
-            isSaving={busy}
-            onCreate={(input) => onCreateMaintenanceItem(vehicle.id, input)}
-            onUpdate={(id, input) => onUpdateMaintenanceItem(id, input)}
-            onRemove={onRemoveMaintenanceItem}
-          />
+          {onCreateMaintenanceItem && (
+            <MaintenanceManager
+              vehicle={vehicle}
+              items={maintenanceItems}
+              isSaving={busy}
+              onCreate={(input) => onCreateMaintenanceItem(vehicle.id, input)}
+              onUpdate={(id, input) => onUpdateMaintenanceItem(id, input)}
+              onRemove={onRemoveMaintenanceItem}
+            />
+          )}
         </div>
       )}
     </main>

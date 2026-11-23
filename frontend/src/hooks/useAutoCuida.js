@@ -5,14 +5,14 @@ import { createDemoApi } from "../data/demo.js";
 import { dataQuery, commandMutation } from "../data/queries.js";
 
 const isDemo = import.meta.env.VITE_DATA_MODE === "demo";
-const api = isDemo
+const defaultApi = isDemo
   ? createDemoApi()
   : createApi(import.meta.env.VITE_API_URL || "http://127.0.0.1:3001");
 
-export default function useAutoCuida() {
+export default function useAutoCuida(api = defaultApi, userId) {
   const client = useQueryClient();
-  const query = useQuery(dataQuery(api));
-  const mutation = useMutation(commandMutation(client, api));
+  const query = useQuery(dataQuery(api, userId));
+  const mutation = useMutation(commandMutation(client, api, userId));
   const pending = useRef(false);
 
   async function execute(command, ...args) {

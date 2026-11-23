@@ -84,9 +84,17 @@ Após `npm ci`, configure `MONGO_URL` e `JWT_SECRET` em `backend/.env` e execute
 Obtenha o token em `POST /login` e envie `Authorization: Bearer <token>` nas
 [rotas de veículos](docs/backend-veiculos.md).
 
-O frontend ainda usa json-server enquanto a sessão na interface e as rotas de
-itens e serviços estão em desenvolvimento. Se executar os dois servidores,
-configure portas diferentes. Os testes usam MongoDB temporário.
+Para usar a garagem com login, copie `frontend/.env.example` para `frontend/.env`,
+defina `VITE_DATA_MODE=backend` e ajuste `VITE_API_URL` para a porta do Express.
+Com a API em execução, rode `npm --prefix frontend run dev` na raiz e abra o
+endereço exibido pelo Vite. Crie uma conta pela interface e entre para cadastrar
+ou gerenciar os veículos da conta. Sair, recarregar a página ou receber uma
+recusa da API por sessão expirada exige novo login.
+
+O modo `backend` oferece as funções da garagem. Para usar o fluxo da Entrega 1
+com itens, serviços, alertas e custos, use `VITE_DATA_MODE=api` e `npm start`.
+Se executar o mock e o Express ao mesmo tempo, configure portas diferentes.
+Os testes usam MongoDB temporário.
 
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 

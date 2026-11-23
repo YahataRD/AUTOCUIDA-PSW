@@ -11,6 +11,24 @@ representam duração de trabalho, e implementação não significa aceite final
 
 ## 2026-11-23
 
+### M2.5 — Login e sessão do frontend
+
+- O modo `backend` conecta o cadastro de conta, o login e a garagem ao Express.
+  A listagem, o cadastro, a edição, a atualização do odômetro e a inativação
+  usam Bearer JWT e enviam somente os campos previstos pela API.
+- O token fica em memória. Cada sessão tem seu próprio cache do TanStack Query.
+  Sair cancela consultas e limpa os dados da conta. Um HTTP 401 em uma chamada
+  autenticada retorna ao login, assim como recarregar a página.
+- A garagem está disponível nesse modo. Itens, serviços, alertas e custos
+  continuam disponíveis nos modos mock e demo enquanto as rotas Express são
+  desenvolvidas.
+- No navegador, Ana e Bia acessaram a mesma aba com MongoDB temporário. Foram
+  verificados cadastro, login, senha inválida, persistência dos veículos,
+  edição, odômetro, logout, troca de conta e retorno ao login após recarregar.
+  A suíte automatizada também verifica inativação, rejeição de acesso entre
+  contas e tratamento de JWT expirado. Passaram 110 testes e os builds dos
+  modos `api`, `backend` e `demo`. Horas [a confirmar](horas-dev.md).
+
 ### M2.3 — Integração das rotas de veículos ao JWT
 
 - O Express passou a expor cadastro e login públicos e a exigir Bearer JWT nas

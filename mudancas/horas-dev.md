@@ -35,6 +35,7 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | M2.5 | 2026-11-16 | — | Rafael Duarte Yahata | Ajuste no workflow do Pages | Horas a confirmar | [0d53733](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d53733) |
 | M2.3 / M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Revisão técnica e consolidação dos apontamentos, com apoio do Codex | Horas a confirmar | [Registro da revisão](CHANGELOG.md#estado-do-marco-2-e-consolidação-das-horas) |
 | M2.3 | 2026-11-23 | — | Rafael Duarte Yahata | Integração das rotas de veículos ao JWT, unificação de erros e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m23--integração-das-rotas-de-veículos-ao-jwt) |
+| M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Login e sessão do frontend, integração da garagem ao JWT e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m25--login-e-sessão-do-frontend) |
 
 | Desenvolvedor | Horas registradas |
 | --- | ---: |
