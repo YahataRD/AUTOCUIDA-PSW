@@ -20,7 +20,7 @@ test("health responde JSON sem depender de banco e rota desconhecida retorna err
   assert.equal(health.status, 200);
   assert.match(health.headers.get("content-type"), /application\/json/);
   assert.deepEqual(await health.json(), { status: "ok", service: "autocuida-api" });
-  const missing = await fetch(`${base}/vehicles`);
+  const missing = await fetch(`${base}/nao-existe`);
   assert.equal(missing.status, 404);
   assert.equal((await missing.json()).error.code, "NOT_FOUND");
 });

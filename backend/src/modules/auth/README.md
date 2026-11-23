@@ -4,14 +4,9 @@ Contrato para as demais frentes. Rotas públicas: `POST /usuarios` e `POST /logi
 
 ## Dependências
 
-```bash
-npm i express mongoose zod bcrypt jsonwebtoken passport passport-jwt
-npm i -D supertest
-```
+Instale as dependências declaradas com `npm ci` na raiz.
 
-Zod deve ser a versão 4 (mesma do frontend).
-
-## Variáveis de ambiente (acrescentar ao `.env.example`)
+## Variáveis de ambiente de `backend/.env`
 
 ```text
 JWT_SECRET=         # obrigatório, mínimo 32 caracteres; nunca versionar valor real
@@ -19,20 +14,11 @@ JWT_EXPIRES_IN=2h   # opcional: 30m, 2h, 1d (máximo 7d)
 BCRYPT_ROUNDS=12    # opcional: 10 a 14
 ```
 
-## Ligação no `app.js`
+## Inicialização
 
-```js
-import { readAuthConfig } from "./config/authConfig.js";
-import { createAuthModule } from "./modules/auth/index.js";
-
-const auth = createAuthModule(readAuthConfig());
-app.use(express.json());
-app.use(auth.router);                                 // /usuarios e /login
-app.use("/vehicles", auth.authenticate, vehiclesRouter);
-```
-
-No `server.js`, depois de conectar ao MongoDB e antes do `listen`, chame
-`await User.init()` (de `modules/auth/user.model.js`) para garantir o índice único de e-mail.
+`server.js` carrega a configuração JWT. `runtime.js` conecta ao MongoDB e cria os
+índices de usuários e veículos antes de abrir a porta. `app.js` monta cadastro e
+login e passa `auth.authenticate` à factory das rotas de veículos.
 
 ## Identidade
 
@@ -43,7 +29,7 @@ Nunca aceite `ownerId` vindo do corpo.
 ## Erros
 
 Os middlewares lançam `HttpError(status, code, message, fields?)`
-(`middleware/httpError.js`). O tratador central de erros deve responder:
+(`backend/src/errors.js`). O tratador central devolve:
 
 ```json
 { "error": { "code": "...", "message": "...", "fields": { "campo": "mensagem" } } }

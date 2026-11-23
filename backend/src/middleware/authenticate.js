@@ -1,6 +1,6 @@
 import passport from "passport";
 import passportJwt from "passport-jwt";
-import { HttpError } from "./httpError.js";
+import { HttpError } from "../errors.js";
 
 const { Strategy: JwtStrategy, ExtractJwt } = passportJwt;
 

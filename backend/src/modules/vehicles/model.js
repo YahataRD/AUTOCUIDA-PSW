@@ -29,6 +29,8 @@ const vehicleSchema = new mongoose.Schema({
   active: { type: Boolean, required: true, default: true },
 }, {
   collection: "vehicles",
+  autoCreate: false,
+  autoIndex: false,
   strict: "throw",
   toJSON: {
     // Lista explícita: campos internos não passam para o contrato público.

@@ -9,6 +9,65 @@ Registre o esforço de cada participante em [horas-dev.md](horas-dev.md).
 O histórico anterior foi resumido a partir dos commits. Datas de commits não
 representam duração de trabalho, e implementação não significa aceite final.
 
+## 2026-11-23
+
+### M2.3 — Integração das rotas de veículos ao JWT
+
+- O Express passou a expor cadastro e login públicos e a exigir Bearer JWT nas
+  rotas de veículos. A autorização usa o proprietário autenticado para listar,
+  consultar, editar, atualizar a quilometragem e inativar.
+- Autenticação, validação e veículos passaram a usar a mesma classe `HttpError`.
+  Erros esperados retornam status e campos no contrato JSON da API.
+- A inicialização valida a configuração JWT e aguarda os índices de usuários e
+  veículos após conectar ao MongoDB. Falha na criação dos índices encerra a
+  conexão antes de abrir HTTP.
+- **110 testes passaram** (45 frontend, 11 mock e 54 backend), com MongoDB
+  isolado. A aplicação principal foi testada com dois usuários, tokens reais,
+  acesso próprio, bloqueio de leitura e mutação entre contas e JWT inválido ou
+  expirado. A reconexão e o tratamento de porta ocupada também passaram.
+- M2.5 ainda precisa ligar a sessão no frontend. Horas da integração de 23/11
+  [a confirmar](horas-dev.md).
+
+### Estado do Marco 2 e consolidação das horas
+
+Retrato da base `c345282` antes da integração acima.
+
+- Base analisada `c345282`. O PR #7 trouxe à `main` o módulo de cadastro, login e JWT e o cliente HTTP com Bearer e chave de cache por usuário. O PR #8 completou as dependências da autenticação e corrigiu a leitura JSON no cliente.
+- **M2.1:** modelo, repositório, validações, controle por proprietário e router de veículos implementados. A montagem e o aceite integrado continuam pendentes.
+- **M2.3:** montar `auth.router` e `createVehicleRouter({ authenticate: auth.authenticate })` em `/vehicles`, antes do tratador 404. Ler a configuração JWT na partida e inicializar os índices de usuários e veículos após a conexão MongoDB e antes de abrir a porta HTTP. Proteger a inicialização com fechamento do MongoDB em caso de erro. Unificar `HttpError` para o tratador central reconhecer erros de autenticação. Validar cadastro, login e rotas protegidas com JWT real e dois usuários em banco isolado.
+- **M2.5:** ligar sessão e telas de autenticação ao cliente HTTP, ativar consultas com a identidade do usuário, limpar o cache ao sair e adaptar os corpos de cadastro e edição ao schema Express. A carga atual ainda solicita veículos, itens e serviços juntos. A migração completa depende de M2.2 e da carga inicial M2.4.
+- **M2.2 e M2.4:** implementar persistência e rotas de itens e serviços com isolamento por proprietário, depois preparar carga inicial vinculada em ambiente separado. Os cálculos e telas da Entrega 1 fornecem regras e fluxos para reaproveitar.
+- Verificação local com a base analisada. Passaram 98 testes da suíte padrão (45 frontend, 11 mock e 42 backend) e, separadamente, 11 testes HTTP do módulo JWT em um Express de teste com MongoDB temporário. A aplicação padrão devolveu 404 em `POST /usuarios`, `POST /login` e `GET /vehicles`. Ao montar os módulos temporariamente com o tratador central, ausência de Bearer e corpo inválido no login devolveram 500, evidenciando a incompatibilidade entre as duas classes `HttpError`.
+
+Apontamentos do PSW por pacote, dia e pessoa, consolidados a partir do [registro de horas](horas-dev.md) e dos Status Reports 2 e 3. Os dias da reconstituição correspondem aos commits. Os dois lançamentos de 15/11 são o rateio das mesmas 2 h declaradas.
+
+| Pacote | Dia | Horas | Pessoa |
+| --- | --- | ---: | --- |
+| Pré-baseline | 2026-09-23 | 6,00 | Rafael Duarte |
+| Pré-baseline | 2026-09-25 | 2,50 | Rafael Duarte |
+| 2.2 | 2026-10-02 | 5,00 | Rafael Duarte |
+| 7.4 | 2026-10-02 | 1,00 | Rafael Duarte |
+| 3.1 | 2026-10-02 | 2,50 | Rafael Duarte |
+| 2.2 | 2026-10-04 | 4,50 | Rafael Duarte |
+| 7.4 | 2026-10-04 | 0,50 | Rafael Duarte |
+| 7.1 | 2026-10-04 | 2,50 | Rafael Duarte |
+| 3.1 + 4.1 + 5.1 + 5.2 | 2026-10-05 | 4,50 | Gabriel Felipe |
+| 2.1 | 2026-10-05 | 3,00 | Rafael Duarte |
+| 7.3 | 2026-10-05 | 0,50 | Rafael Duarte |
+| 7.3 | 2026-10-06 | 2,00 | Rafael Duarte |
+| 7.1 | 2026-10-06 | 2,50 | Rafael Duarte |
+| 7.2 | 2026-10-06 | 2,00 | Rafael Voigt |
+| 6.1 | 2026-10-06 | 3,50 | Rafael Duarte |
+| M2.1 | 2026-10-31 | 8,50 | Rafael Duarte |
+| M2.3 | 2026-11-15 | 1,50 | Rafael Voigt |
+| M2.5 | 2026-11-15 | 0,50 | Rafael Voigt |
+| M2.5 | 2026-11-16 | A confirmar | Rafael Voigt |
+| M2.3 | 2026-11-16 | A confirmar | Rafael Voigt |
+| M2.5 | 2026-11-16 | A confirmar | Rafael Duarte |
+| M2.3 / M2.5 — revisão técnica e documentação | 2026-11-23 | A confirmar | Rafael Duarte |
+
+**Total registrado no PSW: 53,00 h**, incluindo reconstituições e rateios. Permanecem em aberto o detalhamento diário, a divisão dos pacotes do Gabriel, a confirmação da revisão do Voigt em 06/10 e os apontamentos das correções da Entrega 1. As lacunas e respectivas evidências estão no [registro de horas](horas-dev.md).
+
 ## 2026-10-31
 
 ### Etapa 6 — dependências e regressão completa

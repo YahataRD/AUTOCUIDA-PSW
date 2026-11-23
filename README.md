@@ -78,15 +78,15 @@ trabalhado por cada participante na tabela de horas. Os arquivos ficam em
 
 ### Evolução do backend — Express
 
-A API em evolução está em [backend/](backend/README.md). Após `npm ci`, configure
-`MONGO_URL` em `backend/.env`, execute `npm run start:backend` e consulte `/health`
-e `/ready`. A conexão MongoDB é exigida antes de abrir HTTP; ainda não há rotas de
-negócio. `npm start` mantém frontend/json-server; pare o mock antes de usar a mesma
-porta. Os testes incluem MongoDB real temporário, baixado automaticamente na
-primeira execução, sem exigir um banco pessoal ou compartilhado.
+A [API Express](backend/README.md) oferece cadastro, login e rotas de veículos.
+Após `npm ci`, configure `MONGO_URL` e `JWT_SECRET` em `backend/.env` e execute
+`npm run start:backend`. `/health` e `/ready` verificam a API e o banco.
+Obtenha o token em `POST /login` e envie `Authorization: Bearer <token>` nas
+[rotas de veículos](docs/backend-veiculos.md).
 
-O [modelo de veículos e suas validações](docs/backend-veiculos.md) já estão
-definidos no backend. As rotas de negócio ainda dependem da integração com JWT.
+O frontend ainda usa json-server enquanto a sessão na interface e as rotas de
+itens e serviços estão em desenvolvimento. Se executar os dois servidores,
+configure portas diferentes. Os testes usam MongoDB temporário.
 
 É necessário ter Node.js 22.12 ou superior e npm instalados.
 

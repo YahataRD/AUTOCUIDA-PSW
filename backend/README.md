@@ -1,7 +1,7 @@
-# API Express — veículos preparados para integração JWT
+# API Express — autenticação e veículos
 
-Base para os módulos de veículos, itens, serviços e autenticação. O processo conecta
-ao MongoDB por Mongoose antes de abrir a porta HTTP. Ainda não há rotas de negócio.
+A API expõe cadastro, login e rotas de veículos. O processo conecta ao MongoDB
+e cria os índices de usuários e veículos antes de abrir a porta HTTP.
 `GET /health` confirma o processo HTTP; `GET /ready` faz ping no banco e retorna
 200 quando disponível ou 503 com `DATABASE_UNAVAILABLE` quando indisponível.
 
@@ -14,7 +14,9 @@ npm ci
 ```
 
 Configure um MongoDB de desenvolvimento e copie `backend/.env.example` para
-`backend/.env`, ajustando `MONGO_URL` em um editor local. Então execute:
+`backend/.env`, ajustando `MONGO_URL` e `JWT_SECRET` em um editor local. Use um segredo
+aleatório de pelo menos 32 caracteres. O token expira em 2 horas por padrão
+e o bcrypt usa 12 rodadas. Execute:
 
 ```bash
 npm run start:backend
@@ -46,8 +48,8 @@ no chat nem faça commit do `.env`.
 
 O mock usa a mesma porta 3001: pare-o antes de iniciar o Express ou configure
 outra porta, por exemplo `PORT=3002`. `npm start` e `npm run preview` na raiz
-continuam executando o frontend com o mock. Apontar o frontend para o Express
-nesta etapa fará as consultas de negócio retornarem 404; a migração virá depois.
+continuam executando o frontend com o mock. A migração depende da sessão na
+interface e das rotas de itens e serviços.
 
 ## Como os colegas podem integrar seus módulos
 
@@ -59,7 +61,8 @@ nesta etapa fará as consultas de negócio retornarem 404; a migração virá de
   desativado para não enfileirar silenciosamente operações sem conexão.
 - Registrar routers de módulos antes de `notFound` e `errorHandler` em `app.js`.
 - Padrão de erro: `{ "error": { "code": "...", "message": "..." } }`.
-  Erros de campo e identidade serão implementados com seus módulos.
+  `src/errors.js` define a classe compartilhada `HttpError`. O contrato inclui
+  `fields` quando há erros por campo.
 - Erros inesperados retornam mensagem genérica; JSON inválido retorna 400,
   corpo maior que 100 KB retorna 413 e rota desconhecida retorna 404.
 - CORS permite leitura apenas nas origens configuradas; não substitui JWT ou
@@ -81,7 +84,8 @@ de cache. O processo e seus dados temporários são removidos ao terminar a suí
 
 Os testes verificam escrita/leitura após reconectar, readiness com o banco
 desconectado, falha inicial, liberação da conexão após porta ocupada e encerramento
-idempotente. Isso comprova a integração de conexão, não os futuros CRUDs.
+idempotente. O teste `vehicles-jwt.test.js` usa a aplicação principal com dois
+usuários, tokens reais e MongoDB temporário para verificar o isolamento.
 
 O MongoDB temporário de testes não é banco de desenvolvimento nem prova suporte
 a transações. Para a próxima etapa de serviços, provisionar replica set e testar
@@ -94,13 +98,10 @@ edição, odômetro e inativação. Placa é normalizada e única globalmente, i
 para veículos inativos; proprietário é obrigatório e imutável. O JSON público
 preserva o formato do frontend, com `id` texto e sem campos internos.
 
-O módulo já tem serviços, repositório e router que exige middleware de autenticação.
-As rotas ainda não estão montadas na aplicação, aguardando JWT real. Atualizações
-do odômetro usam condições atômicas; consultas e alterações isolam proprietários.
-Interfaces, regras e limites estão no [guia de veículos](../docs/backend-veiculos.md).
-
-Próximas integrações: montagem do router após JWT, inicialização dos índices antes
-de `listen`, testes com tokens reais e seed com vínculos/usuários preservados.
+Cadastre a conta em `POST /usuarios` com nome, e-mail e senha. Obtenha o token
+em `POST /login` com e-mail e senha. Envie `Authorization: Bearer <token>` nas
+rotas `/vehicles`. As operações usam o proprietário autenticado e as gravações
+de odômetro são atômicas. Veja o [guia de veículos](../docs/backend-veiculos.md).
 
 Referências: [tratamento de erros Express](https://expressjs.com/en/guide/error-handling/)
 e [CORS](https://expressjs.com/en/resources/middleware/cors/),
