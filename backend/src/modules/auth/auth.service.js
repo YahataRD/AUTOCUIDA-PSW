@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { HttpError } from "../../middleware/httpError.js";
+import { HttpError } from "../../errors.js";
 import { User } from "./user.model.js";
 
 const OBJECT_ID = /^[0-9a-f]{24}$/i;

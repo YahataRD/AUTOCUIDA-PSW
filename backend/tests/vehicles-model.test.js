@@ -11,7 +11,7 @@ test("modelo de veículo no MongoDB real isolado", { timeout: 240000 }, async (t
   t.after(async () => { await disconnectDatabase(); await mongo.stop(); });
   await connectDatabase({ mongoUrl: mongo.getUri("autocuida_vehicles_test"), mongoTimeoutMs: 5000 });
   // Aguardar índices antes de testar unicidade, sem depender do timing do Mongo.
-  await Vehicle.init();
+  await Vehicle.createIndexes();
   const ownerId = new mongoose.Types.ObjectId();
   const fields = { ownerId, plate: "ABC1234", model: " Onix ", year: 2022, currentKm: 0 };
 

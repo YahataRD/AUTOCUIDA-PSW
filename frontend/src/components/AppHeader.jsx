@@ -1,6 +1,6 @@
 import { formatKm } from "../utils/maintenance";
 
-export default function AppHeader({ page, currentKm }) {
+export default function AppHeader({ page, currentKm, children }) {
   const pageContent = {
     dashboard: {
       eyebrow: "AutoCUIDA",
@@ -44,6 +44,7 @@ export default function AppHeader({ page, currentKm }) {
           <strong>{formatKm(currentKm)}</strong>
         </p>
       )}
+      {children}
     </header>
   );
 }

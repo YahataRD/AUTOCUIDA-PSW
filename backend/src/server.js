@@ -1,8 +1,9 @@
 import { readConfig, readDatabaseConfig } from "./config.js";
+import { readAuthConfig } from "./config/authConfig.js";
 import { startServer } from "./runtime.js";
 
 try {
-  const config = { ...readConfig(), ...readDatabaseConfig() };
+  const config = { ...readConfig(), ...readDatabaseConfig(), authConfig: readAuthConfig() };
   const runtime = await startServer(config);
   console.log(`AutoCUIDA API em http://${config.host}:${config.port}`);
   for (const signal of ["SIGINT", "SIGTERM"]) {

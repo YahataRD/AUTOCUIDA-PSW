@@ -3,7 +3,7 @@
 Etapas 3–5, 31/10/2026. Responsável: Rafael Duarte Yahata.
 
 Este módulo define persistência, validação, serviços e uma factory de rotas.
-**As rotas ainda não estão montadas na aplicação**: aguardam o middleware JWT.
+Desde 23/11/2026, a aplicação monta o router em `/vehicles` com JWT.
 O módulo não migra a seed nem altera o frontend. O banco Atlas compartilhado
 não recebe dados ou índices por esta entrega; os testes usam MongoDB temporário.
 
@@ -48,19 +48,9 @@ verificada. Não extrair o proprietário do corpo nem de cabeçalho de usuário.
 Criar o router sem middleware lança erro; um middleware que não preencha uma
 identidade válida resulta em 401. Não existe opção de ambiente para ignorar JWT.
 
-Após implementar o JWT, Rafael Voigt deve:
-
-1. Passar o middleware real na montagem em `src/app.js`, antes de `notFound`.
-2. Após conectar o banco e antes de `listen`, aguardar
-   `vehicleRepository.initialize()` em `src/runtime.js`.
-3. Usar `HttpError` ou responder no contrato JSON em falhas de autenticação.
-4. Executar os testes de veículos e adicionar testes com tokens JWT reais.
-
-Montagem esperada, após importar o middleware real:
-
-```js
-app.use("/vehicles", createVehicleRouter({ authenticate: exigeJwt }));
-```
+Em `src/app.js`, o router usa `auth.authenticate`. `src/runtime.js` aguarda
+`vehicleRepository.initialize()` após conectar e antes de escutar. As rotas
+usam o token emitido por `POST /login` no cabeçalho `Authorization: Bearer <token>`.
 
 | Método | Caminho relativo à montagem `/vehicles` | Resultado |
 | --- | --- | --- |
@@ -73,10 +63,9 @@ app.use("/vehicles", createVehicleRouter({ authenticate: exigeJwt }));
 PATCH recebe `{ currentKm: numero }` ou `{ active: false }`; misturar comandos,
 reativar ou enviar campos extras retorna 400. Não há DELETE físico de veículo.
 
-Os testes HTTP usam identidades fixas exclusivamente em fixture isolada. Isso
-testa o contrato/autorização do módulo e **não comprova a validação JWT**, que
-pertence à outra frente. A aplicação iniciada hoje continua retornando 404 para
-`/vehicles`, até ocorrer a integração descrita acima.
+Os testes HTTP do módulo usam identidades fixas. O teste
+`backend/tests/vehicles-jwt.test.js` cobre a aplicação principal com login,
+tokens reais e dois usuários em MongoDB temporário.
 
 Os schemas são Zod e suportam `safeParse`. A validação no servidor recebe o JSON
 já convertido pelo frontend: ano e quilometragem devem ser números. Strings
@@ -142,7 +131,7 @@ O serviço traduz esse código para `HttpError` 409 com mensagem genérica e err
 do campo `plate`, sem revelar o proprietário existente. Erros imprevistos do
 driver não são publicados; a futura camada HTTP deve tratá-los como 500 genérico.
 
-Antes de disponibilizar as rotas, aguardar `Vehicle.init()` para confirmar a
+Antes de disponibilizar as rotas, aguardar `vehicleRepository.initialize()` para confirmar a
 criação dos índices. Não usar `syncIndexes`, apagar índices ou resetar o Atlas
 compartilhado automaticamente. Dados legados duplicados exigem migração explícita.
 
@@ -173,13 +162,9 @@ o modelo ou validar o corpo.
 
 ## Pendências de integração
 
-1. Alinhar `req.user.id` e middleware JWT com a frente de autenticação.
-2. Montar o router com JWT real e aguardar os índices antes de abrir HTTP.
-3. Reutilizar os serviços e suas condições atômicas. Um `findByIdAndUpdate` genérico
-   pode sobrescrever km nova com leitura antiga, mesmo com `runValidators: true`.
-4. Preservar os comandos separados de edição, odômetro e inativação.
-5. Repetir o isolamento com tokens JWT reais, além das fixtures HTTP existentes.
-6. Migrar seed e integrar frontend somente em incrementos posteriores.
+- Ligar a sessão da interface ao cliente HTTP e adaptar os campos das requisições.
+- Implementar itens e serviços com isolamento por proprietário e preparar a carga inicial.
+- Reaproveitar as operações atômicas de veículos ao integrar serviços e odômetro.
 
 ## Verificação desta etapa
 

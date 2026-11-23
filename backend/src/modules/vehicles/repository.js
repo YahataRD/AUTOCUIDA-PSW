@@ -1,12 +1,11 @@
 import { Vehicle } from "./model.js";
 
 export const vehicleRepository = {
-  initialize: () => Vehicle.init(),
+  initialize: () => Vehicle.createIndexes(),
   list: (ownerId) => Vehicle.find({ ownerId }).sort({ _id: 1 }),
   findOwned: (ownerId, id) => Vehicle.findOne({ _id: id, ownerId }),
   exists: (id) => Vehicle.exists({ _id: id }),
   async create(ownerId, fields) {
-    await Vehicle.init();
     return Vehicle.create({
       ownerId, plate: fields.plate, model: fields.model,
       year: fields.year, currentKm: fields.currentKm, active: true,

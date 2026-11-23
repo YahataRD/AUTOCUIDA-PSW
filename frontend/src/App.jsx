@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AppHeader from "./components/AppHeader";
+import AuthenticatedApp from "./AuthenticatedApp";
 import BottomNavigation from "./components/BottomNavigation";
 import StateMessage from "./components/StateMessage";
 import VehicleSelector from "./components/VehicleSelector";
@@ -12,6 +13,12 @@ import GaragePage from "./pages/GaragePage";
 import ServicePage from "./pages/ServicePage";
 
 export default function App() {
+  return import.meta.env.VITE_DATA_MODE === "backend"
+    ? <AuthenticatedApp />
+    : <LegacyApp />;
+}
+
+function LegacyApp() {
   const store = useAutoCuida();
   const [createdVehicleId, setCreatedVehicleId] = useState(null);
   const route = useHashNavigation(store.data);

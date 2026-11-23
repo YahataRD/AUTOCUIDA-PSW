@@ -7,13 +7,19 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { startServer } from "../src/runtime.js";
 import { isDatabaseReady, disconnectDatabase } from "../src/database.js";
 
+const authConfig = {
+  jwtSecret: "s".repeat(32),
+  jwtExpiresInSeconds: 3600,
+  bcryptRounds: 4,
+};
+
 test("Mongo real: inicia, comprova escrita/reconexão, readiness e fechamento", { timeout: 240000 }, async (t) => {
   // Nunca utiliza MONGO_URL do ambiente nem bancos pessoais/compartilhados.
   const mongo = await MongoMemoryServer.create();
   t.after(async () => { await disconnectDatabase(); await mongo.stop(); });
   const config = {
     port: 0, host: "127.0.0.1", origins: [],
-    mongoUrl: mongo.getUri("autocuida_connection_test"), mongoTimeoutMs: 1000,
+    mongoUrl: mongo.getUri("autocuida_connection_test"), mongoTimeoutMs: 5000, authConfig,
   };
   let runtime = await startServer(config);
   t.after(() => runtime.close());
@@ -49,7 +55,7 @@ test("falha de conexão não abre HTTP nem expõe URI e credenciais", { timeout:
   const unusedPort = portProbe.address().port;
   await new Promise((resolve) => portProbe.close(resolve));
   await assert.rejects(startServer({
-    port: 0, host: "127.0.0.1", origins: [],
+    port: 0, host: "127.0.0.1", origins: [], authConfig,
     mongoUrl: `mongodb://privateuser:secret@127.0.0.1:${unusedPort}/unreachable`, mongoTimeoutMs: 100,
   }), (error) => {
     assert.match(error.message, /Não foi possível conectar/);

@@ -2,7 +2,6 @@ import { Router } from "express";
 import { vehicleService, requireVehicleOwner } from "./service.js";
 
 // O módulo não pode ser montado sem um middleware explícito de autenticação.
-// A implementação/registro JWT cabe à frente de autenticação.
 export function createVehicleRouter({ authenticate } = {}) {
   if (typeof authenticate !== "function") {
     throw new TypeError("As rotas de veículos exigem middleware de autenticação.");

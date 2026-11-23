@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { maintenanceItemSchema, serviceRecordSchema } from "../maintenance/models.js";
 import { isVehicleKm, isVehicleYear, normalizePlate, platePattern } from "./rules.js";
 
 const vehicleSchema = new mongoose.Schema({
@@ -27,8 +28,12 @@ const vehicleSchema = new mongoose.Schema({
     validate: { validator: isVehicleKm, message: "Quilometragem inválida." },
   },
   active: { type: Boolean, required: true, default: true },
+  maintenanceItems: { type: [maintenanceItemSchema], select: false },
+  serviceRecords: { type: [serviceRecordSchema], select: false },
 }, {
   collection: "vehicles",
+  autoCreate: false,
+  autoIndex: false,
   strict: "throw",
   toJSON: {
     // Lista explícita: campos internos não passam para o contrato público.

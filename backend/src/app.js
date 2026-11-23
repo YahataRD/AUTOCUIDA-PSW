@@ -2,8 +2,14 @@ import express from "express";
 import cors from "cors";
 import { readConfig } from "./config.js";
 import { errorHandler, notFound } from "./middleware/errors.js";
+import { createMaintenanceItemRouter, createServiceRecordRouter } from "./modules/maintenance/router.js";
+import { createVehicleRouter } from "./modules/vehicles/router.js";
 
-export function createApp({ origins = readConfig().origins, isReady = async () => false } = {}) {
+export function createApp({
+  origins = readConfig().origins,
+  isReady = async () => false,
+  auth,
+} = {}) {
   const app = express();
   app.disable("x-powered-by");
   app.use(cors({ origin: origins }));
@@ -22,7 +28,13 @@ export function createApp({ origins = readConfig().origins, isReady = async () =
     });
   });
 
-  // Registrar rotas dos módulos acima destes dois middlewares.
+  if (auth) {
+    app.use(auth.router);
+    app.use("/vehicles", createVehicleRouter({ authenticate: auth.authenticate }));
+    app.use("/maintenanceItems", createMaintenanceItemRouter(auth.authenticate));
+    app.use("/serviceRecords", createServiceRecordRouter(auth.authenticate));
+  }
+
   app.use(notFound);
   app.use(errorHandler);
   return app;

@@ -9,23 +9,12 @@ import mongoose from "mongoose";
 import request from "supertest";
 import { createAuthModule } from "../src/modules/auth/index.js";
 import { User } from "../src/modules/auth/user.model.js";
+import { errorHandler } from "../src/middleware/errors.js";
 
 const mongoUrl = process.env.MONGO_TEST_URL;
 const config = { jwtSecret: "t".repeat(32), jwtExpiresInSeconds: 3600, bcryptRounds: 4 };
 const run = Date.now().toString(36);
 const email = (name) => `${name}.${run}@teste.autocuida.invalid`;
-
-// Substituir pelo tratador central de erros (Yahata) quando ele existir.
-function errorHandler(error, req, res, next) {
-  const status = error.status ?? 500;
-  res.status(status).json({
-    error: {
-      code: error.code ?? "INTERNAL_ERROR",
-      message: status === 500 ? "Erro inesperado." : error.message,
-      ...(error.fields ? { fields: error.fields } : {}),
-    },
-  });
-}
 
 function buildApp() {
   const auth = createAuthModule(config);
@@ -46,7 +35,7 @@ describe("autenticação (HTTP + MongoDB)", { skip: !mongoUrl && "defina MONGO_T
 
   before(async () => {
     await mongoose.connect(mongoUrl, { serverSelectionTimeoutMS: 5000 });
-    await User.init(); // garante o índice único de e-mail
+    await User.createIndexes(); // garante o índice único de e-mail
   });
 
   after(async () => {
