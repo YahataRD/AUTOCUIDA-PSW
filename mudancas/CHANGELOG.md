@@ -96,12 +96,12 @@ Apontamentos do PSW por pacote, dia e pessoa, consolidados a partir do [registro
 | M2.1 | 2026-10-31 | 8,50 | Rafael Duarte |
 | M2.3 | 2026-11-15 | 1,50 | Rafael Voigt |
 | M2.5 | 2026-11-15 | 0,50 | Rafael Voigt |
-| M2.5 | 2026-11-16 | A confirmar | Rafael Voigt |
-| M2.3 | 2026-11-16 | A confirmar | Rafael Voigt |
+| M2.5 | 2026-11-16 | 3,00 | Rafael Voigt |
+| M2.3 | 2026-11-16 | 2,50 | Rafael Voigt |
 | M2.5 | 2026-11-16 | A confirmar | Rafael Duarte |
 | M2.3 / M2.5 — revisão técnica e documentação | 2026-11-23 | A confirmar | Rafael Duarte |
 
-**Total registrado no PSW: 53,00 h**, incluindo reconstituições e rateios. Permanecem em aberto o detalhamento diário, a divisão dos pacotes do Gabriel, a confirmação da revisão do Voigt em 06/10 e os apontamentos das correções da Entrega 1. As lacunas e respectivas evidências estão no [registro de horas](horas-dev.md).
+**Total registrado no PSW: 58,50 h**, incluindo reconstituições, rateios e 5,50 h declaradas por Rafael Voigt em 23/11 para os ajustes de 16/11. Permanecem em aberto o detalhamento diário, a divisão dos pacotes do Gabriel, a confirmação da revisão do Voigt em 06/10 e os apontamentos das correções da Entrega 1. As lacunas e respectivas evidências estão no [registro de horas](horas-dev.md).
 
 ## 2026-10-31
 

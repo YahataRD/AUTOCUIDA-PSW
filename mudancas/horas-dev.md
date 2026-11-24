@@ -1,6 +1,6 @@
 # Registro de horas da equipe de desenvolvimento
 
-Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data do commit ou do trabalho declarado. Nas linhas reconstituídas, a data do commit é uma referência e o tempo por dia segue sujeito à confirmação. O [SR2](../docs/GPTI/Status%20Report%202.md) registra a confirmação do total de Rafael Duarte e documenta o mapeamento dos pacotes. O [SR3](../docs/GPTI/Status%20Report%203.md) registra cerca de 2 h declaradas por Rafael Voigt em 15/11, repartidas pela gerência em 1,50 h e 0,50 h. Os subtotais abaixo incluem reconstituições e rateios.
+Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data do commit ou do trabalho declarado. Nas linhas reconstituídas, a data do commit é uma referência e o tempo por dia segue sujeito à confirmação. O [SR2](../docs/GPTI/Status%20Report%202.md) registra a confirmação do total de Rafael Duarte e documenta o mapeamento dos pacotes. O [SR3](../docs/GPTI/Status%20Report%203.md) registra cerca de 2 h declaradas por Rafael Voigt em 15/11, repartidas pela gerência em 1,50 h e 0,50 h. Os subtotais abaixo incluem reconstituições, rateios e horas declaradas pelo participante.
 
 | Pacote | Dia | Horas | Desenvolvedor | Entrega/etapa | Origem ou situação | Evidência |
 | --- | --- | ---: | --- | --- | --- | --- |
@@ -30,8 +30,8 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | M2.1 | 2026-10-31 | 1,00 | Rafael Duarte Yahata | Correção de dependências, instalação limpa, regressão, builds e verificação de inicialização conjunta | Reconstituídas por commit | [50e654a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/50e654a) |
 | M2.3 | 2026-11-15 | 1,50 | Rafael Voigt Villas Boas | Cadastro, login e middleware JWT | Rateio do SR3 sobre cerca de 2 h declaradas no dia | [14946cf](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/14946cf) |
 | M2.5 | 2026-11-15 | 0,50 | Rafael Voigt Villas Boas | Cliente HTTP com Bearer e cache por usuário | Rateio do mesmo total declarado; não somar novamente | [6277490](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/6277490) |
-| M2.5 | 2026-11-16 | — | Rafael Voigt Villas Boas | Ajuste de leitura JSON no cliente HTTP | Horas a confirmar | [0f87bf9](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0f87bf9) |
-| M2.3 | 2026-11-16 | — | Rafael Voigt Villas Boas | Dependências da autenticação | Horas a confirmar | [4d74ee2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/4d74ee2) |
+| M2.5 | 2026-11-16 | 3,00 | Rafael Voigt Villas Boas | Ajuste de leitura JSON no cliente HTTP | Declaradas pelo participante em 23/11 | [0f87bf9](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0f87bf9) |
+| M2.3 | 2026-11-16 | 2,50 | Rafael Voigt Villas Boas | Dependências da autenticação | Declaradas pelo participante em 23/11 | [4d74ee2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/4d74ee2) |
 | M2.5 | 2026-11-16 | — | Rafael Duarte Yahata | Ajuste no workflow do Pages | Horas a confirmar | [0d53733](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d53733) |
 | M2.3 / M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Revisão técnica e consolidação dos apontamentos, com apoio do Codex | Horas a confirmar | [Registro da revisão](CHANGELOG.md#estado-do-marco-2-e-consolidação-das-horas) |
 | M2.3 | 2026-11-23 | — | Rafael Duarte Yahata | Integração das rotas de veículos ao JWT, unificação de erros e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m23--integração-das-rotas-de-veículos-ao-jwt) |
@@ -42,13 +42,13 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | --- | ---: |
 | Rafael Duarte Yahata | 44,50 |
 | Gabriel Felipe Martins da Silva | 4,50 |
-| Rafael Voigt Villas Boas | 4,00 |
-| **PSW** | **53,00** |
+| Rafael Voigt Villas Boas | 9,50 |
+| **PSW** | **58,50** |
 
-O total de **53,00 h** coincide com o SR3 e reúne 8,50 h de pré-baseline, 34,00 h da Entrega 1 e 10,50 h do Marco 2. Os apontamentos pendentes ficam fora da soma.
+O total de **58,50 h** soma as 53,00 h do SR3 (8,50 h de pré-baseline, 34,00 h da Entrega 1 e 10,50 h do Marco 2) e as 5,50 h declaradas por Rafael Voigt em 23/11 para os ajustes de 16/11, o que eleva o Marco 2 a 16,00 h. Os apontamentos pendentes ficam fora da soma.
 
 - **Gabriel:** o commit de 05/10 agrupa 4,50 h em 3.1, 4.1, 5.1 e 5.2. Falta confirmar o total, a distribuição e o esforço posterior, inclusive M2.2.
-- **Voigt:** falta confirmação individual das 2,00 h de 06/10. O total aproximado de 15/11 foi declarado, mas a divisão por pacote veio do SR3. Falta apontar as atividades de 16/11.
+- **Voigt:** falta confirmação individual das 2,00 h de 06/10. O total aproximado de 15/11 foi declarado, mas a divisão por pacote veio do SR3. As atividades de 16/11 foram declaradas pelo participante em 23/11 (3,00 h e 2,50 h).
 - **Rafael Duarte:** o SR2 registra declaração de 0 h de 12/10 a 30/10. O SR3 registra 0 h na semana relatada em 15/11. Faltam a duração do ajuste de 16/11 e os apontamentos de revisão e integração de 23/11.
 - **Correções e reverificação da Entrega 1:** faltam apontamentos por pessoa, dia e pacote para 2.1, 2.2, 7.1, 7.2, 7.3 e 7.4 (ISS-08 do SR3). As 10,00 h citadas no relatório são uma estimativa de trabalho a verificar.
 - **M2.4 e dias sem evidência:** sem apontamento verificável. Ausência de movimentação no Git, por si só, deixa a duração em aberto.
