@@ -103,6 +103,22 @@ em `POST /login` com e-mail e senha. Envie `Authorization: Bearer <token>` nas
 rotas `/vehicles`. As operações usam o proprietário autenticado e as gravações
 de odômetro são atômicas. Veja o [guia de veículos](../docs/backend-veiculos.md).
 
+## Carga inicial M2.4
+
+O script `backend/scripts/seed.js` cria ou atualiza um usuário de aplicação e
+restaura para ele os veículos, itens e serviços da seed compartilhada.
+Ele exige `MONGO_URL` e duas variáveis locais:
+
+```powershell
+$env:SEED_USER_EMAIL="demo@autocuida.local"
+$env:SEED_USER_PASSWORD="uma-senha-com-ao-menos-oito-caracteres"
+npm run seed:backend
+```
+
+A carga remove somente os veículos pertencentes ao usuário informado; não altera
+veículos de outras contas. Não execute o script automaticamente na inicialização:
+ele é uma operação explícita de preparação do ambiente compartilhado.
+
 ## Itens de manutenção e serviços
 
 Envie o Bearer JWT em todas as operações de `/maintenanceItems` e

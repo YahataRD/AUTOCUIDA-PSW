@@ -23,10 +23,19 @@ representam duração de trabalho, e implementação não significa aceite final
 - Os testes com Ana e Bia em MongoDB temporário verificaram o isolamento de
   leituras e escritas, os vínculos inválidos, a edição de serviços de itens
   inativados e a consistência durante gravações concorrentes. A suíte completa
-  passou com 111 testes (45 frontend, 11 mock e 55 backend).
+  passou com 103 testes nesta integração (48 frontend, 11 mock e 44 backend).
 - O [contrato da API](../backend/README.md#itens-de-manutenção-e-serviços) está
-  documentado. A integração dessas telas ao modo Express segue pendente.
+  documentado. A integração dessas telas ao modo Express foi concluída no cliente
+  autenticado do frontend nesta etapa.
   Horas [a confirmar](horas-dev.md).
+
+### M2.4 — Carga inicial vinculada
+
+- Criado `backend/scripts/seed.js` e o comando `npm run seed:backend`.
+- O script cria ou atualiza um usuário de aplicação e restaura veículos, itens
+  e serviços da seed compartilhada somente para esse usuário.
+- Validação no Atlas: login aprovado e leitura de 2 veículos, 5 itens e 4
+  serviços no banco `autocuida_dev`.
 
 ### M2.5 — Login e sessão do frontend
 
@@ -36,9 +45,10 @@ representam duração de trabalho, e implementação não significa aceite final
 - O token fica em memória. Cada sessão tem seu próprio cache do TanStack Query.
   Sair cancela consultas e limpa os dados da conta. Um HTTP 401 em uma chamada
   autenticada retorna ao login, assim como recarregar a página.
-- A garagem está disponível nesse modo. Itens, serviços, alertas e custos
-  continuam disponíveis nos modos mock e demo enquanto as rotas Express são
-  desenvolvidas.
+- A garagem, o painel, os serviços e os custos estão disponíveis nesse modo.
+  O cliente autenticado consulta veículos, itens e registros nas três rotas
+  Express e mantém a navegação por hash, a seleção por veículo e o cache por
+  conta no TanStack Query.
 - No navegador, Ana e Bia acessaram a mesma aba com MongoDB temporário. Foram
   verificados cadastro, login, senha inválida, persistência dos veículos,
   edição, odômetro, logout, troca de conta e retorno ao login após recarregar.

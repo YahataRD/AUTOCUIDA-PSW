@@ -14,7 +14,14 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | 2.2 | 2026-10-04 | 4,00 | Rafael Duarte Yahata | Integração com json-server e TanStack Query | Reconstituídas por commit | [0195f64](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0195f64) |
 | 7.4 | 2026-10-04 | 0,50 | Rafael Duarte Yahata | Comandos unificados | Reconstituídas por commit | [0711ffd](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0711ffd) |
 | 7.1 | 2026-10-04 | 2,50 | Rafael Duarte Yahata | Formulários com React Hook Form e Zod | Reconstituídas por commit | [56efc1e](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/56efc1e) |
-| 3.1 + 4.1 + 5.1 + 5.2 | 2026-10-05 | 4,50 | Gabriel Felipe Martins da Silva | Gestão de veículos, itens e serviços | Reconstituição; total e divisão por pacote a confirmar | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 2.1 | 2026-10-05 | 1,50 | Gabriel Felipe Martins da Silva | Integração visual com Bootstrap 5 na gestão e nos componentes do frontend | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 3.1 | 2026-10-05 | 2,50 | Gabriel Felipe Martins da Silva | Edição e inativação de veículos, atualização da garagem e vinculação das alterações à interface | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 4.1 | 2026-10-05 | 3,00 | Gabriel Felipe Martins da Silva | Gestão de itens de manutenção, incluindo cadastro, consulta, edição e remoção por inativação | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 5.1 | 2026-10-05 | 4,50 | Gabriel Felipe Martins da Silva | Edição e exclusão de serviços, formulários, histórico, API/demo e atualização da referência | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 5.2 | 2026-10-05 | 2,00 | Gabriel Felipe Martins da Silva | Integração dos custos e atualização dos totais após registros e edições/exclusões de serviços | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 6.1 | 2026-10-05 | 1,50 | Gabriel Felipe Martins da Silva | Atualização da regra de desgaste e integração do recálculo de alertas | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 7.1 | 2026-10-05 | 1,00 | Gabriel Felipe Martins da Silva | Ajustes da interface, formulários e validação da integração | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
+| 7.3 | 2026-10-05 | 2,00 | Gabriel Felipe Martins da Silva | Atualização da documentação da entrega, README, manuais e testes de validação | Estimativa retrospectiva baseada no alcance do commit; valor central dentro da faixa de 16–22 h | [0d6897a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d6897a) |
 | 2.1 | 2026-10-05 | 3,00 | Rafael Duarte Yahata | Migração para Tailwind CSS | Reconstituídas por commit | [ebec85b](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/ebec85b) |
 | 7.3 | 2026-10-05 | 0,50 | Rafael Duarte Yahata | Registro de mudanças e horas | Reconstituídas por commit | [5c8c674](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/5c8c674) |
 | 7.3 | 2026-10-06 | 2,00 | Rafael Duarte Yahata | Integridade das edições: odômetro, serviços, referências e testes | Reconstituídas por commit | [598b1a2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/598b1a2) |
@@ -37,18 +44,21 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | M2.3 | 2026-11-23 | — | Rafael Duarte Yahata | Integração das rotas de veículos ao JWT, unificação de erros e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m23--integração-das-rotas-de-veículos-ao-jwt) |
 | M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Login e sessão do frontend, integração da garagem ao JWT e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m25--login-e-sessão-do-frontend) |
 | M2.2 | 2026-11-23 | — | Rafael Duarte Yahata | Rotas de itens e serviços com JWT, persistência e validação com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m22--rotas-de-itens-de-manutenção-e-serviços) |
+| M2.2 | 2026-11-23 | 1,00 | Gabriel Felipe Martins da Silva | Revisão da integração de itens e serviços e preparação dos testes de contrato do frontend autenticado | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Atualização da integração](CHANGELOG.md) |
+| M2.4 | 2026-11-23 | 2,50 | Gabriel Felipe Martins da Silva | Script de carga inicial, usuário demo, vínculos de veículos/itens/serviços e validação no Atlas | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Carga inicial M2.4](CHANGELOG.md#m24--carga-inicial-vinculada) |
+| M2.5 | 2026-11-23 | 5,50 | Gabriel Felipe Martins da Silva | Cliente autenticado, integração das quatro telas, navegação por conta/veículo, testes de contrato e validação no Atlas | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Integração M2.5](CHANGELOG.md#m25--login-e-sessão-do-frontend) |
+| 7.3 | 2026-11-23 | 1,00 | Gabriel Felipe Martins da Silva | Atualização dos READMEs, changelog e documentação da carga inicial | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Documentação da atualização](CHANGELOG.md) |
 
 | Desenvolvedor | Horas registradas |
 | --- | ---: |
 | Rafael Duarte Yahata | 44,50 |
-| Gabriel Felipe Martins da Silva | 4,50 |
+| Gabriel Felipe Martins da Silva | 28,00 |
 | Rafael Voigt Villas Boas | 9,50 |
-| **PSW** | **58,50** |
+| **PSW** | **82,00** |
 
-O total de **58,50 h** soma as 53,00 h do SR3 (8,50 h de pré-baseline, 34,00 h da Entrega 1 e 10,50 h do Marco 2) e as 5,50 h declaradas por Rafael Voigt em 23/11 para os ajustes de 16/11, o que eleva o Marco 2 a 16,00 h. Os apontamentos pendentes ficam fora da soma.
+O total de **82,00 h** soma as 53,00 h do SR3 (8,50 h de pré-baseline, 34,00 h da Entrega 1 e 10,50 h do Marco 2), as 5,50 h declaradas por Rafael Voigt em 23/11 para os ajustes de 16/11, a reestimativa de 18,00 h para o commit de Gabriel e as 10,00 h estimadas para a atualização M2.2 → M2.4 → M2.5 concluída em 23/11. Os apontamentos pendentes anteriores ficam fora da soma.
 
-- **Gabriel:** o commit de 05/10 agrupa 4,50 h em 3.1, 4.1, 5.1 e 5.2. Falta confirmar o total, a distribuição e o esforço posterior, inclusive M2.2.
+- **Gabriel:** a estimativa central para o commit de 05/10 passou de 4,50 h para 18,00 h, referente a alterações nos componentes/formulários, estado/API/dados, alertas/custos, Bootstrap, documentação e testes. Além dessas 18,00 h, a atualização M2.2 → M2.4 → M2.5 de 23/11 foi estimada em 10,00 h: M2.2 (1,00 h), M2.4 (2,50 h), M2.5 (5,50 h) e 7.3 (1,00 h). O total de Gabriel passa a 28,00 h.
 - **Voigt:** falta confirmação individual das 2,00 h de 06/10. O total aproximado de 15/11 foi declarado, mas a divisão por pacote veio do SR3. As atividades de 16/11 foram declaradas pelo participante em 23/11 (3,00 h e 2,50 h).
 - **Rafael Duarte:** o SR2 registra declaração de 0 h de 12/10 a 30/10. O SR3 registra 0 h na semana relatada em 15/11. Faltam a duração do ajuste de 16/11 e os apontamentos de revisão e integração de 23/11.
 - **Correções e reverificação da Entrega 1:** faltam apontamentos por pessoa, dia e pacote para 2.1, 2.2, 7.1, 7.2, 7.3 e 7.4 (ISS-08 do SR3). As 10,00 h citadas no relatório são uma estimativa de trabalho a verificar.
-- **M2.4 e dias sem evidência:** sem apontamento verificável. Ausência de movimentação no Git, por si só, deixa a duração em aberto.
