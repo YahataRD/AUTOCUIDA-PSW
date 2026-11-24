@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createApi } from "../src/data/api.js";
 import { createDemoApi } from "../src/data/demo.js";
+import { createVehicleApi } from "../src/data/vehicleApi.js";
 import { dataKey, dataQuery, commandMutation } from "../src/data/queries.js";
 import {
   QueryClient,
@@ -28,6 +29,101 @@ test("consulta três recursos da API e encaminha sinal de cancelamento", async (
     "http://mock/maintenanceItems",
     "http://mock/serviceRecords",
   ]);
+});
+
+test("API autenticada consulta veículos, itens e serviços com Bearer", async () => {
+  const requests = [];
+  const fetcher = async (url, init) => {
+    requests.push({ url, init });
+    const resource = url.split("/").at(-1);
+    const payload = resource === "vehicles"
+      ? seed.vehicles
+      : resource === "maintenanceItems"
+        ? seed.maintenanceItems
+        : seed.serviceRecords;
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify(payload),
+    };
+  };
+  const api = createVehicleApi("http://express", {
+    fetcher,
+    getToken: () => "token-teste",
+  });
+  const data = await api.load();
+  assert.deepEqual(data, seed);
+  assert.equal(requests.length, 3);
+  assert.ok(requests.every(({ init }) =>
+    init.headers.Authorization === "Bearer token-teste"));
+});
+
+test("API autenticada envia itens e serviços nos contratos Express", async () => {
+  const requests = [];
+  const fetcher = async (url, init) => {
+    requests.push({ url, init });
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify({ id: "1", active: true }),
+    };
+  };
+  const api = createVehicleApi("http://express", { fetcher, getToken: () => "token" });
+
+  await api.registerMaintenanceItem("vehicle-1", {
+    name: "Óleo",
+    intervalKm: 10000,
+    intervalMonths: 12,
+    initialDate: "2026-01-01",
+    initialKm: 20000,
+  });
+  assert.equal(requests.at(-1).url, "http://express/maintenanceItems");
+  assert.equal(requests.at(-1).init.method, "POST");
+  assert.deepEqual(JSON.parse(requests.at(-1).init.body), {
+    vehicleId: "vehicle-1",
+    name: "Óleo",
+    intervalKm: 10000,
+    intervalMonths: 12,
+    initialReference: { date: "2026-01-01", km: 20000 },
+  });
+
+  await api.registerService("vehicle-1", {
+    maintenanceItemId: "item-1",
+    maintenanceType: "preventive",
+    serviceDate: "2026-10-01",
+    serviceKm: 21000,
+    amount: 350,
+    shop: "Oficina",
+  });
+  assert.equal(requests.at(-1).url, "http://express/serviceRecords");
+  assert.equal(requests.at(-1).init.method, "POST");
+  assert.deepEqual(JSON.parse(requests.at(-1).init.body), {
+    vehicleId: "vehicle-1",
+    maintenanceItemId: "item-1",
+    maintenanceType: "preventive",
+    serviceDate: "2026-10-01",
+    serviceKm: 21000,
+    amount: 350,
+    shop: "Oficina",
+  });
+});
+
+test("API autenticada transforma exclusao HTTP 204 em resultado com ID", async () => {
+  let requestUrl;
+  let requestInit;
+  const api = createVehicleApi("http://express", {
+    fetcher: async (url, init) => {
+      requestUrl = url;
+      requestInit = init;
+      return { ok: true, status: 204, text: async () => "" };
+    },
+    getToken: () => "token",
+  });
+
+  assert.deepEqual(await api.removeService("service-1"), { id: "service-1" });
+  assert.equal(requestUrl, "http://express/serviceRecords/service-1");
+  assert.equal(requestInit.method, "DELETE");
+  assert.equal(requestInit.headers.Authorization, "Bearer token");
 });
 
 test("HTTP, rede, JSON e vínculos inválidos não viram dados de demonstração", async () => {

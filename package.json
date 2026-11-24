@@ -11,6 +11,7 @@
     "start:backend": "npm --prefix backend start",
     "dev:backend": "npm --prefix backend run dev",
     "test:backend": "npm --prefix backend test",
+    "seed:backend": "npm --prefix backend run seed",
     "reset": "npm --prefix mock run reset"
   },
   "devDependencies": {

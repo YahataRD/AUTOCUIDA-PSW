@@ -92,9 +92,17 @@ endereço exibido pelo Vite. Crie uma conta pela interface e entre para cadastra
 ou gerenciar os veículos da conta. Sair, recarregar a página ou receber uma
 recusa da API por sessão expirada exige novo login.
 
-O modo `backend` oferece as funções da garagem. As telas de itens, serviços,
-alertas e custos ainda usam o fluxo da Entrega 1. Para acessá-las, use
-`VITE_DATA_MODE=api` e `npm start`.
+O modo `backend` integra a garagem, os itens de manutenção, os serviços,
+alertas e custos ao Express com autenticação JWT. Para preparar dados persistidos
+no banco, configure `MONGO_URL` e execute a carga inicial separadamente:
+
+```powershell
+$env:SEED_USER_EMAIL="demo@autocuida.local"
+$env:SEED_USER_PASSWORD="uma-senha-com-ao-menos-oito-caracteres"
+npm run seed:backend
+```
+
+O modo `api` continua disponível para usar o json-server da Entrega 1.
 Se executar o mock e o Express ao mesmo tempo, configure portas diferentes.
 Os testes usam MongoDB temporário.
 
