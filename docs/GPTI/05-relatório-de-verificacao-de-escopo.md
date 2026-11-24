@@ -10,7 +10,7 @@
 
 ## 1. Data de Status e Período Coberto
 
-* **Data de Status (Corte da Entrega):** 06/10/2026 (Referente à versão final entregue e homologada no repositório na base [`8133fd6`](https://github.com/YahataRD/AUTOCUIDA-PSW)).
+* **Data de Status (Corte da Entrega):** 06/10/2026 (Referente à versão final entregue e homologada no repositório na base [`abe5ea8`](https://github.com/YahataRD/AUTOCUIDA-PSW)).
 
 
 * **Período Coberto:** 23/09/2026 a 06/10/2026 (Desde o início da prototipagem e especificação até o congelamento da entrega do Marco 1).
