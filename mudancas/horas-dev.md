@@ -39,11 +39,11 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 | M2.5 | 2026-11-15 | 0,50 | Rafael Voigt Villas Boas | Cliente HTTP com Bearer e cache por usuário | Rateio do mesmo total declarado; não somar novamente | [6277490](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/6277490) |
 | M2.5 | 2026-11-16 | 3,00 | Rafael Voigt Villas Boas | Ajuste de leitura JSON no cliente HTTP | Declaradas pelo participante em 23/11 | [0f87bf9](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0f87bf9) |
 | M2.3 | 2026-11-16 | 2,50 | Rafael Voigt Villas Boas | Dependências da autenticação | Declaradas pelo participante em 23/11 | [4d74ee2](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/4d74ee2) |
-| M2.5 | 2026-11-16 | — | Rafael Duarte Yahata | Ajuste no workflow do Pages | Horas a confirmar | [0d53733](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d53733) |
-| M2.3 / M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Revisão técnica e consolidação dos apontamentos, com apoio do Codex | Horas a confirmar | [Registro da revisão](CHANGELOG.md#estado-do-marco-2-e-consolidação-das-horas) |
-| M2.3 | 2026-11-23 | — | Rafael Duarte Yahata | Integração das rotas de veículos ao JWT, unificação de erros e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m23--integração-das-rotas-de-veículos-ao-jwt) |
-| M2.5 | 2026-11-23 | — | Rafael Duarte Yahata | Login e sessão do frontend, integração da garagem ao JWT e testes com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m25--login-e-sessão-do-frontend) |
-| M2.2 | 2026-11-23 | — | Rafael Duarte Yahata | Rotas de itens e serviços com JWT, persistência e validação com dois usuários, com apoio do Codex | Horas a confirmar | [Registro da etapa](CHANGELOG.md#m22--rotas-de-itens-de-manutenção-e-serviços) |
+| M2.5 | 2026-11-16 | 0,50 | Rafael Duarte Yahata | Ajuste no workflow do Pages | Reconstituídas pela alteração do workflow | [0d53733](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/0d53733) |
+| M2.3 / M2.5 | 2026-11-23 | 1,00 | Rafael Duarte Yahata | Revisão técnica e consolidação dos apontamentos, com apoio do Codex | Reconstituídas pelo registro da revisão | [Registro da revisão](CHANGELOG.md#estado-do-marco-2-e-consolidação-das-horas) |
+| M2.3 | 2026-11-23 | 2,50 | Rafael Duarte Yahata | Integração das rotas de veículos ao JWT, unificação de erros e testes com dois usuários, com apoio do Codex | Reconstituídas pelo commit e pela previsão do SR3 para a integração | [b941f0f](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b941f0f) |
+| M2.5 | 2026-11-23 | 3,00 | Rafael Duarte Yahata | Login e sessão do frontend, integração da garagem ao JWT e testes com dois usuários, com apoio do Codex | Reconstituídas pelo commit e pela validação no navegador | [b2da22a](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/b2da22a) |
+| M2.2 | 2026-11-23 | 4,00 | Rafael Duarte Yahata | Rotas de itens e serviços com JWT, persistência e validação com dois usuários, com apoio do Codex | Reconstituídas pelo commit e pelos testes de integração | [11e14f6](https://github.com/YahataRD/AUTOCUIDA-PSW/commit/11e14f6) |
 | M2.2 | 2026-11-23 | 1,00 | Gabriel Felipe Martins da Silva | Revisão da integração de itens e serviços e preparação dos testes de contrato do frontend autenticado | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Atualização da integração](CHANGELOG.md) |
 | M2.4 | 2026-11-23 | 2,50 | Gabriel Felipe Martins da Silva | Script de carga inicial, usuário demo, vínculos de veículos/itens/serviços e validação no Atlas | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Carga inicial M2.4](CHANGELOG.md#m24--carga-inicial-vinculada) |
 | M2.5 | 2026-11-23 | 5,50 | Gabriel Felipe Martins da Silva | Cliente autenticado, integração das quatro telas, navegação por conta/veículo, testes de contrato e validação no Atlas | Estimativa retrospectiva da atualização M2.2 → M2.4 → M2.5 | [Integração M2.5](CHANGELOG.md#m25--login-e-sessão-do-frontend) |
@@ -51,14 +51,14 @@ Período revisado de **23/09/2026 a 23/11/2026**. A coluna **Dia** indica a data
 
 | Desenvolvedor | Horas registradas |
 | --- | ---: |
-| Rafael Duarte Yahata | 44,50 |
+| Rafael Duarte Yahata | 55,50 |
 | Gabriel Felipe Martins da Silva | 28,00 |
 | Rafael Voigt Villas Boas | 9,50 |
-| **PSW** | **82,00** |
+| **PSW** | **93,00** |
 
-O total de **82,00 h** soma as 53,00 h do SR3 (8,50 h de pré-baseline, 34,00 h da Entrega 1 e 10,50 h do Marco 2), as 5,50 h declaradas por Rafael Voigt em 23/11 para os ajustes de 16/11, a reestimativa de 18,00 h para o commit de Gabriel e as 10,00 h estimadas para a atualização M2.2 → M2.4 → M2.5 concluída em 23/11. Os apontamentos pendentes anteriores ficam fora da soma.
+O total anterior de **82,00 h** reunia a base de 53,00 h do SR3, as 5,50 h declaradas por Rafael Voigt, a diferença de 13,50 h na revisão do apontamento de Gabriel de 05/10 e as 10,00 h da integração de 23/11 de Gabriel. Com as 11,00 h de Rafael Duarte lançadas nesta revisão, o total do PSW é **93,00 h**. O total inclui as horas reconstituídas.
 
 - **Gabriel:** a estimativa central para o commit de 05/10 passou de 4,50 h para 18,00 h, referente a alterações nos componentes/formulários, estado/API/dados, alertas/custos, Bootstrap, documentação e testes. Além dessas 18,00 h, a atualização M2.2 → M2.4 → M2.5 de 23/11 foi estimada em 10,00 h: M2.2 (1,00 h), M2.4 (2,50 h), M2.5 (5,50 h) e 7.3 (1,00 h). O total de Gabriel passa a 28,00 h.
 - **Voigt:** falta confirmação individual das 2,00 h de 06/10. O total aproximado de 15/11 foi declarado, mas a divisão por pacote veio do SR3. As atividades de 16/11 foram declaradas pelo participante em 23/11 (3,00 h e 2,50 h).
-- **Rafael Duarte:** o SR2 registra declaração de 0 h de 12/10 a 30/10. O SR3 registra 0 h na semana relatada em 15/11. Faltam a duração do ajuste de 16/11 e os apontamentos de revisão e integração de 23/11.
+- **Rafael Duarte:** o SR2 registra declaração de 0 h de 12/10 a 30/10. O SR3 registra 0 h na semana relatada em 15/11. A revisão de 27/11 incluiu os cinco apontamentos de 16/11 e 23/11, somando 11,00 h.
 - **Correções e reverificação da Entrega 1:** faltam apontamentos por pessoa, dia e pacote para 2.1, 2.2, 7.1, 7.2, 7.3 e 7.4 (ISS-08 do SR3). As 10,00 h citadas no relatório são uma estimativa de trabalho a verificar.

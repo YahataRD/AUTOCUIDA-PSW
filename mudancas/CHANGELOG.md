@@ -9,6 +9,42 @@ Registre o esforço de cada participante em [horas-dev.md](horas-dev.md).
 O histórico anterior foi resumido a partir dos commits. Datas de commits não
 representam duração de trabalho, e implementação não significa aceite final.
 
+## 2026-11-27
+
+### M2.5 — Verificação funcional do Marco 2
+
+- Teste no navegador com a `main` em `6f3d94c`, frontend no modo `backend`,
+  Express e MongoDB temporário. A carga inicial de Ana retornou 2 veículos,
+  5 itens e 4 serviços pela API autenticada. Bia criou uma conta vazia,
+  cadastrou um veículo e adicionou um item de manutenção.
+- Ana registrou uma troca de óleo a 49.000 km. O alerta passou de **Vencido
+  (121,6%)** para **Em dia (0%)** sem recarregar a página. A próxima troca foi
+  de 45.000 km para 64.000 km. O serviço de R$ 200,00 apareceu no histórico
+  e o total do Golf passou a R$ 2.400,00.
+- Bia registrou um serviço a 12.500 km. O alerta passou de **Vencido (200%)**
+  para **Em dia (0%)**. A próxima troca foi de 11.000 km para 13.500 km.
+  O filtro refletiu a nova situação e o custo editado para R$ 190,00
+  persistiu após novo login.
+- O logout, a troca de conta e o retorno ao login ao recarregar foram
+  verificados. Cada conta exibiu apenas seus veículos e serviços. O painel
+  calcula alertas com os dados persistidos pela API. O aceite formal cabe à
+  equipe de gestão.
+- Passaram 114 testes automatizados (48 frontend, 11 mock e 55 backend),
+  incluindo isolamento entre contas na API. O build do modo `backend` passou.
+
+As cinco lacunas de Rafael Duarte foram lançadas no [registro de horas](horas-dev.md).
+
+| Pacote | Dia | Horas |
+| --- | --- | ---: |
+| M2.5 | 2026-11-16 | 0,50 |
+| M2.3 / M2.5 | 2026-11-23 | 1,00 |
+| M2.3 | 2026-11-23 | 2,50 |
+| M2.5 | 2026-11-23 | 3,00 |
+| M2.2 | 2026-11-23 | 4,00 |
+| **Total lançado** | | **11,00** |
+
+O total registrado do PSW passou a **93,00 h**.
+
 ## 2026-11-23
 
 ### M2.2 — Rotas de itens de manutenção e serviços
