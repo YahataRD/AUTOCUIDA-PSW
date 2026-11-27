@@ -27,7 +27,7 @@ export default function ExpenseChart({ months }) {
                 {month.amount > 0 ? formatCurrency(month.amount) : "—"}
               </span>
               <div className="chart-track" aria-hidden="true">
-                <div className="chart-bar" style={{ height: `${height}%` }} />
+                <progress className="chart-bar" max={100} value={height} />
               </div>
               <span className="chart-label">{month.label}</span>
             </div>
