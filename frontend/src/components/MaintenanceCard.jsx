@@ -45,17 +45,13 @@ export default function MaintenanceCard({
         </strong>
       </div>
 
-      <div
-        className="progress-track"
-        role="progressbar"
-        aria-label={`Desgaste de ${item.name}`}
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow={progressWidth}
-      >
-        <div
+      <div className="progress-track">
+        <progress
           className={`progress-bar status-${maintenance.status}`}
-          style={{ width: `${progressWidth}%` }}
+          max={100}
+          value={progressWidth}
+          aria-label={`Desgaste de ${item.name}`}
+          aria-valuetext={`${formatWear(maintenance.wear)} de desgaste`}
         />
       </div>
 
